@@ -1,0 +1,10 @@
+# Default ignored files
+/shelf/
+/target/*
+/.class
+.classpath
+.project
+.settings
+bin/
+/target/
+.idea/
