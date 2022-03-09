@@ -1,6 +1,10 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.model.Coordenador;
 import com.ufcg.psoft.tccmatch.repository.CoordenadorRepository;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +15,7 @@ public class CoordenadorServiceImpl implements  CoordenadorService {
     private CoordenadorRepository coordenadorRepository;
 
     @Override
-    public String helloWorld() {
-        return "Hello, World!";
-    }
-
+	public Optional<Coordenador> getCoordenadorById(Long id) {
+		return coordenadorRepository.findById(id);
+	}
 }
