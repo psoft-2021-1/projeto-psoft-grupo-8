@@ -36,20 +36,20 @@ public class CoordenadorApiController {
     public ResponseEntity<?> cadastrarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
     										@PathVariable("idCoordenador") long idCoordenador) {
     	
-    	Optional<Coordenador> coordenadorOp = coordenadorService.getCoordenadorById(idCoordenador);
+    	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
     	
     	if (coordenadorOp.isEmpty()) {
     		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
     	}  	
     	
-    	Optional<Aluno> alunoOp = alunoService.getAlunoByMatricula(alunoDTO.getMatricula());
+    	Optional<Aluno> alunoOp = alunoService.findByUsername(alunoDTO.getMatricula().toString());
     	
     	if (!alunoOp.isEmpty()) {
     		return ErroAluno.erroAlunoJaCadastrado(alunoDTO.getMatricula());
     	}
     	
     	Aluno aluno = alunoService.criarAluno(alunoDTO);
-    	alunoService.salvarAluno(aluno);
+    	alunoService.save(aluno);
     	
         return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
     }

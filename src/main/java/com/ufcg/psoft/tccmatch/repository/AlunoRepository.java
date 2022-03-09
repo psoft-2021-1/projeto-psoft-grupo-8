@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ufcg.psoft.tccmatch.model.Aluno;
 
-public interface AlunoRepository extends JpaRepository<Aluno, Long> {
+public interface AlunoRepository extends BaseRepository<Aluno> {
 	
-	Optional<Aluno> findByMatricula(Long matricula);
+    default String getTipoUsuario() {
+        return "AlunoRepository";
+    }
+	
+	Optional<Aluno> findByUsername(String username);
 }
 

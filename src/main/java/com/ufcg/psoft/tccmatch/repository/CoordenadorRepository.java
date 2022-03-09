@@ -1,7 +1,14 @@
 package com.ufcg.psoft.tccmatch.repository;
 
-import com.ufcg.psoft.tccmatch.model.Coordenador;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface CoordenadorRepository extends JpaRepository<Coordenador, Long> {
+import com.ufcg.psoft.tccmatch.model.Coordenador;
+
+public interface CoordenadorRepository extends BaseRepository<Coordenador> {
+	
+    default String getTipoUsuario() {
+        return "CoordenadorRepository";
+    }
+	
+	Optional<Coordenador> findByUsername(String username);
 }
