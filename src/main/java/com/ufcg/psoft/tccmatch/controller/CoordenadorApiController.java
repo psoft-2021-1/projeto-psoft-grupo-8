@@ -1,13 +1,18 @@
 package com.ufcg.psoft.tccmatch.controller;
 
 import com.ufcg.psoft.tccmatch.DTO.AlunoDTO;
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Coordenador;
+import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.CoordenadorService;
+import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroCoordenador;
+import com.ufcg.psoft.tccmatch.util.ErroProfessor;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,9 @@ public class CoordenadorApiController {
 	
     @Autowired
     AlunoService alunoService;
+    
+    @Autowired
+    ProfessorService professorService;
 
     @RequestMapping(value = "/cadastrar/aluno/{idCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
@@ -53,5 +61,41 @@ public class CoordenadorApiController {
     	
         return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/cadastrar/professor/{idCoordenador}", method = RequestMethod.POST)
+    public ResponseEntity<?> cadastrarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
+    										@PathVariable("idCoordenador") long idCoordenador) {
+    	
+    	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+    	
+    	if (coordenadorOp.isEmpty()) {
+    		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
+    	}  	
+    	
+    	Optional<Professor> professorOP = professorService.findByUsername(professorDTO.getCPF().toString());
+    	
+    	if (!professorOP.isEmpty()) {
+    		return ErroProfessor.erroProfessorJaCadastrado(professorDTO.getCPF());
+    	}
+    	
+    	Professor professor = professorService.criarProfessor(professorDTO);
+    	professorService.save(professor);
+    	
+        return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/listar/professores", method = RequestMethod.GET)
+    public ResponseEntity<?> listarProfessores() {
+    	List<Professor> listaProfessores = professorService.findAll();
+    	String professores = "";
+    	
+    	for (Professor professor: listaProfessores) {
+    		professores += professor.getNome() + "\n";
+    	}
+    	  	
+        return new ResponseEntity<String>(professores, HttpStatus.OK);
+    }
+    
+    
 
 }
