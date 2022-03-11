@@ -25,11 +25,17 @@ public class ProfessorServiceImpl implements ProfessorService {
 		return professor;			         
 	}
 	
-	
-	//to do
 	@Override
-	public Professor atualizarProfessor(ProfessorDTO professorDTO, Professor professor) {	
-		return null;
+	public Professor atualizarProfessor(ProfessorDTO professorDTO, Professor professor) {
+		professor.setEmail(professorDTO.getEmail());  //nome e username (por ser o cpf) não podem ser alterados
+		professor.setSenha(professorDTO.getSenha());
+		professor.setLaboratorios(professorDTO.getLaboratorios());
+		return professor;
+	}
+	
+	@Override
+	public void removerProfessor(Professor professor) {
+		professorRepository.delete(professor);
 	}
 
 	@Override
@@ -38,8 +44,8 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public void save(Professor aluno) {
-		professorRepository.save(aluno);
+	public void save(Professor professor) {
+		professorRepository.save(professor);
 	}
 
 	@Override

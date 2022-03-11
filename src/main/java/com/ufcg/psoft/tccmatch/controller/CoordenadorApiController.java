@@ -97,5 +97,47 @@ public class CoordenadorApiController {
     }
     
     
-
+    @RequestMapping(value = "/atualizar/professor/{idCoordenador}", method = RequestMethod.PUT)
+    public ResponseEntity<?> atualizarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
+			@PathVariable("idCoordenador") long idCoordenador) {
+    	
+    	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+    	
+    	if (coordenadorOp.isEmpty()) {
+    		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
+    	}
+    	
+		Optional<Professor> professorOp = professorService.findByUsername(professorDTO.getCPF().toString());
+		
+		if (!professorOp.isPresent()) {
+			return ErroProfessor.erroProfessorNaoEncontradoCpf(professorDTO.getCPF());
+		}
+		
+		Professor professor = professorOp.get();
+    	
+    	professorService.atualizarProfessor(professorDTO, professor);
+    	professorService.save(professor);
+    	
+        return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/remover/professor/{idCoordenador}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removerProfessor(@PathVariable("idCoordenador") long idCoordenador, @RequestBody Long cpf) {
+    	
+    	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+    	
+    	if (coordenadorOp.isEmpty()) {
+    		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
+    	}
+    	
+		Optional<Professor> professorOp = professorService.findByUsername(cpf.toString());
+		
+		if (!professorOp.isPresent()) {
+			return ErroProfessor.erroProfessorNaoEncontradoCpf(cpf);
+		}
+		
+		professorService.removerProfessor(professorOp.get());
+    	
+        return new ResponseEntity<Professor>(HttpStatus.OK);
+    }
 }
