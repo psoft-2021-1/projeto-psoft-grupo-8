@@ -26,11 +26,18 @@ public class AlunoServiceImpl implements AlunoService {
 		return aluno;			         
 	}
 	
-	
-	//to do
 	@Override
-	public Aluno atualizaAluno(AlunoDTO alunoDTO, Aluno aluno) {	
-		return null;
+	public Aluno atualizarAluno(AlunoDTO alunoDTO, Aluno aluno) {
+		aluno.setEmail(alunoDTO.getEmail());
+		aluno.setSenha(alunoDTO.getSenha());
+		aluno.setPeriodoConclusao(alunoDTO.getPeriodoConclusao());
+		
+		return aluno;
+	}
+	
+	@Override
+	public void removerAluno(Aluno aluno) {
+		alunoRepository.delete(aluno);
 	}
 
 	@Override

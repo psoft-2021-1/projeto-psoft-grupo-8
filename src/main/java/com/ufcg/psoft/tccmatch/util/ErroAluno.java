@@ -7,10 +7,17 @@ public class ErroAluno {
 
 	static final String ALUNO_NAO_CADASTRADO = "Aluno com id %s não está cadastrado";
 	
+	static final String ALUNO_NAO_CADASTRADO_MATRICULA = "Aluno com matrícula %s não está cadastrado";
+	
 	static final String ALUNO_JA_CADASTRADO = "O aluno com matrícula %s já esta cadastrado";
 	
 	public static ResponseEntity<CustomErrorType> erroAlunoNaoEncontrado(long id) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroAluno.ALUNO_NAO_CADASTRADO, id)),
+				HttpStatus.NOT_FOUND);
+	}
+	
+	public static ResponseEntity<CustomErrorType> erroAlunoNaoEncontradoMatricula(Long matricula) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroAluno.ALUNO_NAO_CADASTRADO_MATRICULA, matricula)),
 				HttpStatus.NOT_FOUND);
 	}
 	

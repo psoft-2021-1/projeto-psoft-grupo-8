@@ -12,6 +12,22 @@ public class AlunoDTO {
 				
 	private String periodoConclusao;
     
+	public String getNome() {
+		return nome;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public Long getMatricula() {
+		return matricula;
+	}
+	
+	public void setMatricula(Long matricula) {
+		this.matricula = matricula;
+	}
+	
     public String getEmail() {
 		return email;
 	}
@@ -28,14 +44,6 @@ public class AlunoDTO {
 		this.senha = senha;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public String getPeriodoConclusao() {
 		return periodoConclusao;
 	}
@@ -44,11 +52,4 @@ public class AlunoDTO {
 		this.periodoConclusao = periodoConclusao;
 	}
 
-	public Long getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(Long matricula) {
-		this.matricula = matricula;
-	}
 }

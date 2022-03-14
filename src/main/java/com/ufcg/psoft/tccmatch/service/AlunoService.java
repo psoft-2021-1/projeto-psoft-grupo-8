@@ -7,6 +7,8 @@ public interface AlunoService extends UsuarioService<Aluno> {
 	
 	public Aluno criarAluno(AlunoDTO alunoDTO);
 
-	public Aluno atualizaAluno(AlunoDTO alunoDTO, Aluno aluno); 
+	public Aluno atualizarAluno(AlunoDTO alunoDTO, Aluno aluno);
+
+	public void removerAluno(Aluno aluno); 
 
 }

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/adm/")
 @CrossOrigin
 public class CoordenadorApiController {
 	
@@ -40,7 +40,7 @@ public class CoordenadorApiController {
     @Autowired
     ProfessorService professorService;
 
-    @RequestMapping(value = "/cadastrar/aluno/{idCoordenador}", method = RequestMethod.POST)
+    @RequestMapping(value = "/aluno/{idCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
     										@PathVariable("idCoordenador") long idCoordenador) {
     	
@@ -62,7 +62,52 @@ public class CoordenadorApiController {
         return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/cadastrar/professor/{idCoordenador}", method = RequestMethod.POST)
+    @RequestMapping(value = "/aluno/{idCoordenador}", method = RequestMethod.PUT)
+    public ResponseEntity<?> atualizarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
+											@PathVariable("idCoordenador") long idCoordenador) {
+    	
+    	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+    	
+    	if (coordenadorOp.isEmpty()) {
+    		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
+    	}
+    	
+    	Optional<Aluno> alunoOp = alunoService.findByUsername(alunoDTO.getMatricula().toString());
+		
+		if (alunoOp.isEmpty()) {
+			return ErroAluno.erroAlunoNaoEncontradoMatricula(alunoDTO.getMatricula());
+		}
+		
+		Aluno aluno = alunoOp.get();
+    	
+    	alunoService.atualizarAluno(alunoDTO, aluno);
+    	alunoService.save(aluno);
+    	
+        return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/aluno/{idCoordenador}/{matricula}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removerAluno(@PathVariable("idCoordenador") long idCoordenador,
+    									  @PathVariable("matricula") Long matriculaAluno) {
+    	
+    	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+    	
+    	if (coordenadorOp.isEmpty()) {
+    		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
+    	}
+    	
+		Optional<Aluno> alunoOp = alunoService.findByUsername(matriculaAluno.toString());
+		
+		if (!alunoOp.isPresent()) {
+			return ErroAluno.erroAlunoNaoEncontradoMatricula(matriculaAluno);
+		}
+		
+		alunoService.removerAluno(alunoOp.get());
+    	
+        return new ResponseEntity<Aluno>(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/professor/{idCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
     										@PathVariable("idCoordenador") long idCoordenador) {
     	
@@ -84,7 +129,7 @@ public class CoordenadorApiController {
         return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/listar/professores", method = RequestMethod.GET)
+    @RequestMapping(value = "/professores", method = RequestMethod.GET)
     public ResponseEntity<?> listarProfessores() {
     	List<Professor> listaProfessores = professorService.findAll();
     	String professores = "";
@@ -97,7 +142,7 @@ public class CoordenadorApiController {
     }
     
     
-    @RequestMapping(value = "/atualizar/professor/{idCoordenador}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/professor/{idCoordenador}", method = RequestMethod.PUT)
     public ResponseEntity<?> atualizarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
 			@PathVariable("idCoordenador") long idCoordenador) {
     	
@@ -121,8 +166,9 @@ public class CoordenadorApiController {
         return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/remover/professor/{idCoordenador}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> removerProfessor(@PathVariable("idCoordenador") long idCoordenador, @RequestBody Long cpf) {
+    @RequestMapping(value = "/professor/{idCoordenador}/{cpf}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removerProfessor(@PathVariable("idCoordenador") long idCoordenador, 
+    										  @PathVariable("cpf") Long cpfProfessor) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
     	
@@ -130,10 +176,10 @@ public class CoordenadorApiController {
     		return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
     	}
     	
-		Optional<Professor> professorOp = professorService.findByUsername(cpf.toString());
+		Optional<Professor> professorOp = professorService.findByUsername(cpfProfessor.toString());
 		
 		if (!professorOp.isPresent()) {
-			return ErroProfessor.erroProfessorNaoEncontradoCpf(cpf);
+			return ErroProfessor.erroProfessorNaoEncontradoCpf(cpfProfessor);
 		}
 		
 		professorService.removerProfessor(professorOp.get());
