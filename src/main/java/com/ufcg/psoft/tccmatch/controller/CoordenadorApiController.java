@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/adm/")
+@RequestMapping("/api/adm/")
 @CrossOrigin
 public class CoordenadorApiController {
 	
