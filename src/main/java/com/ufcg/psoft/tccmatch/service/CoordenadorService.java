@@ -1,7 +1,7 @@
 package com.ufcg.psoft.tccmatch.service;
 
-public interface CoordenadorService {
+import com.ufcg.psoft.tccmatch.model.Coordenador;
 
-    public String helloWorld();
+public interface CoordenadorService extends UsuarioService<Coordenador> {
 
 }

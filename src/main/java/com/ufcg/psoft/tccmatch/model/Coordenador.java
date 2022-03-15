@@ -6,60 +6,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Coordenador {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Long cpf;
-
-    private String nome;
-
-    private String username;
-
-    private String senha;
+public class Coordenador extends Usuario{
+	
+	private Long cpf;
 
     private Coordenador() {}
 
-    public Coordenador(Long cpf, String nome, String username, String senha) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.username = username;
-        this.senha = senha;
+    public Coordenador(String email, String username, String senha, String nome, Long cpf) {
+        super(email, username, senha, nome);
+        this.setCpf(cpf);
     }
 
-    public Long getId() {
-        return id;
-    }
+	public Long getCpf() {
+		return cpf;
+	}
 
-    public Long getCpf() {
-        return cpf;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    private String getSenha() {
-        return senha;
-    }
-
-    private void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
 
 }
