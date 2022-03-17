@@ -16,6 +16,10 @@ public class AreaDeEstudo {
 	
 	private AreaDeEstudo() {}
 	
+	public AreaDeEstudo(String nome) {
+		this.setNome(nome);
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -24,9 +28,6 @@ public class AreaDeEstudo {
 		this.id = id;
 	}
 
-	public AreaDeEstudo(String nome) {
-		this.setNome(nome);
-	}
 
 	public String getNome() {
 		return nome;

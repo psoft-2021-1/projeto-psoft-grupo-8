@@ -11,4 +11,4 @@ insert into aluno (ID, EMAIL, USERNAME, SENHA, NOME, PERIODO_CONCLUSAO)
 values(1004, 'claudia@tcc.com', '13020030006', 'senhadaisadora', 'Isadora', 2024);
 
 insert into area_de_estudo (ID, NOME)
-values(1001, 'DESENVOLVIMENTO DE SOFTWARE');
+values(1001, 'DESENVOLVIMENTO DE SOFTWARE')

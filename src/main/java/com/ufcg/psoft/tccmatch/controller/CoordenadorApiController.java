@@ -1,18 +1,14 @@
 package com.ufcg.psoft.tccmatch.controller;
 
 import com.ufcg.psoft.tccmatch.DTO.AlunoDTO;
-import com.ufcg.psoft.tccmatch.DTO.AreaDeEstudoDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
-import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Coordenador;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.service.AlunoService;
-import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
 import com.ufcg.psoft.tccmatch.service.CoordenadorService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
-import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
 import com.ufcg.psoft.tccmatch.util.ErroCoordenador;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
 
@@ -43,9 +39,6 @@ public class CoordenadorApiController {
     
     @Autowired
     ProfessorService professorService;
-    
-    @Autowired
-    AreaDeEstudoService areaDeEstudoService;
 
     @RequestMapping(value = "/aluno/{idCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
@@ -191,21 +184,5 @@ public class CoordenadorApiController {
 		professorService.removerProfessor(professorOp.get());
     	
         return new ResponseEntity<Professor>(HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = "/areaDeEstudo/{idCoordenador}", method = RequestMethod.POST)
-    public ResponseEntity<?> cadastrarAreaDeEstudo(@RequestBody AreaDeEstudoDTO areaDeEstudoDTO, UriComponentsBuilder ucBuilder,
-    											   @PathVariable("idCoordenador") long idCoordenador) {
-    	 
-    	Optional<AreaDeEstudo> areaDeEstudoOp = areaDeEstudoService.getByNome(areaDeEstudoDTO.getNome());
-    	
-    	if (areaDeEstudoOp.isPresent()) {
-    		return ErroAreaDeEstudo.erroAreaDeEstudoJaCadastrada(areaDeEstudoDTO.getNome());
-    	}
-    	
-    	AreaDeEstudo areaDeEstudo = areaDeEstudoService.criarAreaDeEstudo(areaDeEstudoDTO);
-    	areaDeEstudoService.save(areaDeEstudo);
-    	
-    	return new ResponseEntity<AreaDeEstudo>(areaDeEstudo, HttpStatus.OK);
     }
 }
