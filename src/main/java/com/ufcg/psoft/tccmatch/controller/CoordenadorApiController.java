@@ -141,7 +141,6 @@ public class CoordenadorApiController {
         return new ResponseEntity<String>(professores, HttpStatus.OK);
     }
     
-    
     @RequestMapping(value = "/professor/{idCoordenador}", method = RequestMethod.PUT)
     public ResponseEntity<?> atualizarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
 			@PathVariable("idCoordenador") long idCoordenador) {
