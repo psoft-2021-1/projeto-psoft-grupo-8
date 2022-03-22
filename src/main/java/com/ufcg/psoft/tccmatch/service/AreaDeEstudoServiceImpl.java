@@ -34,6 +34,11 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 	}
 	
 	@Override
+	public AreaDeEstudo getDiretamenteByNome(String nome) {
+		return areaDeEstudoRepository.findDiretamenteByNome(nome);
+	}
+	
+	@Override
 	public List<AreaDeEstudo> listarAreasDeEstudo() {
 		return areaDeEstudoRepository.findAll();
 	}

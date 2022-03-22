@@ -14,6 +14,8 @@ public interface AreaDeEstudoService {
 	
 	public Optional<AreaDeEstudo> getByNome(String nome);
 	
+	public AreaDeEstudo getDiretamenteByNome(String nome);
+	
 	public List<AreaDeEstudo> listarAreasDeEstudo();
 	
 	public List<AreaDeEstudo> getAreasByNome(String[] areasNomes);
