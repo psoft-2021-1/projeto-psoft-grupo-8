@@ -50,4 +50,21 @@ public class ProfessorController {
 
     	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
+	
+	
+	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)
+    public ResponseEntity<?> configurarQuota(@RequestBody Integer quota, @PathVariable("tokenProfessor") long idProfessor) {
+    	
+    	Optional<Professor> professorOp = professorService.getById(idProfessor);
+    	
+    	if (professorOp.isEmpty()) {
+    		return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
+    	}  	
+    	
+    	Professor professor = professorOp.get();
+    	
+    	professor.setQuota(quota);
+    	
+    	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+    }
 }

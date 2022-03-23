@@ -83,6 +83,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public List<Professor> findAll() {
 		return professorRepository.findAll();
 	}
+
+	@Override
+	public void configurarQuota(Professor professor, Integer quota) {
+		professor.setQuota(quota);
+	}
 	
 	
 }
