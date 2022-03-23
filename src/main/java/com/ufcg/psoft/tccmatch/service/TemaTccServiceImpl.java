@@ -20,17 +20,14 @@ public class TemaTccServiceImpl implements TemaTccService {
 
 	// TODO Revisar forma que estamos criando os temas.
 	@Override
-	public TemaTcc criarTemaTccAluno(TemaTccDTOAluno temaTccDTO) {
-		TemaTcc temaTcc = new TemaTcc("ALUNO", temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getStatus(),
+	public TemaTcc criarTemaTccAluno(TemaTccDTOAluno temaTccDTO, String username) {
+		return new TemaTcc(username, temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getStatus(),
 				temaTccDTO.getAreaDeEstudoRelacionadas());
-		return temaTcc;
 	}
 
 	@Override
-	public TemaTcc criarTemaTccProfessor(TemaTccDTOProfessor temaTccDTO) {
-		TemaTcc temaTcc = new TemaTcc("PROFESSOR", temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), "OK",
-				temaTccDTO.getAreaDeEstudoRelacionadas());
-		return temaTcc;
+	public TemaTcc criarTemaTccProfessor(TemaTccDTOProfessor temaTccDTO, String username) {
+		return new TemaTcc(username, temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getAreaDeEstudoRelacionadas());
 	}
 
 	@Override

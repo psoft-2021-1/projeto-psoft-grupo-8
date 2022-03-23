@@ -64,6 +64,7 @@ public class ProfessorController {
     	Professor professor = professorOp.get();
     	
     	professor.setQuota(quota);
+		professorService.save(professor);
     	
     	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }

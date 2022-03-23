@@ -30,13 +30,13 @@ public class LoginApiController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> fazerLogin(@RequestBody LoginDTO loginDTO, UriComponentsBuilder ucBuilder) {
     	
-    	UsuarioService service = services.get(loginDTO.getTipoUsuario());
+    	UsuarioService usuarioService = services.get(loginDTO.getTipoUsuario());
     	
-    	if (service == null) {
+    	if (usuarioService == null) {
     		return ErroLogin.erroServiceIndisponivel(loginDTO.getTipoUsuario());
     	}
     	
-    	Optional<Usuario> usuarioOp = service.findByUsername(loginDTO.getUsername());
+    	Optional<Usuario> usuarioOp = usuarioService.findByUsername(loginDTO.getUsername());
     	    	
     	if (usuarioOp.isEmpty()) {
     		return ErroLogin.erroUsernameSenhaIncorretos();

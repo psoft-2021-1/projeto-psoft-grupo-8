@@ -2,6 +2,7 @@ package com.ufcg.psoft.tccmatch.service;
 
 import com.ufcg.psoft.tccmatch.DTO.AreaDeEstudoDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
 

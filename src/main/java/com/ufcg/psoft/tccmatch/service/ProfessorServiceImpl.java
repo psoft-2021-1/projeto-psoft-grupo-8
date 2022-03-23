@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import org.springframework.stereotype.Service;
 
@@ -44,25 +45,32 @@ public class ProfessorServiceImpl implements ProfessorService {
 	@Override
 	public List<Professor> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudoAluno) {
 		List<Professor> professores = findAll();
-		List<Professor> professoresDisponiveis = new ArrayList<Professor>();
+		List<Professor> professoresDisponiveis = new ArrayList<>();
 
 		for (Professor professor : professores) {
-			if ((professor.getQuota() > 0) && verificaAreasDeEstudo(areasDeEstudoAluno, professor.getAreasDeEstudo())) {
+			if (professor.isDisponivel()  && verificaAreasDeEstudo(areasDeEstudoAluno, professor)) {
 				professoresDisponiveis.add(professor);
 			}
 		}
 		return professoresDisponiveis;
 	}
 
-	private boolean verificaAreasDeEstudo(List<AreaDeEstudo> areasDeEstudoAluno, List<AreaDeEstudo> areasDeEstudoProfessor) {
+//	private ProfessorDisponivelDTO criaProfessorDisponivel(Professor professor) {
+//		ProfessorDisponivelDTO professorDisponivel = new ProfessorDisponivelDTO();
+//		professorDisponivel.setEmail(professor.getEmail());
+//		professorDisponivel.setNome(professor.getNome());
+//		professorDisponivel.setAreasDeEstudo(professor.getAreasDeEstudo());
+//		return professorDisponivel;
+//	}
+
+	private boolean verificaAreasDeEstudo(List<AreaDeEstudo> areasDeEstudoAluno, Professor professor) {
 		for (AreaDeEstudo areaDeEstudoAluno : areasDeEstudoAluno) {
-			if (areasDeEstudoProfessor.contains(areaDeEstudoAluno)) {
+			if (professor.containsAreaDeEstudo(areaDeEstudoAluno)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
 
 	@Override
 	public Optional<Professor> getById(Long id) {

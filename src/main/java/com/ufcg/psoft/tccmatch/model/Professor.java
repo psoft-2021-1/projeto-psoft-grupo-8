@@ -10,11 +10,11 @@ import javax.persistence.OneToMany;
 public class Professor extends Usuario {
 	
 	private String[] laboratorios;
-	
-	@OneToMany
-    private List<AreaDeEstudo> areasDeEstudo;
 
 	private Integer quota;
+
+	@OneToMany
+    private List<AreaDeEstudo> areasDeEstudo;
 	
 	public Professor() {};
 	
@@ -47,6 +47,14 @@ public class Professor extends Usuario {
 
 	public void setQuota(Integer quota) {
 		this.quota = quota;
+	}
+
+	public boolean isDisponivel() {
+		return (quota > 0);
+	}
+
+	public boolean containsAreaDeEstudo(AreaDeEstudo areaDeEstudo) {
+		return (areasDeEstudo.contains(areaDeEstudo));
 	}
 
 }

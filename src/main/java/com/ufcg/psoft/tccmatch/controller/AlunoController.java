@@ -79,13 +79,14 @@ public class AlunoController {
 			return ErroTemaTcc.erroTemaJaCadastrado(temaTccDTO.getTitulo());
 		}
 
+		Aluno aluno = alunoOp.get(); // TODO passar a lógica para o service
 		List<AreaDeEstudo> areasDeEstudo = temaTccDTO.getAreaDeEstudoRelacionadas();
 		for (AreaDeEstudo areaDeEstudo : areasDeEstudo) {
 			if (areaDeEstudoService.getDiretamenteByNome(areaDeEstudo.getNome()) == null) {
 				return ErroTemaTcc.erroTemaComAreaNaoCadastrada(areaDeEstudo.getNome());
 			}
 		}
-		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO);
+		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno.getUsername());
 		temaTccService.save(temaTcc);
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
@@ -103,13 +104,13 @@ public class AlunoController {
 		return new ResponseEntity<String>(temas, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/aluno/professoresDisponiveis", method = RequestMethod.GET)
-	public ResponseEntity<?> listarProfessoresDisponiveis(@PathVariable("tokenAluno") long idAluno) {
+	@RequestMapping(value = "/aluno/professoresDisponiveis/{tokenAluno}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarProfessoresDisponiveis(@PathVariable("tokenAluno") long tokenAluno) {
 
-		Optional<Aluno> alunoOp = alunoService.getById(idAluno);
+		Optional<Aluno> alunoOp = alunoService.getById(tokenAluno);
 
 		if (alunoOp.isEmpty()) {
-			return ErroAluno.erroAlunoNaoEncontrado(idAluno);
+			return ErroAluno.erroAlunoNaoEncontrado(tokenAluno);
 		}
 
 		Aluno aluno = alunoOp.get();

@@ -11,41 +11,49 @@ public class TemaTcc {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String tipoUsuario;
+	private String username;
 	
 	private String titulo;
 	
 	private String descricao;
 	
 	private String status;
-	
+
 	@OneToMany
 	private List<AreaDeEstudo> areaDeEstudoRelacionadas;
 	
 	private TemaTcc() {}
 	
-	public TemaTcc(String tipoUsuario, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
-		this.tipoUsuario = tipoUsuario;
+	public TemaTcc(String username, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
+		this.username = username;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = status;
 		this.areaDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
+
+	public TemaTcc(String username, String titulo, String descricao, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
+		this.username = username;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.status = null;
+		this.areaDeEstudoRelacionadas = areasDeEstudoRelacionadas;
+	}
 	
-	public String getTipoUsuario() {
-		return tipoUsuario;
-	}
-
-	public void setTipoUsuario(String tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getTitulo() {

@@ -9,9 +9,9 @@ import com.ufcg.psoft.tccmatch.model.TemaTcc;
 
 public interface TemaTccService {
 
-	public TemaTcc criarTemaTccAluno(TemaTccDTOAluno temaTccDTO);
+	public TemaTcc criarTemaTccAluno(TemaTccDTOAluno temaTccDTO, String username);
 
-	public TemaTcc criarTemaTccProfessor(TemaTccDTOProfessor temaTccDTO);
+	public TemaTcc criarTemaTccProfessor(TemaTccDTOProfessor temaTccDTO, String username);
 
 	public void save(TemaTcc temaTcc);
 
