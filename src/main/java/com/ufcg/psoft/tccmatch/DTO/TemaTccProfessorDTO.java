@@ -1,10 +1,6 @@
 package com.ufcg.psoft.tccmatch.DTO;
 
-import java.util.List;
-
-import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
-
-public class TemaTccDTOProfessor {
+public class TemaTccProfessorDTO {
 
 	private String titulo;
 

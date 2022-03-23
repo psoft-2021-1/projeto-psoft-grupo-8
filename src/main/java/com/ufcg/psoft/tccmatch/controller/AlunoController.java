@@ -3,7 +3,7 @@ package com.ufcg.psoft.tccmatch.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOAluno;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,13 +64,13 @@ public class AlunoController {
 	}
 
 	@RequestMapping(value = "/aluno/temaTCC/{tokenAluno}", method = RequestMethod.POST)
-	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccDTOAluno temaTccDTO, UriComponentsBuilder ucBuilder,
-											  @PathVariable("tokenAluno") long idAluno) {
+	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccAlunoDTO temaTccDTO, UriComponentsBuilder ucBuilder,
+											  @PathVariable("tokenAluno") long tokenAluno) {
 
-		Optional<Aluno> alunoOp = alunoService.getById(idAluno);
+		Optional<Aluno> alunoOp = alunoService.getById(tokenAluno);
 
 		if (alunoOp.isEmpty()) {
-			return ErroAluno.erroAlunoNaoEncontrado(idAluno);
+			return ErroAluno.erroAlunoNaoEncontrado(tokenAluno);
 		}
 
 		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(temaTccDTO.getTitulo());
@@ -92,18 +92,6 @@ public class AlunoController {
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/aluno/temasTcc", method = RequestMethod.GET)
-	public ResponseEntity<?> listarTemasTccCadastrados() {
-		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTcc();
-		String temas = "";
-
-		for (TemaTcc tema : listaTemasTcc) {
-			temas += tema.getTitulo() + "\n";
-		}
-
-		return new ResponseEntity<String>(temas, HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/aluno/professoresDisponiveis/{tokenAluno}", method = RequestMethod.GET)
 	public ResponseEntity<?> listarProfessoresDisponiveis(@PathVariable("tokenAluno") long tokenAluno) {
 
@@ -118,6 +106,20 @@ public class AlunoController {
 		List<Professor> listaProfessoresDisponiveis = professorService.listarProfessoresDisponiveis(aluno.getAreasDeEstudo());
 
 		return new ResponseEntity<List<Professor>> (listaProfessoresDisponiveis, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/aluno/temasTccProfessores/{tokenAluno}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarTemasTccCadastradosProfessores(@PathVariable("tokenAluno") long tokenAluno) {
+
+		Optional<Aluno> alunoOp = alunoService.getById(tokenAluno);
+
+		if (alunoOp.isEmpty()) {
+			return ErroAluno.erroAlunoNaoEncontrado(tokenAluno);
+		}
+
+		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessores();
+
+		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
 	}
 
 }

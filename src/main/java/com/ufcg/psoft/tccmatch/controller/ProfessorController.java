@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
-import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOProfessor;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
@@ -59,7 +59,7 @@ public class ProfessorController {
     }
 	
 	@RequestMapping(value = "/professor/temaTCC/{tokenProfessor}", method = RequestMethod.POST)
-	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccDTOProfessor temaTccDTO, UriComponentsBuilder ucBuilder,
+	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccProfessorDTO temaTccDTO, UriComponentsBuilder ucBuilder,
 											  @PathVariable("tokenProfessor") long idProfessor) {
 
 		Optional<Professor> professorOp = professorService.getById(idProfessor);

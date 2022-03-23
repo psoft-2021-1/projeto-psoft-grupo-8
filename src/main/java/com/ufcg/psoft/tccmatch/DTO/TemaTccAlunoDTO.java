@@ -1,6 +1,6 @@
 package com.ufcg.psoft.tccmatch.DTO;
 
-public class TemaTccDTOAluno extends TemaTccDTOProfessor {
+public class TemaTccAlunoDTO extends TemaTccProfessorDTO {
 
     private String status;
 
