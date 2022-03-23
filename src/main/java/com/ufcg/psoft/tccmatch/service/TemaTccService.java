@@ -23,5 +23,7 @@ public interface TemaTccService {
 
 	public List<TemaTcc> getTemasTccProfessores();
 
-    List<TemaTcc> getTemasTccAlunos();
+    public List<TemaTcc> getTemasTccAlunos();
+    
+    public List<TemaTcc> getTemasTccProfessor(String username);
 }

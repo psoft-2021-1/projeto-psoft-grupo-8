@@ -106,6 +106,20 @@ public class ProfessorController {
     	
     	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
+	
+	@RequestMapping(value = "/professor/temasTccCadastrei/{tokenProfessor}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarTemasTccCadastrei(@PathVariable("tokenProfessor") long idProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
+		}
+
+		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessor(professorOp.get().getUsername());
+
+		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/aluno/temasTccAlunos/{tokenProfessor}", method = RequestMethod.GET)
 	public ResponseEntity<?> listarTemasTccAlunos(@PathVariable("tokenProfessor") long tokenProfessor) {
