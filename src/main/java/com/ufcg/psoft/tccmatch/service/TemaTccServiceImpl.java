@@ -25,6 +25,9 @@ public class TemaTccServiceImpl implements TemaTccService {
 	@Autowired
 	private ProfessorService professorService;
 
+	@Autowired
+	private AlunoService alunoService;
+
 	// TODO Revisar forma que estamos criando os temas.
 	@Override
 	public TemaTcc criarTemaTccAluno(TemaTccAlunoDTO temaTccDTO, String username) {
@@ -70,11 +73,24 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccProfessores = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (professorService.findByUsername(tema.getUsername()) != null) {
+			if (!(professorService.findByUsername(tema.getUsername()).isEmpty())) {
 				temasTccProfessores.add(tema);
 			}
 		}
 		return temasTccProfessores;
+	}
+
+	@Override
+	public List<TemaTcc> getTemasTccAlunos() {
+		List<TemaTcc> temasTcc = getTemasTcc();
+		List<TemaTcc> temasTccAlunos = new ArrayList<>();
+
+		for (TemaTcc tema : temasTcc) {
+			if (!(alunoService.findByUsername(tema.getUsername()).isEmpty())) {
+				temasTccAlunos.add(tema);
+			}
+		}
+		return temasTccAlunos;
 	}
 
 }

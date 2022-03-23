@@ -22,4 +22,6 @@ public interface TemaTccService {
 	public List<TemaTcc> getTemasByTitulo(String[] temasTitulos);
 
 	public List<TemaTcc> getTemasTccProfessores();
+
+    List<TemaTcc> getTemasTccAlunos();
 }

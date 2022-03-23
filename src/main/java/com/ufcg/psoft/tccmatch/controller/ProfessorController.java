@@ -3,6 +3,8 @@ package com.ufcg.psoft.tccmatch.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufcg.psoft.tccmatch.model.Aluno;
+import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -104,4 +106,18 @@ public class ProfessorController {
     	
     	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
+
+	@RequestMapping(value = "/aluno/temasTccAlunos/{tokenProfessor}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarTemasTccAlunos(@PathVariable("tokenProfessor") long tokenProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(tokenProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
+		}
+
+		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccAlunos();
+
+		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+	}
 }

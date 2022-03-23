@@ -109,7 +109,7 @@ public class AlunoController {
 	}
 
 	@RequestMapping(value = "/aluno/temasTccProfessores/{tokenAluno}", method = RequestMethod.GET)
-	public ResponseEntity<?> listarTemasTccCadastradosProfessores(@PathVariable("tokenAluno") long tokenAluno) {
+	public ResponseEntity<?> listarTemasTccProfessores(@PathVariable("tokenAluno") long tokenAluno) {
 
 		Optional<Aluno> alunoOp = alunoService.getById(tokenAluno);
 
