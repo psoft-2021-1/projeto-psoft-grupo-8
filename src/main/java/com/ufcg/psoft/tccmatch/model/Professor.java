@@ -13,14 +13,17 @@ public class Professor extends Usuario {
 	
 	@OneToMany
     private List<AreaDeEstudo> areasDeEstudo;
+
+	private Integer quota;
 	
 	public Professor() {};
 	
 	public Professor(String email, Long CPF, String senha, String nome, String laboratorios) {
-        super(email, CPF.toString(), senha, nome);
-        this.laboratorios = laboratorios.split(" ");
-        this.areasDeEstudo = new ArrayList<AreaDeEstudo>();
-	}	
+		super(email, CPF.toString(), senha, nome);
+		this.laboratorios = laboratorios.split(" ");
+		this.areasDeEstudo = new ArrayList<AreaDeEstudo>();
+		this.quota = 0;
+	}
 	
 	public String[] getLaboratorios() {
 		return this.laboratorios;
@@ -37,4 +40,13 @@ public class Professor extends Usuario {
 	public void setAreasDeEstudo(List<AreaDeEstudo> areasDeEstudo) {
 		this.areasDeEstudo = areasDeEstudo;
 	}
+
+	public Integer getQuota() {
+		return quota;
+	}
+
+	public void setQuota(Integer quota) {
+		this.quota = quota;
+	}
+
 }

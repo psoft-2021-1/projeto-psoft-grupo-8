@@ -3,14 +3,14 @@ package com.ufcg.psoft.tccmatch.DTO;
 import java.util.List;
 
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
+import com.ufcg.psoft.tccmatch.model.Usuario;
 
-public class TemaTccDTO {
+public class TemaTccDTOProfessor {
+
 	private String titulo;
 
 	private String descricao;
 
-	private String status;
-	
 	private List<AreaDeEstudo> areaDeEstudoRelacionadas;
 
 	public String getTitulo() {
@@ -29,13 +29,6 @@ public class TemaTccDTO {
 		this.descricao = descricao;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public List<AreaDeEstudo> getAreaDeEstudoRelacionadas() {
 		return areaDeEstudoRelacionadas;
@@ -44,4 +37,5 @@ public class TemaTccDTO {
 	public void setAreaDeEstudoRelacionadas(List<AreaDeEstudo> areaDeEstudoRelacionadas) {
 		this.areaDeEstudoRelacionadas = areaDeEstudoRelacionadas;
 	}
+
 }

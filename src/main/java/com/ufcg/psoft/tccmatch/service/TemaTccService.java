@@ -3,11 +3,15 @@ package com.ufcg.psoft.tccmatch.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.ufcg.psoft.tccmatch.DTO.TemaTccDTO;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOAluno;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOProfessor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 
 public interface TemaTccService {
-	public TemaTcc criarTemaTcc(TemaTccDTO temaTccDTO);
+
+	public TemaTcc criarTemaTccAluno(TemaTccDTOAluno temaTccDTO);
+
+	public TemaTcc criarTemaTccProfessor(TemaTccDTOProfessor temaTccDTO);
 
 	public void save(TemaTcc temaTcc);
 
@@ -16,4 +20,5 @@ public interface TemaTccService {
 	public List<TemaTcc> getTemasTcc();
 
 	public List<TemaTcc> getTemasByTitulo(String[] temasTitulos);
+
 }

@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOAluno;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOProfessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufcg.psoft.tccmatch.DTO.TemaTccDTO;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.repository.TemaTccRepository;
 
@@ -17,9 +18,17 @@ public class TemaTccServiceImpl implements TemaTccService {
 	@Autowired
 	private TemaTccRepository temaTccRepository;
 
+	// TODO Revisar forma que estamos criando os temas.
 	@Override
-	public TemaTcc criarTemaTcc(TemaTccDTO temaTccDTO) {
-		TemaTcc temaTcc = new TemaTcc(temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getStatus(),
+	public TemaTcc criarTemaTccAluno(TemaTccDTOAluno temaTccDTO) {
+		TemaTcc temaTcc = new TemaTcc("ALUNO", temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getStatus(),
+				temaTccDTO.getAreaDeEstudoRelacionadas());
+		return temaTcc;
+	}
+
+	@Override
+	public TemaTcc criarTemaTccProfessor(TemaTccDTOProfessor temaTccDTO) {
+		TemaTcc temaTcc = new TemaTcc("PROFESSOR", temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), "OK",
 				temaTccDTO.getAreaDeEstudoRelacionadas());
 		return temaTcc;
 	}

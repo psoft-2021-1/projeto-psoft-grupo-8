@@ -1,8 +1,10 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import org.springframework.stereotype.Service;
 
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
@@ -12,6 +14,7 @@ import com.ufcg.psoft.tccmatch.repository.BaseRepository;
 
 @Service("PROFESSOR")
 public class ProfessorServiceImpl implements ProfessorService {
+
 	private BaseRepository<Professor> professorRepository;
 
     public ProfessorServiceImpl(ProfessorRepository professorRepository){
@@ -37,6 +40,29 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public void removerProfessor(Professor professor) {
 		professorRepository.delete(professor);
 	}
+
+	@Override
+	public List<Professor> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudoAluno) {
+		List<Professor> professores = findAll();
+		List<Professor> professoresDisponiveis = new ArrayList<Professor>();
+
+		for (Professor professor : professores) {
+			if ((professor.getQuota() > 0) && verificaAreasDeEstudo(areasDeEstudoAluno, professor.getAreasDeEstudo())) {
+				professoresDisponiveis.add(professor);
+			}
+		}
+		return professoresDisponiveis;
+	}
+
+	private boolean verificaAreasDeEstudo(List<AreaDeEstudo> areasDeEstudoAluno, List<AreaDeEstudo> areasDeEstudoProfessor) {
+		for (AreaDeEstudo areaDeEstudoAluno : areasDeEstudoAluno) {
+			if (areasDeEstudoProfessor.contains(areaDeEstudoAluno)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	@Override
 	public Optional<Professor> getById(Long id) {

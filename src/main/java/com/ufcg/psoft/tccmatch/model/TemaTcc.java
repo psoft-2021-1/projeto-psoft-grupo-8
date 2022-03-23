@@ -2,17 +2,16 @@ package com.ufcg.psoft.tccmatch.model;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 @Entity
 public class TemaTcc {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	private String tipoUsuario;
 	
 	private String titulo;
 	
@@ -25,11 +24,12 @@ public class TemaTcc {
 	
 	private TemaTcc() {}
 	
-	public TemaTcc(String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
-		this.setTitulo(titulo);
-		this.setDescricao(descricao);
-		this.setStatus(status);
-		this.setAreaDeEstudoRelacionadas(areasDeEstudoRelacionadas);
+	public TemaTcc(String tipoUsuario, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
+		this.tipoUsuario = tipoUsuario;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.status = status;
+		this.areaDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 
 	public Long getId() {
@@ -71,6 +71,5 @@ public class TemaTcc {
 	public void setAreaDeEstudoRelacionadas(List<AreaDeEstudo> areaDeEstudoRelacionadas) {
 		this.areaDeEstudoRelacionadas = areaDeEstudoRelacionadas;
 	}
-	
 	
 }
