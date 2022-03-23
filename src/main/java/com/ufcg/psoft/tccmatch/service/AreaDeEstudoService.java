@@ -19,4 +19,6 @@ public interface AreaDeEstudoService {
 	public List<AreaDeEstudo> listarAreasDeEstudo();
 	
 	public List<AreaDeEstudo> getAreasByNome(String[] areasNomes);
+	
+	public String checaAreasCadastradas(List<AreaDeEstudo> areasDeEstudo);
 }

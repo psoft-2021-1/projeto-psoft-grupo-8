@@ -15,11 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOAluno;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOProfessor;
+import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
+import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
+import com.ufcg.psoft.tccmatch.service.TemaTccService;
+import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
+import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
 
 @RestController
 @RequestMapping("/api/")
@@ -31,6 +38,9 @@ public class ProfessorController {
 	
 	@Autowired
     AreaDeEstudoService areaDeEstudoService;
+	
+	@Autowired
+	TemaTccService temaTccService;
 	
 	@RequestMapping(value = "/professor/areaDeEstudo/{tokenProfessor}", method = RequestMethod.POST)
     public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO, UriComponentsBuilder ucBuilder,
@@ -50,6 +60,35 @@ public class ProfessorController {
 
     	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
+	
+	@RequestMapping(value = "/professor/temaTCC/{tokenProfessor}", method = RequestMethod.POST)
+	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccDTOProfessor temaTccDTO, UriComponentsBuilder ucBuilder,
+											  @PathVariable("tokenProfessor") long idProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
+		}
+
+		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(temaTccDTO.getTitulo());
+
+		if (!temaTccOp.isEmpty()) {
+			return ErroTemaTcc.erroTemaJaCadastrado(temaTccDTO.getTitulo());
+		}
+
+		Professor professor = professorOp.get();
+		
+		String checagemAreaEstudo = areaDeEstudoService.checaAreasCadastradas(temaTccDTO.getAreaDeEstudoRelacionadas());
+		if (checagemAreaEstudo != null) {
+			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(checagemAreaEstudo);
+		}
+		
+		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
+		temaTccService.save(temaTcc);
+
+		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
+	}
 	
 	
 	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)

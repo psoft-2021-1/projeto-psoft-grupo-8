@@ -78,14 +78,14 @@ public class AlunoController {
 		if (!temaTccOp.isEmpty()) {
 			return ErroTemaTcc.erroTemaJaCadastrado(temaTccDTO.getTitulo());
 		}
+		
+		Aluno aluno = alunoOp.get();
 
-		Aluno aluno = alunoOp.get(); // TODO passar a lógica para o service
-		List<AreaDeEstudo> areasDeEstudo = temaTccDTO.getAreaDeEstudoRelacionadas();
-		for (AreaDeEstudo areaDeEstudo : areasDeEstudo) {
-			if (areaDeEstudoService.getDiretamenteByNome(areaDeEstudo.getNome()) == null) {
-				return ErroTemaTcc.erroTemaComAreaNaoCadastrada(areaDeEstudo.getNome());
-			}
+		String checagemAreaEstudo = areaDeEstudoService.checaAreasCadastradas(temaTccDTO.getAreaDeEstudoRelacionadas());
+		if (checagemAreaEstudo != null) {
+			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(checagemAreaEstudo);
 		}
+		
 		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno.getUsername());
 		temaTccService.save(temaTcc);
 

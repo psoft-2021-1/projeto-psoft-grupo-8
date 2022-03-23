@@ -24,6 +24,9 @@ public class TemaTcc {
 	
 	private TemaTcc() {}
 	
+	/*
+	 * Construtor para aluno
+	 */
 	public TemaTcc(String username, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
 		this.username = username;
 		this.titulo = titulo;
@@ -32,6 +35,9 @@ public class TemaTcc {
 		this.areaDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 
+	/*
+	 * Construtor para professor
+	 */
 	public TemaTcc(String username, String titulo, String descricao, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
 		this.username = username;
 		this.titulo = titulo;
