@@ -19,7 +19,7 @@ public class TemaTcc {
 	
 	private String status;
 
-	@OneToMany
+	@ManyToMany
 	private List<AreaDeEstudo> areasDeEstudosRelacionadas;
 	
 	private TemaTcc() {}
