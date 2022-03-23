@@ -93,4 +93,18 @@ public class TemaTccServiceImpl implements TemaTccService {
 		return temasTccAlunos;
 	}
 
+	@Override
+	public List<TemaTcc> getTemasTccProfessor(String username) {
+		List<TemaTcc> temasTcc = getTemasTcc();
+		List<TemaTcc> temasTccProfessor = new ArrayList<TemaTcc>();
+		
+		for (TemaTcc tema : temasTcc) {
+			if (tema.getUsername().equals(username)) {
+				temasTccProfessor.add(tema);
+			}
+		}
+		
+		return temasTccProfessor;
+	}
+
 }
