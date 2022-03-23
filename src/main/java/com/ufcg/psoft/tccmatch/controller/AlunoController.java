@@ -55,7 +55,7 @@ public class AlunoController {
 		}
 
 		Aluno aluno = alunoOp.get();
-		List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudos());
+		List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
 
 		aluno.setAreasDeEstudo(areasDeEstudo);
 		alunoService.save(aluno);
@@ -81,9 +81,9 @@ public class AlunoController {
 		
 		Aluno aluno = alunoOp.get();
 
-		String checagemAreaEstudo = areaDeEstudoService.checaAreasCadastradas(temaTccDTO.getAreaDeEstudoRelacionadas());
-		if (checagemAreaEstudo != null) {
-			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(checagemAreaEstudo);
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
+		if (!(areaDeEstudoNaoCadastrada == null)) {
+			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno.getUsername());

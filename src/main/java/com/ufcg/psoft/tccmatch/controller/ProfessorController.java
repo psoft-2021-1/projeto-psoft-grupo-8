@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
-import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOAluno;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccDTOProfessor;
-import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.service.TemaTccService;
-import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
 import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
 
@@ -53,7 +50,7 @@ public class ProfessorController {
     	}  	
     	
     	Professor professor = professorOp.get();
-    	List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudos());
+    	List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
     	
     	professor.setAreasDeEstudo(areasDeEstudo);
     	professorService.save(professor);   	
@@ -79,7 +76,7 @@ public class ProfessorController {
 
 		Professor professor = professorOp.get();
 		
-		String checagemAreaEstudo = areaDeEstudoService.checaAreasCadastradas(temaTccDTO.getAreaDeEstudoRelacionadas());
+		String checagemAreaEstudo = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
 		if (checagemAreaEstudo != null) {
 			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(checagemAreaEstudo);
 		}

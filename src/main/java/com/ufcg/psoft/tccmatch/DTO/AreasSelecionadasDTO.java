@@ -4,11 +4,11 @@ public class AreasSelecionadasDTO {
 	
 	private String[] areasDeEstudos;
 
-	public String[] getAreasDeEstudos() {
+	public String[] getAreasDeEstudo() {
 		return areasDeEstudos;
 	}
 
-	public void setAreasDeEstudos(String[] areasDeEstudos) {
+	public void setAreasDeEstudo(String[] areasDeEstudos) {
 		this.areasDeEstudos = areasDeEstudos;
 	}
 }

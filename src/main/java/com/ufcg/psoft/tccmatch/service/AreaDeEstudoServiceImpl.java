@@ -31,12 +31,12 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 	
 	@Override
 	public Optional<AreaDeEstudo> getByNome(String nome) {
-		return areaDeEstudoRepository.findByNome(nome);
+		return areaDeEstudoRepository.findByNome(nome.toUpperCase());
 	}
 	
 	@Override
 	public AreaDeEstudo getDiretamenteByNome(String nome) {
-		return areaDeEstudoRepository.findDiretamenteByNome(nome);
+		return areaDeEstudoRepository.findDiretamenteByNome(nome.toUpperCase());
 	}
 	
 	@Override
@@ -60,10 +60,10 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 	 * Retorna null se as áreas existem ou, caso alguma não exista, retorna o nome desta área
 	 */
 	@Override
-	public String checaAreasCadastradas(List<AreaDeEstudo> areasDeEstudo) { //TODO Checar se é possível fazer de outra forma
-		for (AreaDeEstudo areaDeEstudo : areasDeEstudo) {
-			if (this.getDiretamenteByNome(areaDeEstudo.getNome()) == null) {
-				return areaDeEstudo.getNome();
+	public String verificaAreasDeEstudo(String[] areasDeEstudo) { //TODO Checar se é possível fazer de outra forma
+		for (String areaDeEstudo : areasDeEstudo) {
+			if (this.getDiretamenteByNome(areaDeEstudo) == null) {
+				return areaDeEstudo;
 			}
 		}
 		return null;
