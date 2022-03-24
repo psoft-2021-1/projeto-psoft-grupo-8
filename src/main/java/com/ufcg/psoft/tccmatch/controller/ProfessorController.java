@@ -86,9 +86,9 @@ public class ProfessorController {
 
 		Professor professor = professorOp.get();
 		
-		String checagemAreaEstudo = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
-		if (!checagemAreaEstudo.isEmpty()) {
-			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(checagemAreaEstudo);
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
+		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
+			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());

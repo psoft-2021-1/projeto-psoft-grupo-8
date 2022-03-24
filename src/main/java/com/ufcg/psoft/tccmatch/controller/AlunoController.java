@@ -91,7 +91,7 @@ public class AlunoController {
 		
 		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());	
 		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
-			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(areaDeEstudoNaoCadastrada);
+			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno.getUsername());
