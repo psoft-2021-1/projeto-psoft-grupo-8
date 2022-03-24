@@ -95,7 +95,7 @@ public class ProfessorController {
 		temaTccService.save(temaTcc);
 		
 		//enviar notificacao para aluno
-		notificacaoService.notificaProfessorParaAluno(temaTcc, alunoService.findByAreasDeEstudo(temaTcc.getAreasDeEstudosRelacionadas()));
+		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc, alunoService.findByAreasDeEstudo(temaTcc.getAreasDeEstudosRelacionadas()));
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
@@ -164,9 +164,14 @@ public class ProfessorController {
 		if (!temaTccService.isTemaTccAluno(temaTcc)) {
 			return ErroTemaTcc.erroTemaNaoAluno(titulo);
 		}
+		
+		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsername());
 
 		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
 		temaTccService.save(temaTcc);
+		
+		//enviar notificacao para aluno
+		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor.getNome(), alunoTemaTcc.get());
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}

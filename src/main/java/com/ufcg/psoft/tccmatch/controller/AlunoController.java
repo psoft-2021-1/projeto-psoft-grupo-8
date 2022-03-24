@@ -1,6 +1,5 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +20,6 @@ import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
-import com.ufcg.psoft.tccmatch.model.Notificacao;
-import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
@@ -127,33 +124,6 @@ public class AlunoController {
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessores();
 
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/aluno/notificacoes/{tokenAluno}", method = RequestMethod.GET)
-	public ResponseEntity<?> listarNotificacoes(@PathVariable("tokenAluno") long idAluno) {
-
-		Optional<Aluno> alunoOp = alunoService.getById(idAluno);
-
-		if (alunoOp.isEmpty()) {
-			return ErroAluno.erroAlunoNaoEncontrado(idAluno);
-		}
-		
-		Aluno aluno = alunoOp.get();
-
-		//TODO mover p service
-		List<Notificacao> listaNotificacoes = aluno.getNotificacoes();
-		List<String> listaRetorno = new ArrayList<String>();
-		
-		for (Notificacao notificacao : listaNotificacoes) {
-			notificacao.setRead(true);
-			notificacaoService.save(notificacao);
-			listaRetorno.add(notificacao.toString());
-		}
-		
-		aluno.limparNotificacoes();
-		alunoService.save(aluno);
-
-		return new ResponseEntity<List<String>>(listaRetorno, HttpStatus.OK);
 	}
 
 }
