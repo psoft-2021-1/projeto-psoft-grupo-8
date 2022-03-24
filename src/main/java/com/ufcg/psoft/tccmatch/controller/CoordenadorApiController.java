@@ -40,9 +40,9 @@ public class CoordenadorApiController {
     @Autowired
     ProfessorService professorService;
 
-    @RequestMapping(value = "/aluno/{idCoordenador}", method = RequestMethod.POST)
+    @RequestMapping(value = "/aluno/{tokenCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
-    										@PathVariable("idCoordenador") long idCoordenador) {
+    										@PathVariable("tokenCoordenador") long idCoordenador) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
     	
@@ -62,9 +62,9 @@ public class CoordenadorApiController {
         return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/aluno/{idCoordenador}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/aluno/{tokenCoordenador}", method = RequestMethod.PUT)
     public ResponseEntity<?> atualizarAluno(@RequestBody AlunoDTO alunoDTO, UriComponentsBuilder ucBuilder,
-											@PathVariable("idCoordenador") long idCoordenador) {
+											@PathVariable("tokenCoordenador") long idCoordenador) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
     	
@@ -86,8 +86,8 @@ public class CoordenadorApiController {
         return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/aluno/{idCoordenador}/{matricula}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> removerAluno(@PathVariable("idCoordenador") long idCoordenador,
+    @RequestMapping(value = "/aluno/{tokenCoordenador}/{matricula}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removerAluno(@PathVariable("tokenCoordenador") long idCoordenador,
     									  @PathVariable("matricula") Long matriculaAluno) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
@@ -107,9 +107,9 @@ public class CoordenadorApiController {
         return new ResponseEntity<Aluno>(HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/professor/{idCoordenador}", method = RequestMethod.POST)
+    @RequestMapping(value = "/professor/{tokenCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
-    										@PathVariable("idCoordenador") long idCoordenador) {
+    										@PathVariable("tokenCoordenador") long idCoordenador) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
     	
@@ -141,9 +141,9 @@ public class CoordenadorApiController {
         return new ResponseEntity<String>(professores, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/professor/{idCoordenador}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/professor/{tokenCoordenador}", method = RequestMethod.PUT)
     public ResponseEntity<?> atualizarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
-			@PathVariable("idCoordenador") long idCoordenador) {
+			@PathVariable("tokenCoordenador") long idCoordenador) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
     	
@@ -165,8 +165,8 @@ public class CoordenadorApiController {
         return new ResponseEntity<Professor>(professor, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/professor/{idCoordenador}/{cpf}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> removerProfessor(@PathVariable("idCoordenador") long idCoordenador, 
+    @RequestMapping(value = "/professor/{tokenCoordenador}/{cpf}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removerProfessor(@PathVariable("tokenCoordenador") long idCoordenador, 
     										  @PathVariable("cpf") Long cpfProfessor) {
     	
     	Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);

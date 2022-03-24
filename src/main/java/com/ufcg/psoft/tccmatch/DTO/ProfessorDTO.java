@@ -1,6 +1,7 @@
 package com.ufcg.psoft.tccmatch.DTO;
 
 public class ProfessorDTO {
+
 	private String email;
     
     private String senha;

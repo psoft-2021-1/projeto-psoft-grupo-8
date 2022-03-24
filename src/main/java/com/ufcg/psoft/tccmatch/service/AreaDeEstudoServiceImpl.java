@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ufcg.psoft.tccmatch.DTO.AreaDeEstudoDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.repository.AreaDeEstudoRepository;
+import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
 
 @Service
 public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
@@ -30,7 +31,12 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 	
 	@Override
 	public Optional<AreaDeEstudo> getByNome(String nome) {
-		return areaDeEstudoRepository.findByNome(nome);
+		return areaDeEstudoRepository.findByNome(nome.toUpperCase());
+	}
+	
+	@Override
+	public AreaDeEstudo getDiretamenteByNome(String nome) {
+		return areaDeEstudoRepository.findDiretamenteByNome(nome.toUpperCase());
 	}
 	
 	@Override
@@ -48,5 +54,18 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 		}
 		
 		return areasDeEstudos;
+	}
+	
+	/**
+	 * Retorna null se as áreas existem ou, caso alguma não exista, retorna o nome desta área
+	 */
+	@Override
+	public String verificaAreasDeEstudo(String[] areasDeEstudo) { //TODO Checar se é possível fazer de outra forma
+		for (String areaDeEstudo : areasDeEstudo) {
+			if (this.getDiretamenteByNome(areaDeEstudo) == null) {
+				return areaDeEstudo;
+			}
+		}
+		return null;
 	}
 }
