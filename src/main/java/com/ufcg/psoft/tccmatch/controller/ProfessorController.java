@@ -21,7 +21,9 @@ import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
+import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
+import com.ufcg.psoft.tccmatch.service.NotificacaoService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.service.TemaTccService;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
@@ -40,6 +42,12 @@ public class ProfessorController {
 	
 	@Autowired
 	TemaTccService temaTccService;
+	
+	@Autowired
+	NotificacaoService notificacaoService;
+	
+	@Autowired
+	AlunoService alunoService;
 	
 	@RequestMapping(value = "/professor/areaDeEstudo/{tokenProfessor}", method = RequestMethod.POST)
     public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO, UriComponentsBuilder ucBuilder,
@@ -85,6 +93,9 @@ public class ProfessorController {
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
 		temaTccService.save(temaTcc);
+		
+		//enviar notificacao para aluno
+		notificacaoService.notificaProfessorParaAluno(temaTcc, alunoService.findByAreasDeEstudo(temaTcc.getAreasDeEstudosRelacionadas()));
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}

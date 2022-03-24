@@ -18,7 +18,7 @@ public class Aluno extends Usuario{
     
     @ManyToMany
     private List<AreaDeEstudo> areasDeEstudo;
-    
+        
     private Aluno() {}
     
     public Aluno(String email, Long matricula, String senha, String nome, String periodoConclusao) {

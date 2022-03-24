@@ -94,4 +94,9 @@ public class TemaTcc {
 		this.areasDeEstudosRelacionadas = areasDeEstudosRelacionadas;
 	}
 	
+	@Override
+	public String toString() {
+		return titulo;
+	}
+	
 }

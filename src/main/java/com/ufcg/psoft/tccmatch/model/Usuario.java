@@ -1,8 +1,12 @@
 package com.ufcg.psoft.tccmatch.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -19,6 +23,9 @@ public abstract class Usuario {
     private String senha;
 
     private String nome;
+    
+    @ManyToMany
+    private List<Notificacao> notificacoes;
 
     public Usuario() {
     }
@@ -68,5 +75,21 @@ public abstract class Usuario {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public List<Notificacao> getNotificacoes() {
+		return notificacoes;
+	}
+
+	public void setNotificacoes(List<Notificacao> notificacoes) {
+		this.notificacoes = notificacoes;
+	}
+	
+	public void addNotificacao(Notificacao notificacao) {
+		this.notificacoes.add(notificacao);
+	}
+	
+	public void limparNotificacoes() {
+		this.notificacoes.clear();
 	}
 }
