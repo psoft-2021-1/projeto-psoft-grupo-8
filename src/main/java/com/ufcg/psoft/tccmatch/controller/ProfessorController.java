@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
+import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +53,12 @@ public class ProfessorController {
     		return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
     	}  	
     	
+    	String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(areasSelecionadasDTO.getAreasDeEstudo());
+    	
+		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
+			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
+		}
+    	
     	Professor professor = professorOp.get();
     	List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
     	
@@ -78,9 +86,9 @@ public class ProfessorController {
 
 		Professor professor = professorOp.get();
 		
-		String checagemAreaEstudo = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
-		if (checagemAreaEstudo != null) {
-			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(checagemAreaEstudo);
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
+		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
+			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
