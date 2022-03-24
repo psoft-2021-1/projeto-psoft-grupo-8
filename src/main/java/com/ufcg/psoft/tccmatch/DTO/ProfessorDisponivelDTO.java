@@ -11,6 +11,14 @@ public class ProfessorDisponivelDTO {
     private String nome;
 
     private List<AreaDeEstudo> areasDeEstudo;
+    
+    private ProfessorDisponivelDTO() {}
+    
+    public ProfessorDisponivelDTO(String email, String nome, List<AreaDeEstudo> areasDeEstudo) {
+    	this.email = email;
+    	this.nome = nome;
+    	this.areasDeEstudo = areasDeEstudo;
+    }
 
     public String getEmail() {
         return email;

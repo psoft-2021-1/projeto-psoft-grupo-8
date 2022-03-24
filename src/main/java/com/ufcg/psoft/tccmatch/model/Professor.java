@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -13,7 +14,7 @@ public class Professor extends Usuario {
 
 	private Integer quota;
 
-	@OneToMany
+	@ManyToMany
     private List<AreaDeEstudo> areasDeEstudo;
 	
 	public Professor() {};

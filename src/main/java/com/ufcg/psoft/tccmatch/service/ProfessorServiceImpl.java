@@ -43,13 +43,13 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public List<Professor> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudoAluno) {
+	public List<ProfessorDisponivelDTO> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudoAluno) {
 		List<Professor> professores = findAll();
-		List<Professor> professoresDisponiveis = new ArrayList<>();
+		List<ProfessorDisponivelDTO> professoresDisponiveis = new ArrayList<>();
 
 		for (Professor professor : professores) {
 			if (professor.isDisponivel()  && verificaAreasDeEstudo(areasDeEstudoAluno, professor)) {
-				professoresDisponiveis.add(professor);
+				professoresDisponiveis.add(new ProfessorDisponivelDTO(professor.getEmail(), professor.getNome(), professor.getAreasDeEstudo()));
 			}
 		}
 		return professoresDisponiveis;

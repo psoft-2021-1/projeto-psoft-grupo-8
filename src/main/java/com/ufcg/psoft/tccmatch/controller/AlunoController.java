@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
@@ -103,9 +104,9 @@ public class AlunoController {
 
 		Aluno aluno = alunoOp.get();
 
-		List<Professor> listaProfessoresDisponiveis = professorService.listarProfessoresDisponiveis(aluno.getAreasDeEstudo());
+		List<ProfessorDisponivelDTO> listaProfessoresDisponiveis = professorService.listarProfessoresDisponiveis(aluno.getAreasDeEstudo());
 
-		return new ResponseEntity<List<Professor>> (listaProfessoresDisponiveis, HttpStatus.OK);
+		return new ResponseEntity<List<ProfessorDisponivelDTO>> (listaProfessoresDisponiveis, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/aluno/temasTccProfessores/{tokenAluno}", method = RequestMethod.GET)

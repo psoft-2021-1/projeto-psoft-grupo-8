@@ -16,7 +16,7 @@ public interface ProfessorService extends UsuarioService<Professor> {
 	
 	public void removerProfessor(Professor professor);
 
-	public List<Professor> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudo);
+	public List<ProfessorDisponivelDTO> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudo);
 	
 	public void configurarQuota(Professor professor, Integer quota);
 	
