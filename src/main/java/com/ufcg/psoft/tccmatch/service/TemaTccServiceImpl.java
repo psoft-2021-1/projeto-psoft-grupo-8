@@ -107,4 +107,20 @@ public class TemaTccServiceImpl implements TemaTccService {
 		return temasTccProfessor;
 	}
 
+	@Override
+	public boolean isTemaTccAluno(TemaTcc temaTcc) {
+		for (TemaTcc temaTccAluno : getTemasTccAlunos()) {
+			if (temaTcc.equals(temaTccAluno)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String usernameProfessor) {
+		temaTcc.setUsername(usernameProfessor);
+		return temaTcc;
+	}
+
 }

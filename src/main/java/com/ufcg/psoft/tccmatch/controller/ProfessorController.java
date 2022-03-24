@@ -100,7 +100,6 @@ public class ProfessorController {
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
 	
-	
 	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)
     public ResponseEntity<?> configurarQuota(@RequestBody Integer quota, @PathVariable("tokenProfessor") long idProfessor) {
     	
@@ -119,7 +118,7 @@ public class ProfessorController {
     }
 	
 	@RequestMapping(value = "/professor/temasTccCadastrei/{tokenProfessor}", method = RequestMethod.GET)
-	public ResponseEntity<?> listarTemasTccCadastrei(@PathVariable("tokenProfessor") long idProfessor) {
+	public ResponseEntity<?> listarTemasTccCadastradosProfessor(@PathVariable("tokenProfessor") long idProfessor) {
 
 		Optional<Professor> professorOp = professorService.getById(idProfessor);
 
@@ -144,5 +143,31 @@ public class ProfessorController {
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccAlunos();
 
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/professor/interesseTemaTcc/{tokenProfessor}", method = RequestMethod.POST)
+	public ResponseEntity<?> manifestarInteresseTemaAluno(@RequestBody String titulo, @PathVariable("tokenProfessor") long tokenProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(tokenProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
+		}
+		Professor professor = professorOp.get();
+		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase()); // TODO mudar a lógica para que o toUpeerCase saia daí
+
+		if (temaTccOp.isEmpty()) {
+			return ErroTemaTcc.erroTemaNaoCadastrado(titulo);
+		}
+		TemaTcc temaTcc = temaTccOp.get();
+
+		if (!temaTccService.isTemaTccAluno(temaTcc)) {
+			return ErroTemaTcc.erroTemaNaoAluno(titulo);
+		}
+
+		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
+		temaTccService.save(temaTcc);
+
+		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
 }
