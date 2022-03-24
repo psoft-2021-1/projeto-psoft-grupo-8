@@ -26,6 +26,7 @@ import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
 import com.ufcg.psoft.tccmatch.service.TemaTccService;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
+import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
 import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
 
 @RestController
@@ -54,7 +55,13 @@ public class AlunoController {
 		if (alunoOp.isEmpty()) {
 			return ErroAluno.erroAlunoNaoEncontrado(idAluno);
 		}
-
+		
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(areasSelecionadasDTO.getAreasDeEstudo());
+		
+		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
+			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
+		}
+		
 		Aluno aluno = alunoOp.get();
 		List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
 
@@ -81,9 +88,9 @@ public class AlunoController {
 		}
 		
 		Aluno aluno = alunoOp.get();
-
-		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
-		if (!(areaDeEstudoNaoCadastrada == null)) {
+		
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());	
+		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
 			return ErroTemaTcc.erroTemaComAreaNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
