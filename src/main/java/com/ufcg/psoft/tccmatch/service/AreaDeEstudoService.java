@@ -13,12 +13,10 @@ public interface AreaDeEstudoService {
 	public void save(AreaDeEstudo areaDeEstudo);
 	
 	public Optional<AreaDeEstudo> getByNome(String nome);
-	
-	public AreaDeEstudo getDiretamenteByNome(String nome);
-	
+		
 	public List<AreaDeEstudo> listarAreasDeEstudo();
 	
 	public List<AreaDeEstudo> getAreasByNome(String[] areasNomes);
 	
-	public String verificaAreasDeEstudo(String[] areasDeEstudo);
+	public String verificaAreasDeEstudo(String[] areasNomes);
 }

@@ -35,11 +35,6 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 	}
 	
 	@Override
-	public AreaDeEstudo getDiretamenteByNome(String nome) {
-		return areaDeEstudoRepository.findDiretamenteByNome(nome.toUpperCase());
-	}
-	
-	@Override
 	public List<AreaDeEstudo> listarAreasDeEstudo() {
 		return areaDeEstudoRepository.findAll();
 	}
@@ -48,24 +43,21 @@ public class AreaDeEstudoServiceImpl implements AreaDeEstudoService {
 	public List<AreaDeEstudo> getAreasByNome(String[] areasNomes) {
 		List<AreaDeEstudo> areasDeEstudos = new ArrayList<AreaDeEstudo>();
 		
-		for (String nome : areasNomes) {
-			AreaDeEstudo areaDeEstudo = getByNome(nome.toUpperCase()).get();
+		for (String areaNome : areasNomes) {
+			AreaDeEstudo areaDeEstudo = getByNome(areaNome.toUpperCase()).get();
 			areasDeEstudos.add(areaDeEstudo);
 		}
 		
 		return areasDeEstudos;
 	}
 	
-	/**
-	 * Retorna null se as áreas existem ou, caso alguma não exista, retorna o nome desta área
-	 */
 	@Override
-	public String verificaAreasDeEstudo(String[] areasDeEstudo) { //TODO Checar se é possível fazer de outra forma
-		for (String areaDeEstudo : areasDeEstudo) {
-			if (this.getDiretamenteByNome(areaDeEstudo) == null) {
-				return areaDeEstudo;
+	public String verificaAreasDeEstudo(String[] areasNomes) {
+		for (String areaNome : areasNomes) {
+			if (this.getByNome(areaNome.toUpperCase()).isEmpty()) {
+				return areaNome.toUpperCase();
 			}
 		}
-		return null;
+		return "";
 	}
 }

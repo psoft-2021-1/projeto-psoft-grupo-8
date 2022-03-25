@@ -83,6 +83,10 @@ public class AreaDeEstudoController {
     	
     	List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.listarAreasDeEstudo();
     	
+    	if (areasDeEstudo.isEmpty()) {
+    		return ErroAreaDeEstudo.erroAreasDeEstudoNaoCadastradas();
+    	}
+    	
     	return new ResponseEntity<List<AreaDeEstudo>>(areasDeEstudo, HttpStatus.OK);
     }
   
