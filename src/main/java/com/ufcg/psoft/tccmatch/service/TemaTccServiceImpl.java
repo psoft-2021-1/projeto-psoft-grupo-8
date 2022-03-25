@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
+import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,21 +109,19 @@ public class TemaTccServiceImpl implements TemaTccService {
 	}
 
 	@Override
-	public boolean isTemaTccAluno(TemaTcc temaTcc) {
-		for (TemaTcc temaTccAluno : getTemasTccAlunos()) {
-			if (temaTcc.equals(temaTccAluno)) {
-				return true;
-			}
-		}
-		return false;
+	public Optional<Aluno> getAlunoTemaTcc(TemaTcc temaTcc) {
+		String usernameCriador = temaTcc.getUsernameCriador();
+		Optional<Aluno> alunoOp = alunoService.findByUsername(usernameCriador);
+		
+		return alunoOp;
 	}
 	
 	@Override
-	public boolean isTemaTccProfessor(TemaTcc temaTcc) {
+	public Optional<Professor> getProfessorTemaTcc(TemaTcc temaTcc) {
 		String usernameCriador = temaTcc.getUsernameCriador();
 		Optional<Professor> professorOp = professorService.findByUsername(usernameCriador);
 		
-		return professorOp.isPresent();
+		return professorOp;
 	}
 
 	@Override

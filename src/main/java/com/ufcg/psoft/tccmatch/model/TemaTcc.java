@@ -11,19 +11,13 @@ public class TemaTcc {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String usernameCriador;  
+	private String usernameCriador; // TALVEZ COLOCAR USUARIO
 	
 	private String titulo;
 	
 	private String descricao;
 	
 	private String status;
-	
-	@ManyToOne
-	private Aluno aluno;
-	
-	@ManyToOne
-	private Professor professor;
 
 	@ManyToMany
 	private List<AreaDeEstudo> areasDeEstudoRelacionadas;
@@ -98,23 +92,6 @@ public class TemaTcc {
 
 	public void setAreasDeEstudoRelacionadas(List<AreaDeEstudo> areasDeEstudoRelacionadas) {
 		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
-	}
-	
-
-	public Aluno getAluno() {
-		return aluno;
-	}
-
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
-	}
-
-	public Professor getProfessor() {
-		return professor;
-	}
-
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
 	}
 	
 	@Override

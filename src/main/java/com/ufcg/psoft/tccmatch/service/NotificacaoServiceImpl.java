@@ -68,11 +68,15 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	}
 
 	@Override
-	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, String nomeProfessor, Aluno aluno) {
+	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, Professor professor) {
+		String nomeProfessor = professor.getNome();	
 		String contentNotificacao = "O professor " + nomeProfessor + " manifestou interesse no seu tema de tcc " + temaTcc;
 		
+		Aluno aluno = alunoService.findByUsername(temaTcc.getUsernameCriador()).get();
+		
 		//TODO agrupar esse trecho de código em um método privado
-		Notificacao notificacao = new Notificacao(contentNotificacao, ""); // TODO COLOCAR EMAIL
+		Notificacao notificacao = new Notificacao(contentNotificacao, professor.getEmail());
+		
 		this.save(notificacao);
 		aluno.addNotificacao(notificacao);
 		alunoService.save(aluno);
@@ -87,6 +91,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 		
 		//TODO agrupar esse trecho de código em um método privado
 		Notificacao notificacao = new Notificacao(contentNotificacao, aluno.getEmail());
+		
 		this.save(notificacao);
 		professor.addNotificacao(notificacao);
 		professorService.save(professor);

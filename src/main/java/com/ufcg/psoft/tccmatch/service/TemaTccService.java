@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
+import com.ufcg.psoft.tccmatch.model.Aluno;
+import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 
 public interface TemaTccService {
@@ -27,9 +29,9 @@ public interface TemaTccService {
     
     public List<TemaTcc> getTemasTccProfessor(String username);
 
-	public boolean isTemaTccAluno(TemaTcc temaTcc);
+    public Optional<Aluno> getAlunoTemaTcc(TemaTcc temaTcc);
 	
-	public boolean isTemaTccProfessor(TemaTcc temaTcc);
+	public Optional<Professor> getProfessorTemaTcc(TemaTcc temaTcc);
 
 	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String username);
 }

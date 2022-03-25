@@ -57,5 +57,5 @@ public class Professor extends Usuario {
 	public boolean containsAreaDeEstudo(AreaDeEstudo areaDeEstudo) {
 		return (areasDeEstudo.contains(areaDeEstudo));
 	}
-
+	
 }

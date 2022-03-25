@@ -1,6 +1,5 @@
 package com.ufcg.psoft.tccmatch.util;
 
-
 public class CustomErrorType {
 
     private String errorMessage;
@@ -12,5 +11,5 @@ public class CustomErrorType {
     public String getErrorMessage() {
         return errorMessage;
     }
-
+ 
 }

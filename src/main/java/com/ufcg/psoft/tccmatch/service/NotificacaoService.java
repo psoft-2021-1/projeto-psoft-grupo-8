@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Notificacao;
+import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.model.Usuario;
 
@@ -17,6 +18,6 @@ public interface NotificacaoService {
 	
 	public void notificaProfessorSolicitacaoAluno(TemaTcc temaTcc, Aluno aluno);
 
-	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, String nomeProfessor, Aluno aluno);
+	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, Professor professor);
 
 }
