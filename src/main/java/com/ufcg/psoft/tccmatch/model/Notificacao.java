@@ -16,11 +16,14 @@ public class Notificacao {
 	
 	private boolean isRead;
 	
+	private String emailRemetente;
+	
 	public Notificacao() {}
 	
-	public Notificacao(String content, boolean isRead) {
+	public Notificacao(String content, String emailRemetente) {
 		this.content = content;
-		this.isRead = isRead;
+		this.emailRemetente = emailRemetente;		
+		this.isRead = false;
 	}
 
 	public Long getId() {
@@ -50,6 +53,14 @@ public class Notificacao {
 	@Override
 	public String toString() {
 		return content + " (lida: " + isRead + ")";
+	}
+
+	public String getEmailRemetente() {
+		return emailRemetente;
+	}
+
+	public void setEmailRemetente(String emailRemetente) {
+		this.emailRemetente = emailRemetente;
 	}
 
 }

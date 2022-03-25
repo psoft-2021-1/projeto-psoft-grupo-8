@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ufcg.psoft.tccmatch.model.Aluno;
+import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Notificacao;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.model.Usuario;
@@ -43,14 +44,22 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	}
 
 	@Override
-	public void notificaAlunoNovoTemaTcc(TemaTcc temaTcc, List<Aluno> alunos) {
-		String contentNotificacao = "O tema Tcc " + temaTcc + " nas suas áreas de interesse foi cadastrado";
+	public void notificaAlunoNovoTemaTcc(TemaTcc temaTcc) {
+		String contentNotificacao = "O tema Tcc " + temaTcc.getTitulo() + " nas suas áreas de interesse foi cadastrado";
+		Notificacao notificacao = new Notificacao(contentNotificacao, ""); // TODO COLOCAR EMAIL
+		this.save(notificacao);
+		
+		List<Aluno> alunos = alunoService.findAll();
+		List<AreaDeEstudo> areasTcc = temaTcc.getAreasDeEstudoRelacionadas();
 		
 		for (Aluno aluno : alunos) {
-			Notificacao notificacao = new Notificacao(contentNotificacao, false);
-			this.save(notificacao);
-			aluno.addNotificacao(notificacao);
-			alunoService.save(aluno);
+			for (AreaDeEstudo areaDeEstudo : aluno.getAreasDeEstudo()) {
+				if (areasTcc.contains(areaDeEstudo)) {
+					aluno.addNotificacao(notificacao);
+					alunoService.save(aluno);					
+					break;
+				}
+			}
 		}
 	}
 
@@ -59,10 +68,9 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 		String contentNotificacao = "O professor " + nomeProfessor + " manifestou interesse no seu tema de tcc " + temaTcc;
 		
 		//TODO agrupar esse trecho de código em um método privado
-		Notificacao notificacao = new Notificacao(contentNotificacao, false);
+		Notificacao notificacao = new Notificacao(contentNotificacao, ""); // TODO COLOCAR EMAIL
 		this.save(notificacao);
 		aluno.addNotificacao(notificacao);
 		alunoService.save(aluno);
 	}
-
 }

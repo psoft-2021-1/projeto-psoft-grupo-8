@@ -13,7 +13,7 @@ public interface NotificacaoService {
 	
 	public List<String> listaNotificacoesUsuario(Usuario usuario);
 	
-	public void notificaAlunoNovoTemaTcc(TemaTcc temaTcc, List<Aluno> alunos);
+	public void notificaAlunoNovoTemaTcc(TemaTcc temaTcc);
 
 	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, String nomeProfessor, Aluno aluno);
 

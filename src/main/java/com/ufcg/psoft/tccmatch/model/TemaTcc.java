@@ -20,7 +20,7 @@ public class TemaTcc {
 	private String status;
 
 	@ManyToMany
-	private List<AreaDeEstudo> areasDeEstudosRelacionadas;
+	private List<AreaDeEstudo> areasDeEstudoRelacionadas;
 	
 	private TemaTcc() {}
 	
@@ -32,7 +32,7 @@ public class TemaTcc {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = status;
-		this.areasDeEstudosRelacionadas = areasDeEstudoRelacionadas;
+		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class TemaTcc {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = null;
-		this.areasDeEstudosRelacionadas = areasDeEstudoRelacionadas;
+		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 	
 	public Long getId() {
@@ -86,12 +86,12 @@ public class TemaTcc {
 		this.status = status;
 	}
 
-	public List<AreaDeEstudo> getAreasDeEstudosRelacionadas() {
-		return areasDeEstudosRelacionadas;
+	public List<AreaDeEstudo> getAreasDeEstudoRelacionadas() {
+		return areasDeEstudoRelacionadas;
 	}
 
-	public void setAreasDeEstudosRelacionadas(List<AreaDeEstudo> areasDeEstudosRelacionadas) {
-		this.areasDeEstudosRelacionadas = areasDeEstudosRelacionadas;
+	public void setAreasDeEstudoRelacionadas(List<AreaDeEstudo> areasDeEstudoRelacionadas) {
+		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 	
 	@Override

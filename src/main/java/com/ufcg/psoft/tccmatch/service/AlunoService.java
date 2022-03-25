@@ -13,7 +13,5 @@ public interface AlunoService extends UsuarioService<Aluno> {
 	public Aluno atualizarAluno(AlunoDTO alunoDTO, Aluno aluno);
 
 	public void removerAluno(Aluno aluno);
-	
-	public List<Aluno> findByAreasDeEstudo(List<AreaDeEstudo> areasDeEstudo);
 
 }

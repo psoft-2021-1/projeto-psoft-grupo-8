@@ -13,5 +13,6 @@ public interface AlunoRepository extends BaseRepository<Aluno> {
     }
 	
 	Optional<Aluno> findByUsername(String username);
+
 }
 

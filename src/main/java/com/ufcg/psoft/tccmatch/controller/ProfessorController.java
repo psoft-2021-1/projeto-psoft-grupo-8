@@ -51,7 +51,7 @@ public class ProfessorController {
 	
 	@RequestMapping(value = "/professor/areaDeEstudo/{tokenProfessor}", method = RequestMethod.POST)
     public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO, UriComponentsBuilder ucBuilder,
-    											  @PathVariable("tokenProfessor") long idProfessor) {
+    											     @PathVariable("tokenProfessor") long idProfessor) {
     	
     	Optional<Professor> professorOp = professorService.getById(idProfessor);
     	
@@ -93,9 +93,8 @@ public class ProfessorController {
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
 		temaTccService.save(temaTcc);
-		
-		//enviar notificacao para aluno
-		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc, alunoService.findByAreasDeEstudo(temaTcc.getAreasDeEstudosRelacionadas()));
+
+		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc);
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
