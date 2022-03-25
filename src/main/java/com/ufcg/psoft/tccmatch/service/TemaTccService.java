@@ -28,6 +28,8 @@ public interface TemaTccService {
     public List<TemaTcc> getTemasTccProfessor(String username);
 
 	public boolean isTemaTccAluno(TemaTcc temaTcc);
+	
+	public boolean isTemaTccProfessor(TemaTcc temaTcc);
 
 	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String username);
 }

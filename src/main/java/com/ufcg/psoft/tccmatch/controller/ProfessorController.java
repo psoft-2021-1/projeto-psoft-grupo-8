@@ -160,19 +160,21 @@ public class ProfessorController {
 		if (professorOp.isEmpty()) {
 			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
 		}
+		
 		Professor professor = professorOp.get();
-		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase()); // TODO mudar a lógica para que o toUpeerCase saia daí
+		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase());
 
 		if (temaTccOp.isEmpty()) {
 			return ErroTemaTcc.erroTemaNaoCadastrado(titulo);
 		}
+		
 		TemaTcc temaTcc = temaTccOp.get();
 
 		if (!temaTccService.isTemaTccAluno(temaTcc)) {
 			return ErroTemaTcc.erroTemaNaoAluno(titulo);
 		}
 		
-		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsername());
+		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsernameCriador());
 
 		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
 		temaTccService.save(temaTcc);

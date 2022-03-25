@@ -132,5 +132,32 @@ public class AlunoController {
 
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/aluno/solicitar/{tokenAluno}", method = RequestMethod.POST)
+	public ResponseEntity<?> solicitarOrientacao(@PathVariable("tokenAluno") long tokenAluno, @RequestBody String tituloTemaTcc) {
+
+		Optional<Aluno> alunoOp = alunoService.getById(tokenAluno);
+
+		if (alunoOp.isEmpty()) {
+			return ErroAluno.erroAlunoNaoEncontrado(tokenAluno);
+		}
+		
+		Aluno aluno = alunoOp.get();		
+		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(tituloTemaTcc);
+
+		if (temaTccOp.isEmpty()) {
+			return ErroTemaTcc.erroTemaNaoCadastrado(tituloTemaTcc);
+		}
+		
+		TemaTcc temaTcc = temaTccOp.get();
+		
+		if (!temaTccService.isTemaTccProfessor(temaTcc)) {
+			return ErroTemaTcc.erroTemaNaoProfessor(tituloTemaTcc);
+		}
+		
+		notificacaoService.notificaProfessorSolicitacaoAluno(temaTcc, aluno);
+
+		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
+	}
 
 }

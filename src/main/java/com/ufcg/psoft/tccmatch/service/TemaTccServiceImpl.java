@@ -48,7 +48,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 
 	@Override
 	public Optional<TemaTcc> getByTitulo(String titulo) {
-		return temaTccRepository.findByTitulo(titulo);
+		return temaTccRepository.findByTitulo(titulo.toUpperCase());
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccProfessores = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (!(professorService.findByUsername(tema.getUsername()).isEmpty())) {
+			if (!(professorService.findByUsername(tema.getUsernameCriador()).isEmpty())) {
 				temasTccProfessores.add(tema);
 			}
 		}
@@ -86,7 +86,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccAlunos = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (!(alunoService.findByUsername(tema.getUsername()).isEmpty())) {
+			if (!(alunoService.findByUsername(tema.getUsernameCriador()).isEmpty())) {
 				temasTccAlunos.add(tema);
 			}
 		}
@@ -99,7 +99,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccProfessor = new ArrayList<TemaTcc>();
 		
 		for (TemaTcc tema : temasTcc) {
-			if (tema.getUsername().equals(username)) {
+			if (tema.getUsernameCriador().equals(username)) {
 				temasTccProfessor.add(tema);
 			}
 		}
@@ -116,10 +116,18 @@ public class TemaTccServiceImpl implements TemaTccService {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean isTemaTccProfessor(TemaTcc temaTcc) {
+		String usernameCriador = temaTcc.getUsernameCriador();
+		Optional<Professor> professorOp = professorService.findByUsername(usernameCriador);
+		
+		return professorOp.isPresent();
+	}
 
 	@Override
 	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String usernameProfessor) {
-		temaTcc.setUsername(usernameProfessor);
+		temaTcc.setUsernameCriador(usernameProfessor);
 		return temaTcc;
 	}
 
