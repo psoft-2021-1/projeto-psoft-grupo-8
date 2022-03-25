@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.SolicitacaoOrientacao;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
+import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.repository.SolicitacaoOrientacaoRepository;
 
 @Service
@@ -23,13 +25,18 @@ public class SolicitacaoOrientacaoServiceImpl implements SolicitacaoOrientacaoSe
 	}
 	
 	@Override
-	public SolicitacaoOrientacao criarSolicitacao(Aluno aluno, Professor professor, TemaTcc temaTcc) {
-		SolicitacaoOrientacao solicitacao = new SolicitacaoOrientacao(aluno, professor, temaTcc);
+	public SolicitacaoOrientacao criarSolicitacao(String usernameRemetente, String usernameDestinatario, TemaTcc temaTcc) {
+		SolicitacaoOrientacao solicitacao = new SolicitacaoOrientacao(usernameRemetente, usernameDestinatario, temaTcc);
 		return solicitacao;
 	}
 	
 	@Override
 	public Optional<SolicitacaoOrientacao> getById(Long id) {
 		return solicitacaoRepository.findById(id);
+	}
+	
+	@Override
+	public List<SolicitacaoOrientacao> getSolicitacoesRecebidas(String usernameDestinatario) {
+		return solicitacaoRepository.findAllByUsernameDestinatario(usernameDestinatario);
 	}
 }

@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufcg.psoft.tccmatch.model.Aluno;
+import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.SolicitacaoOrientacao;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
+import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.NotificacaoService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
@@ -29,6 +32,7 @@ import com.ufcg.psoft.tccmatch.util.ErroProfessor;
 import com.ufcg.psoft.tccmatch.util.ErroSolicitacao;
 import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
 import com.ufcg.psoft.tccmatch.util.ReturnMessage;
+
 
 @RestController
 @RequestMapping("/api/")
@@ -77,7 +81,7 @@ public class SolicitacaoController {
 		}
 		
 		Professor professor = professorOp.get();
-		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(aluno, professor, temaTcc);
+		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(aluno.getUsername(), professor.getUsername(), temaTcc);
 		solicitacaoService.save(solicitacao);
 		
 		notificacaoService.notificaProfessorSolicitacaoAluno(temaTcc, aluno);
@@ -109,7 +113,7 @@ public class SolicitacaoController {
 		}
 		
 		Aluno aluno = alunoOp.get();		
-		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(aluno, professor, temaTcc);
+		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(professor.getUsername(), aluno.getUsername(), temaTcc);
 		solicitacaoService.save(solicitacao);
 
 		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor);
@@ -142,27 +146,24 @@ public class SolicitacaoController {
     	return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
 	}
 	
-//	@RequestMapping(value = "/solicitacao/{token}/{tipoUsuario}", method = RequestMethod.GET)
-//	public ResponseEntity<?> listarSolicitacaoes(@PathVariable("token") long token, @PathVariable String tipoUsuario) {
-//		
-//		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
-//    	
-//    	if (usuarioService == null) {
-//    		return ErroLogin.erroServiceIndisponivel(tipoUsuario);
-//    	}
-//		
-//    	Optional<SolicitacaoOrientacao> solicitacaoOp = solicitacaoService.getById(idSolicitacao);
-//    	
-//    	if (solicitacaoOp.isEmpty()) {
-//    		return ErroSolicitacao.erroSolicitacaoNaoEncontrada(idSolicitacao);
-//    	}
-//    	
-//    	SolicitacaoOrientacao solicitacao = solicitacaoOp.get();
-//    	solicitacao.setAprovado(decisao);
-//    	solicitacaoService.save(solicitacao);
-//    	
-//    	// TODO Notificação para coordenador caso decisão seja true
-//    	
-//    	return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
-//	}
+	@RequestMapping(value = "/solicitacao/{token}/{tipoUsuario}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarSolicitacaoes(@PathVariable("token") long id, @PathVariable String tipoUsuario) {
+		
+		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
+    	
+    	if (usuarioService == null) {
+    		return ErroLogin.erroServiceIndisponivel(tipoUsuario);
+    	}
+
+    	Optional<Usuario> usuarioOp = usuarioService.getById(id);
+    	
+    	if (usuarioOp.isEmpty()) {
+    		return ErroLogin.erroTokenInvalido(id);
+    	}
+    	
+    	Usuario usuario = usuarioOp.get();
+    	List<SolicitacaoOrientacao> solicitacoes = solicitacaoService.getSolicitacoesRecebidas(usuario.getUsername());
+    	
+    	return new ResponseEntity<List<SolicitacaoOrientacao>>(solicitacoes, HttpStatus.OK);
+	}
 }

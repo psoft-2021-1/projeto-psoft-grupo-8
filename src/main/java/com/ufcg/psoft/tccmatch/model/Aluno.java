@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +19,12 @@ public class Aluno extends Usuario{
     
     @ManyToMany
     private List<AreaDeEstudo> areasDeEstudo;
+//    
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//	private List<SolicitacaoOrientacao> solicitacoesRecebidas;
         
-    private Aluno() {}
+
+	private Aluno() {}
     
     public Aluno(String email, Long matricula, String senha, String nome, String periodoConclusao) {
         super(email, matricula.toString(), senha, nome);
@@ -42,4 +47,20 @@ public class Aluno extends Usuario{
 	public void setAreasDeEstudo(List<AreaDeEstudo> areasDeEstudo) {
 		this.areasDeEstudo = areasDeEstudo;
 	}
+	
+//	public List<SolicitacaoOrientacao> getSolicitacoesRecebidas() {
+//		return solicitacoesRecebidas;
+//	}
+//	
+//	public void setSolicitacoesRecebidas(List<SolicitacaoOrientacao> solicitacoesRecebidas) {
+//		this.solicitacoesRecebidas = solicitacoesRecebidas;
+//	}
+//	
+//	public void addSolicitacao(SolicitacaoOrientacao solicitacao) {
+//		this.solicitacoesRecebidas.add(solicitacao);
+//	}
+//	
+//	public void removeSolicitacao(SolicitacaoOrientacao solicitacao) {
+//		this.solicitacoesRecebidas.remove(solicitacao);
+//	}
 }
