@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreaDeEstudoDTO;
-import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
-import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Coordenador;
 import com.ufcg.psoft.tccmatch.model.Usuario;

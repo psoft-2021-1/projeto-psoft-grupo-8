@@ -20,10 +20,10 @@ import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
-import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
+import com.ufcg.psoft.tccmatch.service.NotificacaoService;
 import com.ufcg.psoft.tccmatch.service.TemaTccService;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
@@ -45,6 +45,9 @@ public class AlunoController {
 
 	@Autowired
 	ProfessorService professorService;
+	
+	@Autowired
+	NotificacaoService notificacaoService;
 
 	@RequestMapping(value = "/aluno/areaDeEstudo/{tokenAluno}", method = RequestMethod.POST)
 	public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO,

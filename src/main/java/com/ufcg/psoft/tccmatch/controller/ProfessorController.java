@@ -23,7 +23,9 @@ import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
+import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
+import com.ufcg.psoft.tccmatch.service.NotificacaoService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.service.TemaTccService;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
@@ -43,9 +45,15 @@ public class ProfessorController {
 	@Autowired
 	TemaTccService temaTccService;
 	
+	@Autowired
+	NotificacaoService notificacaoService;
+	
+	@Autowired
+	AlunoService alunoService;
+	
 	@RequestMapping(value = "/professor/areaDeEstudo/{tokenProfessor}", method = RequestMethod.POST)
     public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO, UriComponentsBuilder ucBuilder,
-    											  @PathVariable("tokenProfessor") long idProfessor) {
+    											     @PathVariable("tokenProfessor") long idProfessor) {
     	
     	Optional<Professor> professorOp = professorService.getById(idProfessor);
     	
@@ -94,9 +102,10 @@ public class ProfessorController {
 		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
 		temaTccService.save(temaTcc);
 
+		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc);
+
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
-	
 	
 	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)
     public ResponseEntity<?> configurarQuota(@RequestBody Integer quota, @PathVariable("tokenProfessor") long idProfessor) {
@@ -116,7 +125,7 @@ public class ProfessorController {
     }
 	
 	@RequestMapping(value = "/professor/temasTccCadastrei/{tokenProfessor}", method = RequestMethod.GET)
-	public ResponseEntity<?> listarTemasTccCadastrei(@PathVariable("tokenProfessor") long idProfessor) {
+	public ResponseEntity<?> listarTemasTccCadastradosProfessor(@PathVariable("tokenProfessor") long idProfessor) {
 
 		Optional<Professor> professorOp = professorService.getById(idProfessor);
 
@@ -141,5 +150,36 @@ public class ProfessorController {
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccAlunos();
 
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/professor/interesseTemaTcc/{tokenProfessor}", method = RequestMethod.POST)
+	public ResponseEntity<?> manifestarInteresseTemaAluno(@RequestBody String titulo, @PathVariable("tokenProfessor") long tokenProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(tokenProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
+		}
+		Professor professor = professorOp.get();
+		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase()); // TODO mudar a lógica para que o toUpeerCase saia daí
+
+		if (temaTccOp.isEmpty()) {
+			return ErroTemaTcc.erroTemaNaoCadastrado(titulo);
+		}
+		TemaTcc temaTcc = temaTccOp.get();
+
+		if (!temaTccService.isTemaTccAluno(temaTcc)) {
+			return ErroTemaTcc.erroTemaNaoAluno(titulo);
+		}
+		
+		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsername());
+
+		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
+		temaTccService.save(temaTcc);
+		
+		//enviar notificacao para aluno
+		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor.getNome(), alunoTemaTcc.get());
+
+		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
 }

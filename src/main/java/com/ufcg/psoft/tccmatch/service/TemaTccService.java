@@ -26,4 +26,8 @@ public interface TemaTccService {
     public List<TemaTcc> getTemasTccAlunos();
     
     public List<TemaTcc> getTemasTccProfessor(String username);
+
+	public boolean isTemaTccAluno(TemaTcc temaTcc);
+
+	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String username);
 }
