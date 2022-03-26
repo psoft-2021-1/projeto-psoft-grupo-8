@@ -27,4 +27,9 @@ public class OrientacaoServiceImpl implements OrientacaoService {
     public void save(Orientacao orientacao) {
         orientacaoRepository.save(orientacao);
     }
+    
+    @Override
+    public List<Orientacao> findAllOrientacaoByProfessor(Professor professor) {
+    	return orientacaoRepository.findAllByProfessor(professor);
+    }
 }

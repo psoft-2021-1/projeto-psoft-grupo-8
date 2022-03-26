@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
+import com.ufcg.psoft.tccmatch.DTO.ListarOrientacoesCadastradasDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
+import com.ufcg.psoft.tccmatch.model.Orientacao;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.service.AlunoService;
 import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
 import com.ufcg.psoft.tccmatch.service.NotificacaoService;
+import com.ufcg.psoft.tccmatch.service.OrientacaoService;
 import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.service.TemaTccService;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
@@ -35,50 +39,54 @@ import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
 @RequestMapping("/api/")
 @CrossOrigin
 public class ProfessorController {
-	
+
 	@Autowired
 	ProfessorService professorService;
-	
+
 	@Autowired
-    AreaDeEstudoService areaDeEstudoService;
-	
+	AreaDeEstudoService areaDeEstudoService;
+
 	@Autowired
 	TemaTccService temaTccService;
-	
+
 	@Autowired
 	NotificacaoService notificacaoService;
-	
+
 	@Autowired
 	AlunoService alunoService;
-	
+
+	@Autowired
+	OrientacaoService orientacaoService;
+
 	@RequestMapping(value = "/professor/areaDeEstudo/{tokenProfessor}", method = RequestMethod.POST)
-    public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO, UriComponentsBuilder ucBuilder,
-    											     @PathVariable("tokenProfessor") long idProfessor) {
-    	
-    	Optional<Professor> professorOp = professorService.getById(idProfessor);
-    	
-    	if (professorOp.isEmpty()) {
-    		return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
-    	}  	
-    	
-    	String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(areasSelecionadasDTO.getAreasDeEstudo());
-    	
+	public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO,
+			UriComponentsBuilder ucBuilder, @PathVariable("tokenProfessor") long idProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
+		}
+
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService
+				.verificaAreasDeEstudo(areasSelecionadasDTO.getAreasDeEstudo());
+
 		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
 			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
-    	
-    	Professor professor = professorOp.get();
-    	List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
-    	
-    	professor.setAreasDeEstudo(areasDeEstudo);
-    	professorService.save(professor);   	
 
-    	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
-    }
-	
+		Professor professor = professorOp.get();
+		List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
+
+		professor.setAreasDeEstudo(areasDeEstudo);
+		professorService.save(professor);
+
+		return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/professor/temaTCC/{tokenProfessor}", method = RequestMethod.POST)
-	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccProfessorDTO temaTccDTO, UriComponentsBuilder ucBuilder,
-											  @PathVariable("tokenProfessor") long idProfessor) {
+	public ResponseEntity<?> cadastrarTemaTcc(@RequestBody TemaTccProfessorDTO temaTccDTO,
+			UriComponentsBuilder ucBuilder, @PathVariable("tokenProfessor") long idProfessor) {
 
 		Optional<Professor> professorOp = professorService.getById(idProfessor);
 
@@ -93,12 +101,13 @@ public class ProfessorController {
 		}
 
 		Professor professor = professorOp.get();
-		
-		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
+
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService
+				.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
 		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
 			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
-		
+
 		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
 		temaTccService.save(temaTcc);
 
@@ -106,24 +115,25 @@ public class ProfessorController {
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)
-    public ResponseEntity<?> configurarQuota(@RequestBody Integer quota, @PathVariable("tokenProfessor") long idProfessor) {
-    	
-    	Optional<Professor> professorOp = professorService.getById(idProfessor);
-    	
-    	if (professorOp.isEmpty()) {
-    		return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
-    	}  	
-    	
-    	Professor professor = professorOp.get();
-    	
-    	professor.setQuota(quota);
+	public ResponseEntity<?> configurarQuota(@RequestBody Integer quota,
+			@PathVariable("tokenProfessor") long idProfessor) {
+
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
+		}
+
+		Professor professor = professorOp.get();
+
+		professor.setQuota(quota);
 		professorService.save(professor);
-    	
-    	return new ResponseEntity<Professor>(professor, HttpStatus.OK);
-    }
-	
+
+		return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/professor/temasTccCadastrei/{tokenProfessor}", method = RequestMethod.GET)
 	public ResponseEntity<?> listarTemasTccCadastradosProfessor(@PathVariable("tokenProfessor") long idProfessor) {
 
@@ -150,6 +160,26 @@ public class ProfessorController {
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccAlunos();
 
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/professor/listarOrientacacoesTccCadastradas/{tokenProfessor}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarOrientacoesCadastradas(@PathVariable("tokenProfessor") long idProfessor) {
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
+
+		if (professorOp.isEmpty()) {
+			return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
+		}
+		Professor professor = professorOp.get();
+		List<Orientacao> listaOrientacoesProfessor = orientacaoService.findAllOrientacaoByProfessor(professor);
+		
+		List<ListarOrientacoesCadastradasDTO> listaRetorno = new ArrayList<>();
+		
+		for (Orientacao orientacao: listaOrientacoesProfessor) {
+			ListarOrientacoesCadastradasDTO orientacaoDTO = new ListarOrientacoesCadastradasDTO(orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre());
+			listaRetorno.add(orientacaoDTO);
+		}
+		
+		return new ResponseEntity<List<ListarOrientacoesCadastradasDTO>>(listaRetorno, HttpStatus.OK);
 	}
 
 //	@RequestMapping(value = "/professor/interesseTemaTcc/{tokenProfessor}", method = RequestMethod.POST)

@@ -21,22 +21,22 @@ import java.util.Optional;
 @CrossOrigin
 public class OrientacaoController {
 
-    @Autowired
-    CoordenadorService coordenadorService;
+	@Autowired
+	CoordenadorService coordenadorService;
 
-    @Autowired
-    ProfessorService professorService;
+	@Autowired
+	ProfessorService professorService;
 
-    @Autowired
-    AlunoService alunoService;
+	@Autowired
+	AlunoService alunoService;
 
-    @Autowired
-    OrientacaoService orientacaoService;
+	@Autowired
+	OrientacaoService orientacaoService;
 
-    @Autowired
-    TemaTccService temaTccService;
+	@Autowired
+	TemaTccService temaTccService;
 
-    @RequestMapping(value = "/orientacao/{tokenCoordenador}", method = RequestMethod.POST)
+	@RequestMapping(value = "/orientacao/{tokenCoordenador}", method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarOrientacao(@RequestBody OrientacaoDTO orientacaoDTO, UriComponentsBuilder ucBuilder,
                                                  @PathVariable("tokenCoordenador") long idCoordenador) {
 
@@ -67,7 +67,7 @@ public class OrientacaoController {
         }
         TemaTcc temaTcc = temaTccOp.get();
 
-        if (!temaTcc.getUsernameCriador().equals(professor.getUsername()) ||
+        if (!temaTcc.getUsernameCriador().equals(professor.getUsername()) &&
             !temaTcc.getUsernameCriador().equals(aluno.getUsername())) {
             return ErroTemaTcc.erroTemaCriadorAusente(orientacaoDTO.getTituloTema());
         }
