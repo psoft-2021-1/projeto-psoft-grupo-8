@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Notificacao;
+import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.repository.NotificacaoRepository;
@@ -21,6 +22,9 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	
 	@Autowired
 	private AlunoService alunoService;
+	
+	@Autowired
+	private ProfessorService professorService;
 	
 	@Override
 	public void save(Notificacao notificacao) {
@@ -64,13 +68,32 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	}
 
 	@Override
-	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, String nomeProfessor, Aluno aluno) {
+	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, Professor professor) {
+		String nomeProfessor = professor.getNome();	
 		String contentNotificacao = "O professor " + nomeProfessor + " manifestou interesse no seu tema de tcc " + temaTcc;
 		
+		Aluno aluno = alunoService.findByUsername(temaTcc.getUsernameCriador()).get();
+		
 		//TODO agrupar esse trecho de código em um método privado
-		Notificacao notificacao = new Notificacao(contentNotificacao, ""); // TODO COLOCAR EMAIL
+		Notificacao notificacao = new Notificacao(contentNotificacao, professor.getEmail());
+		
 		this.save(notificacao);
 		aluno.addNotificacao(notificacao);
 		alunoService.save(aluno);
+	}
+	
+	@Override
+	public void notificaProfessorSolicitacaoAluno(TemaTcc temaTcc, Aluno aluno) {
+		String nomeAluno = aluno.getNome();		
+		String contentNotificacao = "O aluno " + nomeAluno + " enviou uma solicitação para o tema " + temaTcc;
+		
+		Professor professor = professorService.findByUsername(temaTcc.getUsernameCriador()).get();
+		
+		//TODO agrupar esse trecho de código em um método privado
+		Notificacao notificacao = new Notificacao(contentNotificacao, aluno.getEmail());
+		
+		this.save(notificacao);
+		professor.addNotificacao(notificacao);
+		professorService.save(professor);
 	}
 }

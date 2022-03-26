@@ -11,7 +11,7 @@ public class TemaTcc {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String username;
+	private String usernameCriador; // TALVEZ COLOCAR USUARIO
 	
 	private String titulo;
 	
@@ -28,7 +28,7 @@ public class TemaTcc {
 	 * Construtor para aluno
 	 */
 	public TemaTcc(String username, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
-		this.username = username;
+		this.usernameCriador = username;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = status;
@@ -39,7 +39,7 @@ public class TemaTcc {
 	 * Construtor para professor
 	 */
 	public TemaTcc(String username, String titulo, String descricao, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
-		this.username = username;
+		this.usernameCriador = username;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = null;
@@ -54,12 +54,12 @@ public class TemaTcc {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUsernameCriador() {
+		return usernameCriador;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsernameCriador(String username) {
+		this.usernameCriador = username;
 	}
 
 	public String getTitulo() {
@@ -98,5 +98,4 @@ public class TemaTcc {
 	public String toString() {
 		return titulo;
 	}
-	
 }

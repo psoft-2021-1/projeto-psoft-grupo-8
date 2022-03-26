@@ -152,34 +152,36 @@ public class ProfessorController {
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/professor/interesseTemaTcc/{tokenProfessor}", method = RequestMethod.POST)
-	public ResponseEntity<?> manifestarInteresseTemaAluno(@RequestBody String titulo, @PathVariable("tokenProfessor") long tokenProfessor) {
-
-		Optional<Professor> professorOp = professorService.getById(tokenProfessor);
-
-		if (professorOp.isEmpty()) {
-			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
-		}
-		Professor professor = professorOp.get();
-		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase()); // TODO mudar a lógica para que o toUpeerCase saia daí
-
-		if (temaTccOp.isEmpty()) {
-			return ErroTemaTcc.erroTemaNaoCadastrado(titulo);
-		}
-		TemaTcc temaTcc = temaTccOp.get();
-
-		if (!temaTccService.isTemaTccAluno(temaTcc)) {
-			return ErroTemaTcc.erroTemaNaoAluno(titulo);
-		}
-		
-		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsername());
-
-		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
-		temaTccService.save(temaTcc);
-		
-		//enviar notificacao para aluno
-		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor.getNome(), alunoTemaTcc.get());
-
-		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
-	}
+//	@RequestMapping(value = "/professor/interesseTemaTcc/{tokenProfessor}", method = RequestMethod.POST)
+//	public ResponseEntity<?> manifestarInteresseTemaAluno(@RequestBody String titulo, @PathVariable("tokenProfessor") long tokenProfessor) {
+//
+//		Optional<Professor> professorOp = professorService.getById(tokenProfessor);
+//
+//		if (professorOp.isEmpty()) {
+//			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
+//		}
+//		
+//		Professor professor = professorOp.get();
+//		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase());
+//
+//		if (temaTccOp.isEmpty()) {
+//			return ErroTemaTcc.erroTemaNaoCadastrado(titulo);
+//		}
+//		
+//		TemaTcc temaTcc = temaTccOp.get();
+//
+//		if (!temaTccService.isTemaTccAluno(temaTcc)) {
+//			return ErroTemaTcc.erroTemaNaoAluno(titulo);
+//		}
+//		
+//		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsernameCriador());
+//
+//		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
+//		temaTccService.save(temaTcc);
+//		
+//		//enviar notificacao para aluno
+//		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor.getNome(), alunoTemaTcc.get());
+//
+//		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
+//	}
 }

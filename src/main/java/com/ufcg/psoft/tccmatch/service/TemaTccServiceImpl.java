@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
+import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 
 	@Override
 	public Optional<TemaTcc> getByTitulo(String titulo) {
-		return temaTccRepository.findByTitulo(titulo);
+		return temaTccRepository.findByTitulo(titulo.toUpperCase());
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccProfessores = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (!(professorService.findByUsername(tema.getUsername()).isEmpty())) {
+			if (!(professorService.findByUsername(tema.getUsernameCriador()).isEmpty())) {
 				temasTccProfessores.add(tema);
 			}
 		}
@@ -86,7 +87,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccAlunos = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (!(alunoService.findByUsername(tema.getUsername()).isEmpty())) {
+			if (!(alunoService.findByUsername(tema.getUsernameCriador()).isEmpty())) {
 				temasTccAlunos.add(tema);
 			}
 		}
@@ -99,7 +100,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccProfessor = new ArrayList<TemaTcc>();
 		
 		for (TemaTcc tema : temasTcc) {
-			if (tema.getUsername().equals(username)) {
+			if (tema.getUsernameCriador().equals(username)) {
 				temasTccProfessor.add(tema);
 			}
 		}
@@ -108,18 +109,24 @@ public class TemaTccServiceImpl implements TemaTccService {
 	}
 
 	@Override
-	public boolean isTemaTccAluno(TemaTcc temaTcc) {
-		for (TemaTcc temaTccAluno : getTemasTccAlunos()) {
-			if (temaTcc.equals(temaTccAluno)) {
-				return true;
-			}
-		}
-		return false;
+	public Optional<Aluno> getAlunoTemaTcc(TemaTcc temaTcc) {
+		String usernameCriador = temaTcc.getUsernameCriador();
+		Optional<Aluno> alunoOp = alunoService.findByUsername(usernameCriador);
+		
+		return alunoOp;
+	}
+	
+	@Override
+	public Optional<Professor> getProfessorTemaTcc(TemaTcc temaTcc) {
+		String usernameCriador = temaTcc.getUsernameCriador();
+		Optional<Professor> professorOp = professorService.findByUsername(usernameCriador);
+		
+		return professorOp;
 	}
 
 	@Override
 	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String usernameProfessor) {
-		temaTcc.setUsername(usernameProfessor);
+		temaTcc.setUsernameCriador(usernameProfessor);
 		return temaTcc;
 	}
 
