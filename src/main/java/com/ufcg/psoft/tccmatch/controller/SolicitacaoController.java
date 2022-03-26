@@ -81,7 +81,7 @@ public class SolicitacaoController {
 		}
 		
 		Professor professor = professorOp.get();
-		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(aluno.getUsername(), professor.getUsername(), temaTcc);
+		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(aluno, professor, temaTcc);
 		solicitacaoService.save(solicitacao);
 		
 		notificacaoService.notificaProfessorSolicitacaoAluno(temaTcc, aluno);
@@ -106,36 +106,22 @@ public class SolicitacaoController {
 		}
 		
 		TemaTcc temaTcc = temaTccOp.get();
-		Optional<Aluno> alunoOp = temaTccService.getAlunoTemaTcc(temaTcc);
-		
-		if (alunoOp.isEmpty()) {
-			return ErroTemaTcc.erroTemaNaoAluno(tituloTemaTcc);
-		}
-		
-		Aluno aluno = alunoOp.get();		
-		SolicitacaoOrientacao solicitacao = solicitacaoService.criarSolicitacao(professor.getUsername(), aluno.getUsername(), temaTcc);
-		solicitacaoService.save(solicitacao);
-
 		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor);
+		
+		// TODO Notificação para coordenador
 
 		return ReturnMessage.solicitacaoEnviada();
 	}
 	
-	@RequestMapping(value = "/decisaoSolicitacao/{token}/{tipoUsuario}/{idSolicitacao}", method = RequestMethod.PUT)
-	public ResponseEntity<?> decisaoSolicitacao(@PathVariable("token") long id, @PathVariable String tipoUsuario,
-												@PathVariable("idSolicitacao") long idSolicitacao, @RequestBody boolean decisao) {
+	@RequestMapping(value = "/decisaoSolicitacao/{tokenProfessor}/{idSolicitacao}", method = RequestMethod.PUT)
+	public ResponseEntity<?> decisaoSolicitacao(@PathVariable("tokenProfessor") long idProfessor, 
+												@PathVariable("idSolicitacao") long idSolicitacao,  @RequestBody boolean decisao) {
 		
-		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
     	
-    	if (usuarioService == null) {
-    		return ErroLogin.erroServiceIndisponivel(tipoUsuario);
+    	if (professorOp.isEmpty()) {
+    		return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
     	}
-
-		Optional<Usuario> usuarioOp = usuarioService.getById(id);
-
-		if (usuarioOp.isEmpty()) {
-			return ErroLogin.erroTokenInvalido(id);
-		}
 		
     	Optional<SolicitacaoOrientacao> solicitacaoOp = solicitacaoService.getById(idSolicitacao);
     	
@@ -143,36 +129,30 @@ public class SolicitacaoController {
     		return ErroSolicitacao.erroSolicitacaoNaoEncontrada(idSolicitacao);
     	}
 
-		Usuario usuarioDestinatario = usuarioOp.get();
+		Professor professor = professorOp.get();
     	SolicitacaoOrientacao solicitacao = solicitacaoOp.get();
     	solicitacao.setAprovado(decisao);
     	solicitacaoService.save(solicitacao);
     	
     	// TODO Notificação para coordenador caso decisão seja true
-		if (solicitacao.isAprovado()) {
-			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao, usuarioDestinatario);
-		}
+//		if (solicitacao.isAprovado()) {
+//			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao, usuarioDestinatario);
+//		}
 
 		return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
 	}
 	
-	@RequestMapping(value = "/solicitacao/{token}/{tipoUsuario}", method = RequestMethod.GET)
-	public ResponseEntity<?> listarSolicitacaoes(@PathVariable("token") long id, @PathVariable String tipoUsuario) {
+	@RequestMapping(value = "/solicitacao/{tokenProfessor}/", method = RequestMethod.GET)
+	public ResponseEntity<?> listarSolicitacaoes(@PathVariable("tokenProfessor") long idProfessor) {
 		
-		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
+		Optional<Professor> professorOp = professorService.getById(idProfessor);
     	
-    	if (usuarioService == null) {
-    		return ErroLogin.erroServiceIndisponivel(tipoUsuario);
-    	}
-
-    	Optional<Usuario> usuarioOp = usuarioService.getById(id);
-    	
-    	if (usuarioOp.isEmpty()) {
-    		return ErroLogin.erroTokenInvalido(id);
+    	if (professorOp.isEmpty()) {
+    		return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
     	}
     	
-    	Usuario usuario = usuarioOp.get();
-    	List<SolicitacaoOrientacao> solicitacoes = solicitacaoService.getSolicitacoesRecebidas(usuario.getUsername());
+    	Professor professor = professorOp.get();
+    	List<SolicitacaoOrientacao> solicitacoes = solicitacaoService.getSolicitacoesRecebidas(professor);
     	
     	return new ResponseEntity<List<SolicitacaoOrientacao>>(solicitacoes, HttpStatus.OK);
 	}

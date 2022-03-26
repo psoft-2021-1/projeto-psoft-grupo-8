@@ -10,7 +10,6 @@ import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.SolicitacaoOrientacao;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.repository.SolicitacaoOrientacaoRepository;
 
 @Service
@@ -25,8 +24,8 @@ public class SolicitacaoOrientacaoServiceImpl implements SolicitacaoOrientacaoSe
 	}
 	
 	@Override
-	public SolicitacaoOrientacao criarSolicitacao(String usernameRemetente, String usernameDestinatario, TemaTcc temaTcc) {
-		SolicitacaoOrientacao solicitacao = new SolicitacaoOrientacao(usernameRemetente, usernameDestinatario, temaTcc);
+	public SolicitacaoOrientacao criarSolicitacao(Aluno aluno, Professor professor, TemaTcc temaTcc) {
+		SolicitacaoOrientacao solicitacao = new SolicitacaoOrientacao(aluno, professor, temaTcc);
 		return solicitacao;
 	}
 	
@@ -36,7 +35,7 @@ public class SolicitacaoOrientacaoServiceImpl implements SolicitacaoOrientacaoSe
 	}
 	
 	@Override
-	public List<SolicitacaoOrientacao> getSolicitacoesRecebidas(String usernameDestinatario) {
-		return solicitacaoRepository.findAllByUsernameDestinatario(usernameDestinatario);
+	public List<SolicitacaoOrientacao> getSolicitacoesRecebidas(Professor professor) {
+		return solicitacaoRepository.findAllByProfessor(professor);
 	}
 }

@@ -7,7 +7,7 @@ public class ReturnMessage {
 	
 	static final String SOLICITACAO_ENVIADA = "A solicitação foi enviada para o e-mail do destinatário";
 	
-	static final String DECISAO_SOLICITACAO = "Sua decisão %s da solicitação %s foi registrada com sucesso";
+	static final String DECISAO_SOLICITACAO = "A decisão %s da solicitação %s foi registrada com sucesso";
 	
 	public static ResponseEntity<CustomReturnMessage> solicitacaoEnviada() {
 		return new ResponseEntity<CustomReturnMessage>(new CustomReturnMessage(String.format(ReturnMessage.SOLICITACAO_ENVIADA)),

@@ -97,26 +97,26 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 		professorService.save(professor);
 	}
 
-	@Override
-	public void notificaCoordenadorSolicitacaoAceita(SolicitacaoOrientacao solicitacao, Usuario usuarioDestinatario) {
-		Coordenador coordenador = coordenadorService.findAll().get(0);
-
-		if (usuarioDestinatario instanceof Professor) {
-			Aluno usuarioRemetente = alunoService.findByUsername(solicitacao.getUsernameRemetente()).get();
-			String contentNotificacao = "O usuario " + usuarioDestinatario.getNome() + " aceitou uma solicitação para o tema " +
-					solicitacao.getTemaTcc() + "do usuario" + usuarioRemetente.getNome();
-			Notificacao notificacao = new Notificacao(contentNotificacao, usuarioDestinatario.getEmail());
-			this.save(notificacao);
-			coordenador.addNotificacao(notificacao);
-			coordenadorService.save(coordenador);
-		} else { // O destinatário é o aluno que confirmou o interesse do professor no seu tema
-			Professor usuarioRemetente = professorService.findByUsername(solicitacao.getUsernameRemetente()).get();
-			String contentNotificacao = "O usuario " + usuarioDestinatario.getNome() + " aceitou uma solicitação para o tema " +
-					solicitacao.getTemaTcc() + "do usuario" + usuarioRemetente.getNome();
-			Notificacao notificacao = new Notificacao(contentNotificacao, usuarioDestinatario.getEmail());
-			this.save(notificacao);
-			coordenador.addNotificacao(notificacao);
-			coordenadorService.save(coordenador);
-		}
-	}
+//	@Override
+//	public void notificaCoordenadorSolicitacaoAceita(SolicitacaoOrientacao solicitacao, Usuario usuarioDestinatario) {
+//		Coordenador coordenador = coordenadorService.findAll().get(0);
+//
+//		if (usuarioDestinatario instanceof Professor) {
+//			Aluno usuarioRemetente = alunoService.findByUsername(solicitacao.getUsernameRemetente()).get();
+//			String contentNotificacao = "O usuario " + usuarioDestinatario.getNome() + " aceitou uma solicitação para o tema " +
+//					solicitacao.getTemaTcc() + "do usuario" + usuarioRemetente.getNome();
+//			Notificacao notificacao = new Notificacao(contentNotificacao, usuarioDestinatario.getEmail());
+//			this.save(notificacao);
+//			coordenador.addNotificacao(notificacao);
+//			coordenadorService.save(coordenador);
+//		} else { // O destinatário é o aluno que confirmou o interesse do professor no seu tema
+//			Professor usuarioRemetente = professorService.findByUsername(solicitacao.getUsernameRemetente()).get();
+//			String contentNotificacao = "O usuario " + usuarioDestinatario.getNome() + " aceitou uma solicitação para o tema " +
+//					solicitacao.getTemaTcc() + "do usuario" + usuarioRemetente.getNome();
+//			Notificacao notificacao = new Notificacao(contentNotificacao, usuarioDestinatario.getEmail());
+//			this.save(notificacao);
+//			coordenador.addNotificacao(notificacao);
+//			coordenadorService.save(coordenador);
+//		}
+//	}
 }

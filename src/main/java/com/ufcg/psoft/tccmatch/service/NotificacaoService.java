@@ -16,5 +16,5 @@ public interface NotificacaoService {
 
 	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, Professor professor);
 
-	public void notificaCoordenadorSolicitacaoAceita(SolicitacaoOrientacao solicitacao, Usuario usuarioDestinatario);
+	//public void notificaCoordenadorSolicitacaoAceita(SolicitacaoOrientacao solicitacao, Usuario usuarioDestinatario);
 }
