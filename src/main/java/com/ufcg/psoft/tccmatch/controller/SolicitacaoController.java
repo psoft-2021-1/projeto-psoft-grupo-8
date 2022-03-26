@@ -128,7 +128,7 @@ public class SolicitacaoController {
 	
 	@RequestMapping(value = "/decisaoSolicitacao/{tokenProfessor}/{idSolicitacao}", method = RequestMethod.PUT)
 	public ResponseEntity<?> decisaoSolicitacao(@PathVariable("tokenProfessor") long idProfessor, 
-												@PathVariable("idSolicitacao") long idSolicitacao,  @RequestBody boolean decisao) {
+												@PathVariable("idSolicitacao") long idSolicitacao,  @RequestBody boolean decisao, @RequestBody String justificativa) {
 		
 		Optional<Professor> professorOp = professorService.getById(idProfessor);
     	
@@ -150,6 +150,7 @@ public class SolicitacaoController {
 		
     	SolicitacaoOrientacao solicitacaoOrientacao = solicitacaoOp.get();
     	solicitacaoOrientacao.setAprovado(decisao);
+    	solicitacaoOrientacao.setJustificativa(justificativa);
     	solicitacaoService.save(solicitacaoOrientacao);
     	
     	if (decisao) {
