@@ -128,7 +128,7 @@ public class SolicitacaoController {
 	
 	@RequestMapping(value = "/decisaoSolicitacao/{tokenProfessor}/{idSolicitacao}", method = RequestMethod.PUT)
 	public ResponseEntity<?> decisaoSolicitacao(@PathVariable("tokenProfessor") long idProfessor, 
-												@PathVariable("idSolicitacao") long idSolicitacao,  @RequestBody boolean decisao, @RequestBody String justificativa) {
+												@PathVariable("idSolicitacao") long idSolicitacao,  @RequestBody boolean decisao, String justificativa) {
 		
 		Optional<Professor> professorOp = professorService.getById(idProfessor);
     	
@@ -156,12 +156,8 @@ public class SolicitacaoController {
     	if (decisao) {
     		professor.setQuota(professor.getQuota() - 1);
     		professorService.save(professor);
+			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacaoOrientacao);
     	}
-    	
-    	// TODO Notificação para coordenador caso decisão seja true
-//		if (solicitacao.isAprovado()) {
-//			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao, usuarioDestinatario);
-//		}
 
 		return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
 	}
@@ -181,8 +177,6 @@ public class SolicitacaoController {
     	if (temaInteresseOp.isEmpty()) {
     		return ErroTemaInteresse.erroTemaInteresseNaoEncontrado(idTemaInteresse);
     	}
-    	
-    	//TODO caso ele aceite uma manifestacao de interesse, não está removendo as outras manifestações de interesses do mesmo tema.
 
 		Aluno aluno = alunoOp.get();
     	TemaInteresse temaInteresse = temaInteresseOp.get();
@@ -200,12 +194,8 @@ public class SolicitacaoController {
     	if (decisao) {
     		professor.setQuota(professor.getQuota() - 1);
     		professorService.save(professor);
-    	}
-    	
-    	// TODO Notificação para coordenador caso decisão seja true
-//		if (temaInteresse.isAprovado()) {
-//			notificacaoService.notificaCoordenadorTemaInteresseAceito(temaInteresse, usuarioDestinatario);
-//		}
+			notificacaoService.notificaCoordenadorConfirmacaoInteresse(temaInteresse);
+		}
 
 		return ReturnMessage.decisaoSolicitacao(decisao, idTemaInteresse);
 	}

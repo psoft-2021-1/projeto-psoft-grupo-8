@@ -88,8 +88,5 @@ public abstract class Usuario {
 	public void addNotificacao(Notificacao notificacao) {
 		this.notificacoes.add(notificacao);
 	}
-	
-	public void limparNotificacoes() {
-		this.notificacoes.clear();
-	}
+
 }

@@ -17,4 +17,10 @@ insert into professor (ID, EMAIL, USERNAME, SENHA, NOME, QUOTA)
 values(1006, 'everton@tcc.com', '1230000000', 'senhadoeverton', 'Everton', 5);
 
 insert into area_de_estudo (ID, NOME)
-values(1001, 'DESENVOLVIMENTO DE SOFTWARE')
+values(1001, 'DESENVOLVIMENTO DE SOFTWARE');
+
+insert into area_de_estudo (ID, NOME)
+values(1002, 'STRING');
+
+insert into area_de_estudo (ID, NOME)
+values(1003, 'BANCO DE DADOS');
