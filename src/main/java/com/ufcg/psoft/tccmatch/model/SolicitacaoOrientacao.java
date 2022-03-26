@@ -15,15 +15,11 @@ public class SolicitacaoOrientacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	@ManyToOne
-//	private Aluno aluno;
-//	
-//	@ManyToOne
-//	private Professor professor;
+	@ManyToOne
+	private Aluno aluno;
 	
-	private String usernameRemetente;
-	
-	private String usernameDestinatario;
+	@ManyToOne
+	private Professor professor;
 	
 	@ManyToOne
 	private TemaTcc temaTcc;
@@ -32,9 +28,9 @@ public class SolicitacaoOrientacao {
 	
 	public SolicitacaoOrientacao() {}
 	
-	public SolicitacaoOrientacao(String usernameRemetente, String usernameDestinatario, TemaTcc temaTcc) {
-		this.usernameDestinatario = usernameDestinatario;
-		this.usernameRemetente = usernameRemetente;
+	public SolicitacaoOrientacao(Aluno aluno, Professor professor, TemaTcc temaTcc) {
+		this.aluno = aluno;
+		this.professor = professor;
 		this.temaTcc = temaTcc;
 	}
 	
@@ -62,19 +58,19 @@ public class SolicitacaoOrientacao {
 		this.aprovado = aprovado;
 	}
 
-	public String getUsernameRemetente() {
-		return usernameRemetente;
+	public Aluno getAluno() {
+		return aluno;
 	}
 
-	public void setUsernameRemetente(String usernameRemetente) {
-		this.usernameRemetente = usernameRemetente;
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}
 
-	public String getUsernameDestinatario() {
-		return usernameDestinatario;
+	public Professor getProfessor() {
+		return professor;
 	}
 
-	public void setUsernameDestinatario(String usernameDestinatario) {
-		this.usernameDestinatario = usernameDestinatario;
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
 }

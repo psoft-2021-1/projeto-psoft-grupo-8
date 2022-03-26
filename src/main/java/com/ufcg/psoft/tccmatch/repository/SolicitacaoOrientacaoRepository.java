@@ -11,5 +11,5 @@ import com.ufcg.psoft.tccmatch.model.SolicitacaoOrientacao;
 
 public interface SolicitacaoOrientacaoRepository extends JpaRepository<SolicitacaoOrientacao, Long>  {
 	
-	public List<SolicitacaoOrientacao> findAllByUsernameDestinatario(String usernameDestinatario);
+	public List<SolicitacaoOrientacao> findAllByProfessor(Professor professor);
 }
