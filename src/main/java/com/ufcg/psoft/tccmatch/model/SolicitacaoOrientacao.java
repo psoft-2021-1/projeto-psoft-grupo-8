@@ -26,6 +26,8 @@ public class SolicitacaoOrientacao {
 	
 	private boolean aprovado;
 	
+	private String justificativa;
+
 	public SolicitacaoOrientacao() {}
 	
 	public SolicitacaoOrientacao(Aluno aluno, Professor professor, TemaTcc temaTcc) {
@@ -72,5 +74,13 @@ public class SolicitacaoOrientacao {
 
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
+	}
+	
+	public String getJustificativa() {
+		return justificativa;
+	}
+
+	public void setJustificativa(String justificativa) {
+		this.justificativa = justificativa;
 	}
 }

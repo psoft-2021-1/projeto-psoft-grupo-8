@@ -10,7 +10,7 @@ import com.ufcg.psoft.tccmatch.model.TemaTcc;
 
 public interface SolicitacaoOrientacaoService {
 	
-	public void save(SolicitacaoOrientacao solicitacao);
+	public void save(SolicitacaoOrientacao solicitacaoOrientacao);
 	
 	public SolicitacaoOrientacao criarSolicitacao(Aluno aluno, Professor professor, TemaTcc temaTcc);
 	
