@@ -19,14 +19,14 @@ public class SolicitacaoOrientacaoServiceImpl implements SolicitacaoOrientacaoSe
 	SolicitacaoOrientacaoRepository solicitacaoRepository;
 	
 	@Override
-	public void save(SolicitacaoOrientacao solicitacao) {
-		solicitacaoRepository.save(solicitacao);
+	public void save(SolicitacaoOrientacao solicitacaoOrientacao) {
+		solicitacaoRepository.save(solicitacaoOrientacao);
 	}
 	
 	@Override
 	public SolicitacaoOrientacao criarSolicitacao(Aluno aluno, Professor professor, TemaTcc temaTcc) {
-		SolicitacaoOrientacao solicitacao = new SolicitacaoOrientacao(aluno, professor, temaTcc);
-		return solicitacao;
+		SolicitacaoOrientacao solicitacaoOrientacao = new SolicitacaoOrientacao(aluno, professor, temaTcc);
+		return solicitacaoOrientacao;
 	}
 	
 	@Override
