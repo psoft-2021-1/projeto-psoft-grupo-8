@@ -122,7 +122,7 @@ public class SolicitacaoController {
 	}
 	
 	@RequestMapping(value = "/decisaoSolicitacao/{token}/{tipoUsuario}/{idSolicitacao}", method = RequestMethod.PUT)
-	public ResponseEntity<?> decisaoSolicitacao(@PathVariable("token") long token, @PathVariable String tipoUsuario,
+	public ResponseEntity<?> decisaoSolicitacao(@PathVariable("token") long id, @PathVariable String tipoUsuario,
 												@PathVariable("idSolicitacao") long idSolicitacao, @RequestBody boolean decisao) {
 		
 		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
@@ -130,20 +130,30 @@ public class SolicitacaoController {
     	if (usuarioService == null) {
     		return ErroLogin.erroServiceIndisponivel(tipoUsuario);
     	}
+
+		Optional<Usuario> usuarioOp = usuarioService.getById(id);
+
+		if (usuarioOp.isEmpty()) {
+			return ErroLogin.erroTokenInvalido(id);
+		}
 		
     	Optional<SolicitacaoOrientacao> solicitacaoOp = solicitacaoService.getById(idSolicitacao);
     	
     	if (solicitacaoOp.isEmpty()) {
     		return ErroSolicitacao.erroSolicitacaoNaoEncontrada(idSolicitacao);
     	}
-    	
+
+		Usuario usuarioDestinatario = usuarioOp.get();
     	SolicitacaoOrientacao solicitacao = solicitacaoOp.get();
     	solicitacao.setAprovado(decisao);
     	solicitacaoService.save(solicitacao);
     	
     	// TODO Notificação para coordenador caso decisão seja true
-    	
-    	return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
+		if (solicitacao.isAprovado()) {
+			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao, usuarioDestinatario);
+		}
+
+		return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
 	}
 	
 	@RequestMapping(value = "/solicitacao/{token}/{tipoUsuario}", method = RequestMethod.GET)

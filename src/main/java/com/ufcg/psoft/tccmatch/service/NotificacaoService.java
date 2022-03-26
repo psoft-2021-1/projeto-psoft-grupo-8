@@ -2,11 +2,7 @@ package com.ufcg.psoft.tccmatch.service;
 
 import java.util.List;
 
-import com.ufcg.psoft.tccmatch.model.Aluno;
-import com.ufcg.psoft.tccmatch.model.Notificacao;
-import com.ufcg.psoft.tccmatch.model.Professor;
-import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.model.Usuario;
+import com.ufcg.psoft.tccmatch.model.*;
 
 public interface NotificacaoService {
 	
@@ -20,4 +16,5 @@ public interface NotificacaoService {
 
 	public void notificaAlunoInteresseProfessorTema(TemaTcc temaTcc, Professor professor);
 
+	public void notificaCoordenadorSolicitacaoAceita(SolicitacaoOrientacao solicitacao, Usuario usuarioDestinatario);
 }
