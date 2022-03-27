@@ -6,6 +6,5 @@ import com.ufcg.psoft.tccmatch.model.Notificacao;
 import com.ufcg.psoft.tccmatch.model.ProblemaOrientacao;
 
 public interface ProblemaOrientacaoRepository extends JpaRepository<ProblemaOrientacao, Long>{
-	
-	
+	 
 }

@@ -9,7 +9,7 @@ public class ErroOrientacao {
 	
 	static final String ORIENTACAO_NAO_EXISTE = "Orientação com id %s não existe";
 	
-	static final String ORIENTACAO_JA_TEM_PROBLEMA = "Orientação com id %s não existe";
+	static final String ORIENTACAO_JA_TEM_PROBLEMA = "Orientação com id %s já tem um problema";
 
 	public static ResponseEntity<CustomErrorType> alunoJaTemOrientacao(String nomeAluno) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroOrientacao.ALUNO_JA_TEM_ORIENTACAO, nomeAluno)),

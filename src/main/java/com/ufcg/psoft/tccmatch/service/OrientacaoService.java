@@ -14,6 +14,8 @@ public interface OrientacaoService {
 	
 	public List<Orientacao> findAllOrientacaoByAluno(Aluno aluno);
 	
+	public List<Orientacao> findAllOrientacaoBySemestre(String semestre);
+	
 	public Optional<Orientacao> getOrientacaoById(Long id);
 	
 	public Orientacao cadastrarOrientacao(Aluno aluno, TemaTcc temaTcc, Professor professor, String semestre);

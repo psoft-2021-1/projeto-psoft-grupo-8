@@ -1,7 +1,11 @@
 package com.ufcg.psoft.tccmatch.util;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaIndividualDTO;
 
 public class ReturnMessage {
 	
@@ -24,6 +28,13 @@ public class ReturnMessage {
 	public static ResponseEntity<CustomReturnMessage> cadastroProblema(String tipoUsuario, String nome, Long id) {
 		return new ResponseEntity<CustomReturnMessage>(new CustomReturnMessage(String.format(ReturnMessage.CADASTRO_PROBLEMA, tipoUsuario, nome, id)),
 				HttpStatus.OK);
+	}
+
+	public static ResponseEntity<CustomReturnMessage> geraRelatorio(
+			List<RelatorioProblemaIndividualDTO> problemasDasOrientacoesDoPeriodoAluno,
+			List<RelatorioProblemaIndividualDTO> problemasDasOrientacoesDoPeriodoProfessor) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

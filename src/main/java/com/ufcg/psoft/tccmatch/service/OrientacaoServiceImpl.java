@@ -40,6 +40,11 @@ public class OrientacaoServiceImpl implements OrientacaoService {
     }
     
     @Override
+    public List<Orientacao> findAllOrientacaoBySemestre(String semestre) {
+    	return orientacaoRepository.findAllBySemestre(semestre);
+    }
+    
+    @Override
 	public Optional<Orientacao> getOrientacaoById(Long id) {
     	return orientacaoRepository.findById(id);
     }

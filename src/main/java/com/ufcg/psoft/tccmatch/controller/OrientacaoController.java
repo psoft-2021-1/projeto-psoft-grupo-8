@@ -3,6 +3,8 @@ package com.ufcg.psoft.tccmatch.controller;
 import com.ufcg.psoft.tccmatch.DTO.ListarOrientacoesCadastradasDTO;
 import com.ufcg.psoft.tccmatch.DTO.OrientacaoDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProblemaOrientacaoDTO;
+import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaGeralDTO;
+import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaIndividualDTO;
 import com.ufcg.psoft.tccmatch.model.*;
 import com.ufcg.psoft.tccmatch.service.*;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +54,7 @@ public class OrientacaoController {
 
 	@RequestMapping(value = "/orientacao/{tokenCoordenador}", method = RequestMethod.POST)
 	public ResponseEntity<?> cadastrarOrientacao(@RequestBody OrientacaoDTO orientacaoDTO,
-			UriComponentsBuilder ucBuilder, @PathVariable("tokenCoordenador") long idCoordenador) {
+			UriComponentsBuilder ucBuilder, @PathVariable("tokenCoordenador") Long idCoordenador) {
 
 		Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
 
@@ -102,9 +105,9 @@ public class OrientacaoController {
 	}
 
 	@RequestMapping(value = "/cadastrarProblemaOrientacao/{token}/{tipoUsuario}", method = RequestMethod.POST)
-	public ResponseEntity<?> cadastrarProblemaOrientacao(@PathVariable("token") long id,
+	public ResponseEntity<?> cadastrarProblemaOrientacao(@PathVariable("token") Long id,
 			@PathVariable("tipoUsuario") String tipoUsuario, @RequestBody ProblemaOrientacaoDTO problemaOrientacaoDTO,
-			UriComponentsBuilder ucBuilder) {
+			UriComponentsBuilder ucBuilder) { //TODO Verificar se a orientação passada é daquele aluno.
 
 		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
 
@@ -133,7 +136,7 @@ public class OrientacaoController {
 			return ErroOrientacao.orientacaoJaTemProblema(orientacao.getId());
 		}
 
-		ProblemaOrientacao problemaOrientacao = problemaOrientacaoService.criarProblemaOrientacao(usuario.getNome(),
+		ProblemaOrientacao problemaOrientacao = problemaOrientacaoService.criarProblemaOrientacao(usuario.getUsername(),
 				problemaOrientacaoDTO.getDescricaoProblema());
 		problemaOrientacaoService.save(problemaOrientacao);
 
@@ -141,5 +144,19 @@ public class OrientacaoController {
 		orientacaoService.save(orientacao);
 
 		return ReturnMessage.cadastroProblema(tipoUsuario, usuario.getNome(), orientacao.getId());
+	}
+
+	@RequestMapping(value = "/listarProblemasNoPeriodo/{tokenCoordenador}/{periodo}", method = RequestMethod.GET)
+	public ResponseEntity<?> listarProblemasNoPeriodo(@PathVariable("tokenCoordenador") Long idCoordenador,
+			@PathVariable("periodo") Long periodo) {
+
+		Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+
+		List<Orientacao> orientacoesDoPeriodo = orientacaoService.findAllOrientacaoBySemestre(periodo.toString());
+
+		RelatorioProblemaGeralDTO relatorioProblemaGeralDTO = problemaOrientacaoService
+				.gerarRelatorioProblemaGeralDTO(orientacoesDoPeriodo);
+
+		return new ResponseEntity<RelatorioProblemaGeralDTO>(relatorioProblemaGeralDTO, HttpStatus.OK);
 	}
 }
