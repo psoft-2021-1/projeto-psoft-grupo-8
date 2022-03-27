@@ -10,7 +10,7 @@ import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaInteresse;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.repository.SolicitacaoOrientacaoRepository;
+import com.ufcg.psoft.tccmatch.repository.SolicitacaoRepository;
 import com.ufcg.psoft.tccmatch.repository.TemaInteresseRepository;
 
 @Service

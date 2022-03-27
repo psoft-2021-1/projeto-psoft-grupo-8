@@ -1,20 +1,23 @@
-insert into coordenador (ID, EMAIL, USERNAME, SENHA, NOME, CPF)
-values(1001, 'fulano@tcc.com', 'fulaninho', 'senhadofulano', 'Fulano', 10020030006);
+insert into usuario (ID, EMAIL, USERNAME, SENHA, NOME, TIPO_USUARIO)
+values(1001, 'fulano@tcc.com', 'fulaninho', 'senhadofulano', 'Fulano', 'COORDENADOR');
 
-insert into aluno (ID, EMAIL, USERNAME, SENHA, NOME, PERIODO_CONCLUSAO)
-values(1002, 'joao@tcc.com', '11020030006', 'senhadojoao', 'João Gabriel', 2023);
+insert into usuario (ID, EMAIL, USERNAME, SENHA, NOME, TIPO_USUARIO)
+values(1002, 'joao@tcc.com', '11020030006', 'senhadojoao', 'João Gabriel', 'ALUNO');
 
-insert into aluno (ID, EMAIL, USERNAME, SENHA, NOME, PERIODO_CONCLUSAO)
-values(1003, 'jose@tcc.com', '12020030006', 'senhadomiguel', 'Jose', 2023);
+insert into usuario (ID, EMAIL, USERNAME, SENHA, NOME, TIPO_USUARIO)
+values(1006, 'everton@tcc.com', '1230000000', 'senhadoeverton', 'Everton', 'PROFESSOR');
 
-insert into aluno (ID, EMAIL, USERNAME, SENHA, NOME, PERIODO_CONCLUSAO)
-values(1004, 'claudia@tcc.com', '13020030006', 'senhadaisadora', 'Isadora', 2024);
+insert into coordenador (ID, CPF)
+values(1001, 10020030006);
 
-insert into professor (ID, EMAIL, USERNAME, SENHA, NOME, QUOTA)
-values(1005, 'fubica@tcc.com', '12312312300', 'senhadofubica', 'Fubica', 5);
+insert into aluno (ID, PERIODO_CONCLUSAO)
+values(1002, 2023);
 
-insert into professor (ID, EMAIL, USERNAME, SENHA, NOME, QUOTA)
-values(1006, 'everton@tcc.com', '1230000000', 'senhadoeverton', 'Everton', 5);
+insert into professor (ID, QUOTA)
+values(1006, 5);
+
+--insert into professor (ID, EMAIL, USERNAME, SENHA, NOME, QUOTA)
+--values(1005, 'fubica@tcc.com', '12312312300', 'senhadofubica', 'Fubica', 5);
 
 insert into area_de_estudo (ID, NOME)
 values(1001, 'DESENVOLVIMENTO DE SOFTWARE');

@@ -8,12 +8,13 @@ import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
+import com.ufcg.psoft.tccmatch.model.Usuario;
 
 public interface TemaTccService {
 
-	public TemaTcc criarTemaTccAluno(TemaTccAlunoDTO temaTccDTO, String username);
+	public TemaTcc criarTemaTccAluno(TemaTccAlunoDTO temaTccDTO, Usuario usuario);
 
-	public TemaTcc criarTemaTccProfessor(TemaTccProfessorDTO temaTccDTO, String username);
+	public TemaTcc criarTemaTccProfessor(TemaTccProfessorDTO temaTccDTO, Usuario usuario);
 
 	public void save(TemaTcc temaTcc);
 
@@ -27,11 +28,11 @@ public interface TemaTccService {
 
     public List<TemaTcc> getTemasTccAlunos();
     
-    public List<TemaTcc> getTemasTccProfessor(String username);
+    public List<TemaTcc> getTemasTccProfessor(Long idProfessor);
 
-    public Optional<Aluno> getAlunoTemaTcc(TemaTcc temaTcc);
+    public Optional<Aluno> getAlunoByTema(TemaTcc temaTcc);
 	
-	public Optional<Professor> getProfessorTemaTcc(TemaTcc temaTcc);
+    public Optional<Professor> getProfessorByTema(TemaTcc temaTcc);
 
-	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String username);
+//	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String username);
 }

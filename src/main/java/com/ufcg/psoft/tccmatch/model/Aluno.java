@@ -11,18 +11,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-public class Aluno extends Usuario{
+@PrimaryKeyJoinColumn(name="id")
+public class Aluno extends Usuario {
 	    
     private String periodoConclusao;
     
     @ManyToMany
     private List<AreaDeEstudo> areasDeEstudo;
-//    
-//    @OneToMany(cascade = CascadeType.REMOVE)
-//	private List<SolicitacaoOrientacao> solicitacoesRecebidas;
-        
 
 	private Aluno() {}
     
@@ -30,6 +28,7 @@ public class Aluno extends Usuario{
         super(email, matricula.toString(), senha, nome);
         this.periodoConclusao = periodoConclusao;
         this.areasDeEstudo = new ArrayList<AreaDeEstudo>();
+        super.tipoUsuario = TipoUsuario.ALUNO;
     }
 
 	public String getPeriodoConclusao() {
@@ -47,20 +46,4 @@ public class Aluno extends Usuario{
 	public void setAreasDeEstudo(List<AreaDeEstudo> areasDeEstudo) {
 		this.areasDeEstudo = areasDeEstudo;
 	}
-	
-//	public List<SolicitacaoOrientacao> getSolicitacoesRecebidas() {
-//		return solicitacoesRecebidas;
-//	}
-//	
-//	public void setSolicitacoesRecebidas(List<SolicitacaoOrientacao> solicitacoesRecebidas) {
-//		this.solicitacoesRecebidas = solicitacoesRecebidas;
-//	}
-//	
-//	public void addSolicitacao(SolicitacaoOrientacao solicitacao) {
-//		this.solicitacoesRecebidas.add(solicitacao);
-//	}
-//	
-//	public void removeSolicitacao(SolicitacaoOrientacao solicitacao) {
-//		this.solicitacoesRecebidas.remove(solicitacao);
-//	}
 }

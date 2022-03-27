@@ -9,17 +9,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class SolicitacaoOrientacao {
+public class Solicitacao {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
-	private Aluno aluno;
-	
+	private Usuario usuarioRemetente;
+
 	@ManyToOne
-	private Professor professor;
+	private Usuario usuarioDestinatario;
 	
 	@ManyToOne
 	private TemaTcc temaTcc;
@@ -28,11 +28,11 @@ public class SolicitacaoOrientacao {
 	
 	private String justificativa;
 
-	public SolicitacaoOrientacao() {}
+	public Solicitacao() {}
 	
-	public SolicitacaoOrientacao(Aluno aluno, Professor professor, TemaTcc temaTcc) {
-		this.aluno = aluno;
-		this.professor = professor;
+	public Solicitacao(Usuario usuarioRemetente, Usuario usuarioDestinatario, TemaTcc temaTcc) {
+		this.usuarioRemetente = usuarioRemetente;
+		this.usuarioDestinatario = usuarioDestinatario;
 		this.temaTcc = temaTcc;
 	}
 	
@@ -59,22 +59,6 @@ public class SolicitacaoOrientacao {
 	public void setAprovado(boolean aprovado) {
 		this.aprovado = aprovado;
 	}
-
-	public Aluno getAluno() {
-		return aluno;
-	}
-
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
-	}
-
-	public Professor getProfessor() {
-		return professor;
-	}
-
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
-	}
 	
 	public String getJustificativa() {
 		return justificativa;
@@ -82,5 +66,21 @@ public class SolicitacaoOrientacao {
 
 	public void setJustificativa(String justificativa) {
 		this.justificativa = justificativa;
+	}
+	
+	public Usuario getUsuarioRemetente() {
+		return usuarioRemetente;
+	}
+
+	public void setUsuarioRemetente(Usuario usuarioRemetente) {
+		this.usuarioRemetente = usuarioRemetente;
+	}
+
+	public Usuario getUsuarioDestinatario() {
+		return usuarioDestinatario;
+	}
+
+	public void setUsuarioDestinatario(Usuario usuarioDestinatario) {
+		this.usuarioDestinatario = usuarioDestinatario;
 	}
 }

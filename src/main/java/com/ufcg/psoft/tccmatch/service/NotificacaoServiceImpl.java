@@ -68,7 +68,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 		String nomeAluno = aluno.getNome();
 		String contentNotificacao = "O aluno " + nomeAluno + " enviou uma solicitação para o tema " + temaTcc;
 
-		Professor professor = professorService.findByUsername(temaTcc.getUsernameCriador()).get();
+		Professor professor = professorService.getById(temaTcc.getUsuarioCriadorId()).get();
 
 		//TODO agrupar esse trecho de código em um método privado
 		Notificacao notificacao = new Notificacao(contentNotificacao, aluno.getEmail());
@@ -83,7 +83,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 		String nomeProfessor = professor.getNome();
 		String contentNotificacao = "O professor " + nomeProfessor + " manifestou interesse no seu tema de tcc " + temaTcc;
 
-		Aluno aluno = alunoService.findByUsername(temaTcc.getUsernameCriador()).get();
+		Aluno aluno = alunoService.getById(temaTcc.getUsuarioCriadorId()).get();
 
 		//TODO agrupar esse trecho de código em um método privado
 		Notificacao notificacao = new Notificacao(contentNotificacao, professor.getEmail());
@@ -94,12 +94,12 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	}
 
 	@Override
-	public void notificaCoordenadorSolicitacaoAceita(SolicitacaoOrientacao solicitacao) {
+	public void notificaCoordenadorSolicitacaoAceita(Solicitacao solicitacao) {
 		Coordenador coordenador = coordenadorService.findAll().get(0);
 
-		String contentNotificacao = "O professor " + solicitacao.getProfessor().getNome() + " aceitou uma solicitação do aluno " +
-				solicitacao.getAluno().getNome() + " para o tema " + solicitacao.getTemaTcc();
-		Notificacao notificacao = new Notificacao(contentNotificacao, solicitacao.getProfessor().getEmail());
+		String contentNotificacao = "O professor " + solicitacao.getUsuarioDestinatario().getNome() + " aceitou uma solicitação do aluno " +
+				solicitacao.getUsuarioRemetente().getNome() + " para o tema " + solicitacao.getTemaTcc();
+		Notificacao notificacao = new Notificacao(contentNotificacao, solicitacao.getUsuarioDestinatario().getEmail());
 		this.save(notificacao);
 		coordenador.addNotificacao(notificacao);
 		coordenadorService.save(coordenador);

@@ -4,8 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
+@PrimaryKeyJoinColumn(name="id")
 public class Coordenador extends Usuario{
 	
 	private Long cpf;
@@ -14,7 +16,8 @@ public class Coordenador extends Usuario{
 
     public Coordenador(String email, String username, String senha, String nome, Long cpf) {
         super(email, username, senha, nome);
-        this.setCpf(cpf);
+        this.cpf = cpf;
+        super.tipoUsuario = TipoUsuario.COORDENADOR;
     }
 
 	public Long getCpf() {

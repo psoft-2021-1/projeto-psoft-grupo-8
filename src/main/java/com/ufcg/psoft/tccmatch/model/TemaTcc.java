@@ -11,7 +11,7 @@ public class TemaTcc {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String usernameCriador; // Não pode botar usuário.
+	private Usuario usuarioCriador;
 	
 	private String titulo;
 	
@@ -27,8 +27,8 @@ public class TemaTcc {
 	/*
 	 * Construtor para aluno
 	 */
-	public TemaTcc(String username, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
-		this.usernameCriador = username;
+	public TemaTcc(Usuario usuarioCriador, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
+		this.usuarioCriador = usuarioCriador;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = status;
@@ -38,8 +38,8 @@ public class TemaTcc {
 	/*
 	 * Construtor para professor
 	 */
-	public TemaTcc(String username, String titulo, String descricao, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
-		this.usernameCriador = username;
+	public TemaTcc(Usuario usuarioCriador, String titulo, String descricao, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
+		this.usuarioCriador = usuarioCriador;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.status = null;
@@ -52,14 +52,6 @@ public class TemaTcc {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUsernameCriador() {
-		return usernameCriador;
-	}
-
-	public void setUsernameCriador(String username) {
-		this.usernameCriador = username;
 	}
 
 	public String getTitulo() {
@@ -97,5 +89,17 @@ public class TemaTcc {
 	@Override
 	public String toString() {
 		return titulo;
+	}
+
+	public Usuario getUsuarioCriador() {
+		return usuarioCriador;
+	}
+	
+	public Long getUsuarioCriadorId() {
+		return usuarioCriador.getId();
+	}
+
+	public void setUsuarioCriador(Usuario usuarioCriador) {
+		this.usuarioCriador = usuarioCriador;
 	}
 }

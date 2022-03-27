@@ -108,7 +108,7 @@ public class ProfessorController {
 			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 
-		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor.getUsername());
+		TemaTcc temaTcc = temaTccService.criarTemaTccProfessor(temaTccDTO, professor);
 		temaTccService.save(temaTcc);
 
 		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc);
@@ -143,7 +143,7 @@ public class ProfessorController {
 			return ErroProfessor.erroProfessorNaoEncontrado(idProfessor);
 		}
 
-		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessor(professorOp.get().getUsername());
+		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessor(professorOp.get().getId());
 
 		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
 	}
