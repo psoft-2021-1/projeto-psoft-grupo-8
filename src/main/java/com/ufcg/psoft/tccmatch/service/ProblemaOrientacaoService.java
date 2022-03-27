@@ -9,11 +9,11 @@ import com.ufcg.psoft.tccmatch.model.Usuario;
 
 public interface ProblemaOrientacaoService {
 	
-	public ProblemaOrientacao criarProblemaOrientacao(String nomeUsuario, String problemaDescricao);
+	public ProblemaOrientacao criarProblemaOrientacao(Usuario usuario, String problemaDescricao, Orientacao orientacao);
 	
 	public void save(ProblemaOrientacao problemaOrientacao);
 	
-	public boolean isProblemaAluno(String usernameAluno);
+	public List<ProblemaOrientacao> findAllByOrientacao(Orientacao orientacao);
 
 	public RelatorioProblemaGeralDTO gerarRelatorioProblemaGeralDTO(List<Orientacao> orientacoesDoPeriodo);
 }

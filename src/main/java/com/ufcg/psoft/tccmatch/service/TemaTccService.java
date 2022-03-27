@@ -33,6 +33,7 @@ public interface TemaTccService {
     public Optional<Aluno> getAlunoByTema(TemaTcc temaTcc);
 	
     public Optional<Professor> getProfessorByTema(TemaTcc temaTcc);
+    
+    public boolean verificaCriadorTema(TemaTcc temaTcc, Usuario usuario1, Usuario usuario2);
 
-//	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String username);
 }

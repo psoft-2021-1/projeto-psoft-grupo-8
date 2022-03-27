@@ -21,12 +21,9 @@ public class ProblemaOrientacaoServiceImpl implements ProblemaOrientacaoService{
 	@Autowired
 	ProblemaOrientacaoRepository problemaOrientacaoRepository;
 	
-	@Autowired
-	AlunoService alunoService;
-	
 	@Override
-	public ProblemaOrientacao criarProblemaOrientacao(String nomeUsuario, String problemaDescricao) {
-		ProblemaOrientacao problemaOrientacao = new ProblemaOrientacao(nomeUsuario, problemaDescricao);
+	public ProblemaOrientacao criarProblemaOrientacao(Usuario usuario, String problemaDescricao, Orientacao orientacao) {
+		ProblemaOrientacao problemaOrientacao = new ProblemaOrientacao(usuario, problemaDescricao, orientacao);
 		return problemaOrientacao;	
 	}
 
@@ -35,9 +32,9 @@ public class ProblemaOrientacaoServiceImpl implements ProblemaOrientacaoService{
 		problemaOrientacaoRepository.save(problemaOrientacao);
 	}
 	
-	public boolean isProblemaAluno(String usernameAluno) {
-		Optional<Aluno> alunoOp = alunoService.findByUsername(usernameAluno);
-		return !alunoOp.isEmpty();
+	@Override
+	public List<ProblemaOrientacao> findAllByOrientacao(Orientacao orientacao) {
+		return problemaOrientacaoRepository.findAllByOrientacao(orientacao);
 	}
 	
 	public RelatorioProblemaGeralDTO gerarRelatorioProblemaGeralDTO(List<Orientacao> orientacoesDoPeriodo) {
@@ -45,15 +42,19 @@ public class ProblemaOrientacaoServiceImpl implements ProblemaOrientacaoService{
 		List<RelatorioProblemaIndividualDTO> problemasDasOrientacoesDoPeriodoProfessor = new ArrayList<RelatorioProblemaIndividualDTO>();
 
 		for (Orientacao orientacao: orientacoesDoPeriodo) {
-			ProblemaOrientacao problemaOrientacao = orientacao.getProblemaOrientacao();
-			RelatorioProblemaIndividualDTO relatorioProblemaIndividualDTO = new RelatorioProblemaIndividualDTO(orientacao.getTemaTcc().getTitulo(), problemaOrientacao.getDescricaoProblema(), problemaOrientacao.getUsernameCriador()); 
-			if (problemaOrientacao != null) {
-				if (this.isProblemaAluno(problemaOrientacao.getUsernameCriador())) {
+			List<ProblemaOrientacao> problemas = findAllByOrientacao(orientacao);
+			
+			for (ProblemaOrientacao problema : problemas) {
+				RelatorioProblemaIndividualDTO relatorioProblemaIndividualDTO = new RelatorioProblemaIndividualDTO(
+						orientacao.getTemaTcc().getTitulo(), problema.getDescricaoProblema(), problema.getUsuarioCriador().getNome()); 
+			
+				if (problema.getUsuarioCriador().isAluno()) {
 					problemasDasOrientacoesDoPeriodoAluno.add(relatorioProblemaIndividualDTO);
 				} else {
 					problemasDasOrientacoesDoPeriodoProfessor.add(relatorioProblemaIndividualDTO);
 				}
 			}
+	
 		}
 		return new RelatorioProblemaGeralDTO(problemasDasOrientacoesDoPeriodoAluno, problemasDasOrientacoesDoPeriodoProfessor);
 	}

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
-import com.ufcg.psoft.tccmatch.DTO.ListarOrientacoesCadastradasDTO;
+import com.ufcg.psoft.tccmatch.DTO.OrientacaoCadastradaDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Orientacao;
@@ -101,9 +101,8 @@ public class ProfessorController {
 		}
 
 		Professor professor = professorOp.get();
-
-		String areaDeEstudoNaoCadastrada = areaDeEstudoService
-				.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
+		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(temaTccDTO.getAreasDeEstudoRelacionadas());
+		
 		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
 			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
@@ -172,47 +171,14 @@ public class ProfessorController {
 		Professor professor = professorOp.get();
 		List<Orientacao> listaOrientacoesProfessor = orientacaoService.findAllOrientacaoByProfessor(professor);
 
-		List<ListarOrientacoesCadastradasDTO> listaRetorno = new ArrayList<>();
+		List<OrientacaoCadastradaDTO> listaRetorno = new ArrayList<>();
 
 		for (Orientacao orientacao : listaOrientacoesProfessor) {
-			ListarOrientacoesCadastradasDTO orientacaoDTO = new ListarOrientacoesCadastradasDTO(orientacao.getId(),
+			OrientacaoCadastradaDTO orientacaoDTO = new OrientacaoCadastradaDTO(orientacao.getId(),
 					orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre());
 			listaRetorno.add(orientacaoDTO);
 		}
 
-		return new ResponseEntity<List<ListarOrientacoesCadastradasDTO>>(listaRetorno, HttpStatus.OK);
+		return new ResponseEntity<List<OrientacaoCadastradaDTO>>(listaRetorno, HttpStatus.OK);
 	}
-
-//	@RequestMapping(value = "/professor/interesseTemaTcc/{tokenProfessor}", method = RequestMethod.POST)
-//	public ResponseEntity<?> manifestarInteresseTemaAluno(@RequestBody String titulo, @PathVariable("tokenProfessor") long tokenProfessor) {
-//
-//		Optional<Professor> professorOp = professorService.getById(tokenProfessor);
-//
-//		if (professorOp.isEmpty()) {
-//			return ErroProfessor.erroProfessorNaoEncontrado(tokenProfessor);
-//		}
-//		
-//		Professor professor = professorOp.get();
-//		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(titulo.toUpperCase());
-//
-//		if (temaTccOp.isEmpty()) {
-//			return ErroTemaTcc.erroTemaNaoCadastrado(titulo);
-//		}
-//		
-//		TemaTcc temaTcc = temaTccOp.get();
-//
-//		if (!temaTccService.isTemaTccAluno(temaTcc)) {
-//			return ErroTemaTcc.erroTemaNaoAluno(titulo);
-//		}
-//		
-//		Optional<Aluno> alunoTemaTcc = alunoService.findByUsername(temaTcc.getUsernameCriador());
-//
-//		temaTccService.manifestarInteresseTemaAluno(temaTcc, professor.getUsername());
-//		temaTccService.save(temaTcc);
-//		
-//		//enviar notificacao para aluno
-//		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor.getNome(), alunoTemaTcc.get());
-//
-//		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
-//	}
 }

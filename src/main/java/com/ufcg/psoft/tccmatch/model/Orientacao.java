@@ -9,7 +9,7 @@ public class Orientacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     private Aluno aluno;
 
     @OneToOne
@@ -17,9 +17,6 @@ public class Orientacao {
 
     @ManyToOne
     private Professor professor;
-    
-    @OneToOne
-    private ProblemaOrientacao problemaOrientacao;
 
     private String semestre;
 
@@ -71,13 +68,5 @@ public class Orientacao {
     public void setSemestre(String semestre) {
         this.semestre = semestre;
     }
-
-	public ProblemaOrientacao getProblemaOrientacao() {
-		return problemaOrientacao;
-	}
-
-	public void setProblemaOrientacao(ProblemaOrientacao problemaOrientacao) {
-		this.problemaOrientacao = problemaOrientacao;
-	}
 
 }

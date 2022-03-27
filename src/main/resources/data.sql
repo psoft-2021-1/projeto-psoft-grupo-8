@@ -16,9 +16,6 @@ values(1002, 2023);
 insert into professor (ID, QUOTA)
 values(1005, 5);
 
---insert into professor (ID, EMAIL, USERNAME, SENHA, NOME, QUOTA)
---values(1005, 'fubica@tcc.com', '12312312300', 'senhadofubica', 'Fubica', 5);
-
 insert into area_de_estudo (ID, NOME)
 values(1001, 'DESENVOLVIMENTO DE SOFTWARE');
 

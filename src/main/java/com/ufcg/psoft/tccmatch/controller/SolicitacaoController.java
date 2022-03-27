@@ -34,9 +34,6 @@ public class SolicitacaoController {
 	SolicitacaoService solicitacaoService;
 	
 	@Autowired
-	TemaInteresseService temaInteresseService;
-	
-	@Autowired
 	private Map<String, UsuarioService> services;
 	
 	@RequestMapping(value = "/solicitacao/{tokenAluno}", method = RequestMethod.POST)

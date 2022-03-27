@@ -83,10 +83,6 @@ public class TemaTcc {
 		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 	
-	@Override
-	public String toString() {
-		return titulo;
-	}
 
 	public Usuario getUsuarioCriador() {
 		return usuarioCriador;
@@ -98,5 +94,10 @@ public class TemaTcc {
 
 	public void setUsuarioCriador(Usuario usuarioCriador) {
 		this.usuarioCriador = usuarioCriador;
+	}
+	
+	@Override
+	public String toString() {
+		return titulo;
 	}
 }

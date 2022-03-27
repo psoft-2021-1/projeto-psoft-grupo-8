@@ -123,11 +123,10 @@ public class TemaTccServiceImpl implements TemaTccService {
 		
 		return professorOp;
 	}
-
-//	@Override
-//	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String usernameProfessor) {
-//		temaTcc.setUsernameCriador(usernameProfessor);
-//		return temaTcc;
-//	}
+	
+	@Override
+	public boolean verificaCriadorTema(TemaTcc temaTcc, Usuario usuario1, Usuario usuario2) {
+		return temaTcc.getUsuarioCriador() == usuario1 || temaTcc.getUsuarioCriador() == usuario2;
+	}
 
 }

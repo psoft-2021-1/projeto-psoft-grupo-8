@@ -12,7 +12,7 @@ public interface OrientacaoService {
 
 	public List<Orientacao> findAllOrientacaoByProfessor(Professor professor);
 	
-	public List<Orientacao> findAllOrientacaoByAluno(Aluno aluno);
+	public Optional<Orientacao> findOrientacaoByAluno(Aluno aluno);
 	
 	public List<Orientacao> findAllOrientacaoBySemestre(String semestre);
 	
