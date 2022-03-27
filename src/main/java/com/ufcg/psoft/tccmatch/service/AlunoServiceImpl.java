@@ -1,14 +1,13 @@
 package com.ufcg.psoft.tccmatch.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.ufcg.psoft.tccmatch.DTO.AlunoDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.repository.AlunoRepository;
 import com.ufcg.psoft.tccmatch.repository.BaseRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service("ALUNO")
 public class AlunoServiceImpl implements AlunoService {

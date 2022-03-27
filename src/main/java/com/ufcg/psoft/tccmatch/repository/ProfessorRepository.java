@@ -1,9 +1,8 @@
 package com.ufcg.psoft.tccmatch.repository;
 
-import java.util.Optional;
-
-import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
+
+import java.util.Optional;
 
 public interface ProfessorRepository extends BaseRepository<Professor> {
 	default String getTipoUsuario() {

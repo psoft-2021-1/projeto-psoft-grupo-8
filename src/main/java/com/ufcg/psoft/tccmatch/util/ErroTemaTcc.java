@@ -13,6 +13,8 @@ public class ErroTemaTcc {
 	
 	static final String TEMA_NAO_PROFESSOR = "Tema de TCC com título %s não foi cadastrado por um professor";
 
+	static final String TEMA_CRIADOR_AUSENTE = "O tema de tcc com título %s não reconhece o criador";
+
 	public static ResponseEntity<CustomErrorType> erroTemaJaCadastrado(String titulo) {
 		return new ResponseEntity<CustomErrorType>(
 				new CustomErrorType(String.format(ErroTemaTcc.TEMA_JA_CADASTRADO, titulo.toUpperCase())), HttpStatus.CONFLICT);
@@ -31,5 +33,10 @@ public class ErroTemaTcc {
 	public static ResponseEntity<?> erroTemaNaoProfessor(String titulo) {
 		return new ResponseEntity<CustomErrorType>(
 				new CustomErrorType(String.format(ErroTemaTcc.TEMA_NAO_PROFESSOR, titulo.toUpperCase())), HttpStatus.BAD_REQUEST);
+	}
+
+    public static ResponseEntity<?> erroTemaCriadorAusente(String titulo) {
+		return new ResponseEntity<CustomErrorType>(
+				new CustomErrorType(String.format(ErroTemaTcc.TEMA_CRIADOR_AUSENTE, titulo.toUpperCase())), HttpStatus.NOT_ACCEPTABLE);
 	}
 }

@@ -1,33 +1,23 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
-import com.ufcg.psoft.tccmatch.service.ProfessorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.service.AlunoService;
-import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
-import com.ufcg.psoft.tccmatch.service.NotificacaoService;
-import com.ufcg.psoft.tccmatch.service.TemaTccService;
+import com.ufcg.psoft.tccmatch.service.*;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
 import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -97,7 +87,7 @@ public class AlunoController {
 			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
-		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno.getUsername());
+		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno);
 		temaTccService.save(temaTcc);
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);

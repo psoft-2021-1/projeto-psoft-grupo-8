@@ -1,6 +1,5 @@
 package com.ufcg.psoft.tccmatch.service;
 
-import com.ufcg.psoft.tccmatch.DTO.AreaDeEstudoDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
@@ -19,5 +18,4 @@ public interface ProfessorService extends UsuarioService<Professor> {
 	public List<ProfessorDisponivelDTO> listarProfessoresDisponiveis(List<AreaDeEstudo> areasDeEstudo);
 	
 	public void configurarQuota(Professor professor, Integer quota);
-	
 }

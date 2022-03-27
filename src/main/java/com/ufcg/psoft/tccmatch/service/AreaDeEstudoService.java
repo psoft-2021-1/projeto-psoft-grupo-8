@@ -1,10 +1,10 @@
 package com.ufcg.psoft.tccmatch.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.ufcg.psoft.tccmatch.DTO.AreaDeEstudoDTO;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface AreaDeEstudoService {
 	

@@ -1,9 +1,8 @@
 package com.ufcg.psoft.tccmatch.repository;
 
+import com.ufcg.psoft.tccmatch.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import com.ufcg.psoft.tccmatch.model.Usuario;
 
 import java.util.Optional;
 

@@ -1,14 +1,13 @@
 package com.ufcg.psoft.tccmatch.model;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-
 @Entity
+@PrimaryKeyJoinColumn(name="id")
 public class Professor extends Usuario {
 	
 	private String[] laboratorios;
@@ -17,9 +16,6 @@ public class Professor extends Usuario {
 
 	@ManyToMany
     private List<AreaDeEstudo> areasDeEstudo;
-//	
-//	@OneToMany(cascade = CascadeType.REMOVE)
-//	private List<SolicitacaoOrientacao> solicitacoesRecebidas;
 	
 	public Professor() {};
 	
@@ -27,6 +23,7 @@ public class Professor extends Usuario {
 		super(email, CPF.toString(), senha, nome);
 		this.laboratorios = laboratorios.split(" ");
 		this.areasDeEstudo = new ArrayList<AreaDeEstudo>();
+		super.tipoUsuario = TipoUsuario.PROFESSOR;
 		this.quota = 0;
 	}
 	
@@ -61,16 +58,4 @@ public class Professor extends Usuario {
 	public boolean containsAreaDeEstudo(AreaDeEstudo areaDeEstudo) {
 		return (areasDeEstudo.contains(areaDeEstudo));
 	}
-	
-//	public void setSolicitacoesRecebidas(List<SolicitacaoOrientacao> solicitacoesRecebidas) {
-//		this.solicitacoesRecebidas = solicitacoesRecebidas;
-//	}
-//	
-//	public void addSolicitacao(SolicitacaoOrientacao solicitacao) {
-//		this.solicitacoesRecebidas.add(solicitacao);
-//	}
-//	
-//	public void removeSolicitacao(SolicitacaoOrientacao solicitacao) {
-//		this.solicitacoesRecebidas.remove(solicitacao);
-//	}
 }

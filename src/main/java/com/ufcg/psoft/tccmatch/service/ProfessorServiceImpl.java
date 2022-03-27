@@ -1,17 +1,16 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
+import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
+import com.ufcg.psoft.tccmatch.model.Professor;
+import com.ufcg.psoft.tccmatch.repository.BaseRepository;
+import com.ufcg.psoft.tccmatch.repository.ProfessorRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
-import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
-import org.springframework.stereotype.Service;
-
-import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
-import com.ufcg.psoft.tccmatch.model.Professor;
-import com.ufcg.psoft.tccmatch.repository.ProfessorRepository;
-import com.ufcg.psoft.tccmatch.repository.BaseRepository;
 
 @Service("PROFESSOR")
 public class ProfessorServiceImpl implements ProfessorService {
@@ -55,14 +54,6 @@ public class ProfessorServiceImpl implements ProfessorService {
 		return professoresDisponiveis;
 	}
 
-//	private ProfessorDisponivelDTO criaProfessorDisponivel(Professor professor) {
-//		ProfessorDisponivelDTO professorDisponivel = new ProfessorDisponivelDTO();
-//		professorDisponivel.setEmail(professor.getEmail());
-//		professorDisponivel.setNome(professor.getNome());
-//		professorDisponivel.setAreasDeEstudo(professor.getAreasDeEstudo());
-//		return professorDisponivel;
-//	}
-
 	private boolean verificaAreasDeEstudo(List<AreaDeEstudo> areasDeEstudoAluno, Professor professor) {
 		for (AreaDeEstudo areaDeEstudoAluno : areasDeEstudoAluno) {
 			if (professor.containsAreaDeEstudo(areaDeEstudoAluno)) {
@@ -96,6 +87,4 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public void configurarQuota(Professor professor, Integer quota) {
 		professor.setQuota(quota);
 	}
-	
-	
 }

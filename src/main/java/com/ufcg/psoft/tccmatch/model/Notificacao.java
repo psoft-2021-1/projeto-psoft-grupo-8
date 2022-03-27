@@ -14,8 +14,6 @@ public class Notificacao {
 	
 	private String content;
 	
-	private boolean isRead;
-	
 	private String emailRemetente;
 	
 	public Notificacao() {}
@@ -23,7 +21,6 @@ public class Notificacao {
 	public Notificacao(String content, String emailRemetente) {
 		this.content = content;
 		this.emailRemetente = emailRemetente;		
-		this.isRead = false;
 	}
 
 	public Long getId() {
@@ -42,17 +39,9 @@ public class Notificacao {
 		this.content = content;
 	}
 
-	public boolean isRead() {
-		return isRead;
-	}
-
-	public void setRead(boolean isRead) {
-		this.isRead = isRead;
-	}
-	
 	@Override
 	public String toString() {
-		return content + " (lida: " + isRead + ")";
+		return content;
 	}
 
 	public String getEmailRemetente() {
