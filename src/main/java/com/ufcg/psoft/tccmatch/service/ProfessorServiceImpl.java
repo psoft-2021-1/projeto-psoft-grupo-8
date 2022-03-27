@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.Professor;
+import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.repository.ProfessorRepository;
 import com.ufcg.psoft.tccmatch.repository.BaseRepository;
 
@@ -55,14 +56,6 @@ public class ProfessorServiceImpl implements ProfessorService {
 		return professoresDisponiveis;
 	}
 
-//	private ProfessorDisponivelDTO criaProfessorDisponivel(Professor professor) {
-//		ProfessorDisponivelDTO professorDisponivel = new ProfessorDisponivelDTO();
-//		professorDisponivel.setEmail(professor.getEmail());
-//		professorDisponivel.setNome(professor.getNome());
-//		professorDisponivel.setAreasDeEstudo(professor.getAreasDeEstudo());
-//		return professorDisponivel;
-//	}
-
 	private boolean verificaAreasDeEstudo(List<AreaDeEstudo> areasDeEstudoAluno, Professor professor) {
 		for (AreaDeEstudo areaDeEstudoAluno : areasDeEstudoAluno) {
 			if (professor.containsAreaDeEstudo(areaDeEstudoAluno)) {
@@ -96,6 +89,4 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public void configurarQuota(Professor professor, Integer quota) {
 		professor.setQuota(quota);
 	}
-	
-	
 }

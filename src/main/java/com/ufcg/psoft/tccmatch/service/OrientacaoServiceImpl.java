@@ -35,8 +35,8 @@ public class OrientacaoServiceImpl implements OrientacaoService {
     }
     
     @Override
-    public List<Orientacao> findAllOrientacaoByAluno(Aluno aluno) {
-    	return orientacaoRepository.findAllByAluno(aluno);
+    public Optional<Orientacao> findOrientacaoByAluno(Aluno aluno) {
+    	return orientacaoRepository.findByAluno(aluno);
     }
     
     @Override

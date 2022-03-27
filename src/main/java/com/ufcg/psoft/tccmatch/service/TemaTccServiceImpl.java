@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
+import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.repository.TemaTccRepository;
 
 @Service
@@ -29,16 +30,15 @@ public class TemaTccServiceImpl implements TemaTccService {
 	@Autowired
 	private AlunoService alunoService;
 
-	// TODO Revisar forma que estamos criando os temas.
 	@Override
-	public TemaTcc criarTemaTccAluno(TemaTccAlunoDTO temaTccDTO, String username) {
-		return new TemaTcc(username, temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getStatus(),
+	public TemaTcc criarTemaTccAluno(TemaTccAlunoDTO temaTccDTO, Usuario usuario) {
+		return new TemaTcc(usuario, temaTccDTO.getTitulo(), temaTccDTO.getDescricao(), temaTccDTO.getStatus(),
 				areaDeEstudoService.getAreasByNome(temaTccDTO.getAreasDeEstudoRelacionadas()));
 	}
 
 	@Override
-	public TemaTcc criarTemaTccProfessor(TemaTccProfessorDTO temaTccDTO, String username) {
-		return new TemaTcc(username, temaTccDTO.getTitulo(), temaTccDTO.getDescricao(),
+	public TemaTcc criarTemaTccProfessor(TemaTccProfessorDTO temaTccDTO, Usuario usuario) {
+		return new TemaTcc(usuario, temaTccDTO.getTitulo(), temaTccDTO.getDescricao(),
 				areaDeEstudoService.getAreasByNome(temaTccDTO.getAreasDeEstudoRelacionadas()));
 	}
 
@@ -74,7 +74,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccProfessores = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (!(professorService.findByUsername(tema.getUsernameCriador()).isEmpty())) {
+			if (!(professorService.getById(tema.getUsuarioCriador().getId()).isEmpty())) {
 				temasTccProfessores.add(tema);
 			}
 		}
@@ -87,7 +87,7 @@ public class TemaTccServiceImpl implements TemaTccService {
 		List<TemaTcc> temasTccAlunos = new ArrayList<>();
 
 		for (TemaTcc tema : temasTcc) {
-			if (!(alunoService.findByUsername(tema.getUsernameCriador()).isEmpty())) {
+			if (!(alunoService.getById(tema.getUsuarioCriador().getId()).isEmpty())) {
 				temasTccAlunos.add(tema);
 			}
 		}
@@ -95,12 +95,12 @@ public class TemaTccServiceImpl implements TemaTccService {
 	}
 
 	@Override
-	public List<TemaTcc> getTemasTccProfessor(String username) {
+	public List<TemaTcc> getTemasTccProfessor(Long idProfessor) {
 		List<TemaTcc> temasTcc = getTemasTcc();
 		List<TemaTcc> temasTccProfessor = new ArrayList<TemaTcc>();
 		
 		for (TemaTcc tema : temasTcc) {
-			if (tema.getUsernameCriador().equals(username)) {
+			if (tema.getUsuarioCriadorId().equals(idProfessor)) {
 				temasTccProfessor.add(tema);
 			}
 		}
@@ -109,25 +109,24 @@ public class TemaTccServiceImpl implements TemaTccService {
 	}
 
 	@Override
-	public Optional<Aluno> getAlunoTemaTcc(TemaTcc temaTcc) {
-		String usernameCriador = temaTcc.getUsernameCriador();
-		Optional<Aluno> alunoOp = alunoService.findByUsername(usernameCriador);
+	public Optional<Aluno> getAlunoByTema(TemaTcc temaTcc) {
+		Long usuarioId = temaTcc.getUsuarioCriadorId();
+		Optional<Aluno> alunoOp = alunoService.getById(usuarioId);
 		
 		return alunoOp;
 	}
 	
 	@Override
-	public Optional<Professor> getProfessorTemaTcc(TemaTcc temaTcc) {
-		String usernameCriador = temaTcc.getUsernameCriador();
-		Optional<Professor> professorOp = professorService.findByUsername(usernameCriador);
+	public Optional<Professor> getProfessorByTema(TemaTcc temaTcc) {
+		Long usuarioId = temaTcc.getUsuarioCriadorId();
+		Optional<Professor> professorOp = professorService.getById(usuarioId);
 		
 		return professorOp;
 	}
-
+	
 	@Override
-	public TemaTcc manifestarInteresseTemaAluno(TemaTcc temaTcc, String usernameProfessor) {
-		temaTcc.setUsernameCriador(usernameProfessor);
-		return temaTcc;
+	public boolean verificaCriadorTema(TemaTcc temaTcc, Usuario usuario1, Usuario usuario2) {
+		return temaTcc.getUsuarioCriador() == usuario1 || temaTcc.getUsuarioCriador() == usuario2;
 	}
 
 }

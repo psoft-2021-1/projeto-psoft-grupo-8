@@ -3,14 +3,20 @@ package com.ufcg.psoft.tccmatch.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.InheritanceType;
 
-@MappedSuperclass
-public abstract class Usuario {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Usuario {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +30,10 @@ public abstract class Usuario {
 
     private String nome;
     
-    @ManyToMany
+    @Enumerated(EnumType.STRING)
+    protected TipoUsuario tipoUsuario;
+
+	@ManyToMany
     private List<Notificacao> notificacoes;
 
     public Usuario() {
@@ -89,4 +98,19 @@ public abstract class Usuario {
 		this.notificacoes.add(notificacao);
 	}
 
+	public TipoUsuario getTipoUsuario() {
+		return tipoUsuario;
+	}
+	
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+	
+	public boolean isProfessor() {
+		return this.tipoUsuario.equals(TipoUsuario.PROFESSOR);
+	}
+	
+	public boolean isAluno() {
+		return this.tipoUsuario.equals(TipoUsuario.ALUNO);
+	}
 }

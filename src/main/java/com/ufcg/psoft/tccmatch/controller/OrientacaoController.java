@@ -1,6 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import com.ufcg.psoft.tccmatch.DTO.ListarOrientacoesCadastradasDTO;
+import com.ufcg.psoft.tccmatch.DTO.OrientacaoCadastradaDTO;
 import com.ufcg.psoft.tccmatch.DTO.OrientacaoDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProblemaOrientacaoDTO;
 import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaGeralDTO;
@@ -67,41 +67,42 @@ public class OrientacaoController {
 		if (alunoOp.isEmpty()) {
 			return ErroAluno.erroAlunoNaoEncontradoMatricula(orientacaoDTO.getMatriculaAluno());
 		}
+		
 		Aluno aluno = alunoOp.get();
-
 		Optional<Professor> professorOp = professorService.findByUsername(orientacaoDTO.getCpfProfessor().toString());
 
 		if (professorOp.isEmpty()) {
 			return ErroProfessor.erroProfessorNaoEncontradoCpf(orientacaoDTO.getCpfProfessor());
 		}
+		
 		Professor professor = professorOp.get();
-
 		Optional<TemaTcc> temaTccOp = temaTccService.getByTitulo(orientacaoDTO.getTituloTema());
 
 		if (temaTccOp.isEmpty()) {
 			return ErroTemaTcc.erroTemaNaoCadastrado(orientacaoDTO.getTituloTema());
 		}
+		
 		TemaTcc temaTcc = temaTccOp.get();
 
-		if (!temaTcc.getUsernameCriador().equals(professor.getUsername())
-				&& !temaTcc.getUsernameCriador().equals(aluno.getUsername())) {
+		if (!temaTccService.verificaCriadorTema(temaTcc, aluno, professor)) {
 			return ErroTemaTcc.erroTemaCriadorAusente(orientacaoDTO.getTituloTema());
 		}
 
-		List<Orientacao> orientacoesAluno = orientacaoService.findAllOrientacaoByAluno(aluno);
+		Optional<Orientacao> orientacaoOp = orientacaoService.findOrientacaoByAluno(aluno);
 
-		if (orientacoesAluno.size() == 1) {
+		if (orientacaoOp.isPresent()) {
 			return ErroOrientacao.alunoJaTemOrientacao(aluno.getNome());
 		}
 
-		Orientacao orientacao = orientacaoService.cadastrarOrientacao(aluno, temaTcc, professor,
-				orientacaoDTO.getSemestre());
+		Orientacao orientacao = orientacaoService.cadastrarOrientacao(aluno, temaTcc, professor, orientacaoDTO.getSemestre());
 		orientacaoService.save(orientacao);
 
-		ListarOrientacoesCadastradasDTO novaOrientacaoDTO = new ListarOrientacoesCadastradasDTO(orientacao.getId(),
+		OrientacaoCadastradaDTO novaOrientacaoDTO = new OrientacaoCadastradaDTO(orientacao.getId(),
 				orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre());
+		
+		// TODO Adicionar professor no DTO
 
-		return new ResponseEntity<ListarOrientacoesCadastradasDTO>(novaOrientacaoDTO, HttpStatus.OK);
+		return new ResponseEntity<OrientacaoCadastradaDTO>(novaOrientacaoDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/cadastrarProblemaOrientacao/{token}/{tipoUsuario}", method = RequestMethod.POST)
@@ -122,37 +123,32 @@ public class OrientacaoController {
 		}
 
 		Usuario usuario = usuarioOp.get();
-
-		Optional<Orientacao> orientacaoOp = orientacaoService
-				.getOrientacaoById(problemaOrientacaoDTO.getIdOrientacao());
+		Optional<Orientacao> orientacaoOp = orientacaoService.getOrientacaoById(problemaOrientacaoDTO.getIdOrientacao());
 
 		if (orientacaoOp.isEmpty()) {
-			return ErroOrientacao.orientacaoNaoExiste(problemaOrientacaoDTO.getIdOrientacao());
+			return ErroOrientacao.orientacaoNaoCadastrada(problemaOrientacaoDTO.getIdOrientacao());
 		}
 
 		Orientacao orientacao = orientacaoOp.get();
 
-		if (orientacao.getProblemaOrientacao() != null) {
-			return ErroOrientacao.orientacaoJaTemProblema(orientacao.getId());
-		}
-
-		ProblemaOrientacao problemaOrientacao = problemaOrientacaoService.criarProblemaOrientacao(usuario.getUsername(),
-				problemaOrientacaoDTO.getDescricaoProblema());
+		ProblemaOrientacao problemaOrientacao = problemaOrientacaoService.criarProblemaOrientacao(usuario,
+				problemaOrientacaoDTO.getDescricaoProblema(), orientacao);
 		problemaOrientacaoService.save(problemaOrientacao);
-
-		orientacao.setProblemaOrientacao(problemaOrientacao);
-		orientacaoService.save(orientacao);
 
 		return ReturnMessage.cadastroProblema(tipoUsuario, usuario.getNome(), orientacao.getId());
 	}
 
-	@RequestMapping(value = "/listarProblemasNoPeriodo/{tokenCoordenador}/{periodo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/problemasNoPeriodo/{tokenCoordenador}/{periodo}", method = RequestMethod.GET)
 	public ResponseEntity<?> listarProblemasNoPeriodo(@PathVariable("tokenCoordenador") Long idCoordenador,
-			@PathVariable("periodo") Long periodo) {
+													       @PathVariable("periodo") String periodo) {
 
 		Optional<Coordenador> coordenadorOp = coordenadorService.getById(idCoordenador);
+		
+		if (coordenadorOp.isEmpty()) {
+			return ErroCoordenador.erroCoordenadorNaoCadastrado(idCoordenador);
+		}
 
-		List<Orientacao> orientacoesDoPeriodo = orientacaoService.findAllOrientacaoBySemestre(periodo.toString());
+		List<Orientacao> orientacoesDoPeriodo = orientacaoService.findAllOrientacaoBySemestre(periodo);
 
 		RelatorioProblemaGeralDTO relatorioProblemaGeralDTO = problemaOrientacaoService
 				.gerarRelatorioProblemaGeralDTO(orientacoesDoPeriodo);

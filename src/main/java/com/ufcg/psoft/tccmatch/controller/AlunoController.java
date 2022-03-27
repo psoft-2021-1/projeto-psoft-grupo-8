@@ -97,7 +97,7 @@ public class AlunoController {
 			return ErroAreaDeEstudo.erroAreaDeEstudoNaoCadastrada(areaDeEstudoNaoCadastrada);
 		}
 		
-		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno.getUsername());
+		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno);
 		temaTccService.save(temaTcc);
 
 		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);

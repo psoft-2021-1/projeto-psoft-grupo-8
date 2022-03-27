@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -15,23 +16,36 @@ public class ProblemaOrientacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     
-    private String usernameCriador;
+	@ManyToOne
+    private Usuario usuario;
 
     private String descricaoProblema;
+    
+    @ManyToOne
+    private Orientacao orientacao;
 
-    public ProblemaOrientacao() { }
+	public ProblemaOrientacao() { }
 
-    public ProblemaOrientacao(String usernameCriador, String descricaoProblema) {
-        this.usernameCriador = usernameCriador;
+    public ProblemaOrientacao(Usuario usuario, String descricaoProblema, Orientacao orientacao) {
+        this.usuario = usuario;
         this.descricaoProblema = descricaoProblema;
+        this.orientacao = orientacao;
+    }
+    
+    public Orientacao getOrientacao() {
+    	return orientacao;
+    }
+    
+    public void setOrientacao(Orientacao orientacao) {
+    	this.orientacao = orientacao;
     }
 
-    public String getUsernameCriador() {
-        return usernameCriador;
+    public Usuario getUsuarioCriador() {
+        return usuario;
     }
 
-    public void setUsernameCriador(String usernameCriador) {
-        this.usernameCriador = usernameCriador;
+    public void setUsuarioCriador(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getDescricaoProblema() {

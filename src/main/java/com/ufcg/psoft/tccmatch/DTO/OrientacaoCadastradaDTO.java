@@ -1,6 +1,6 @@
 package com.ufcg.psoft.tccmatch.DTO;
 
-public class ListarOrientacoesCadastradasDTO {
+public class OrientacaoCadastradaDTO {
 	
 	private Long id;
 	
@@ -10,7 +10,7 @@ public class ListarOrientacoesCadastradasDTO {
 
     private String semestre;
     
-    public ListarOrientacoesCadastradasDTO(Long id, String matriculaAluno, String tituloTema, String semestre) {
+    public OrientacaoCadastradaDTO(Long id, String matriculaAluno, String tituloTema, String semestre) {
 		super();
 		this.id = id;
 		this.matriculaAluno = matriculaAluno;

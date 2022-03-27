@@ -6,13 +6,13 @@ public class RelatorioProblemaIndividualDTO {
 
 	private String descricaoProblema;
 	
-	private String usernameCriador;
+	private String nomeCriador;
 
-	public RelatorioProblemaIndividualDTO(String tituloOrientacaoComProblema, String descricaoProblema, String usernameCriador) {
+	public RelatorioProblemaIndividualDTO(String tituloOrientacaoComProblema, String descricaoProblema, String nomeCriador) {
 		super();
 		this.tituloOrientacaoComProblema = tituloOrientacaoComProblema;
 		this.descricaoProblema = descricaoProblema;
-		this.usernameCriador = usernameCriador;
+		this.nomeCriador = nomeCriador;
 	}
 	public String getDescricaoProblema() {
 		return descricaoProblema;
@@ -23,11 +23,11 @@ public class RelatorioProblemaIndividualDTO {
 	}
 
 	public String getUsernameCriador() {
-		return usernameCriador;
+		return nomeCriador;
 	}
 
-	public void setUsernameCriador(String usernameCriador) {
-		this.usernameCriador = usernameCriador;
+	public void setUsernameCriador(String nomeCriador) {
+		this.nomeCriador = nomeCriador;
 	}
 
 	public String getTituloOrientacaoComProblema() {
