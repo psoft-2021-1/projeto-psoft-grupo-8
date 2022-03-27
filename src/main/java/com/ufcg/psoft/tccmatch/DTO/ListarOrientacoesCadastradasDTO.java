@@ -1,17 +1,22 @@
 package com.ufcg.psoft.tccmatch.DTO;
 
 public class ListarOrientacoesCadastradasDTO {
+	
+	private Long id;
+	
 	private String matriculaAluno;
 
     private String tituloTema;
 
     private String semestre;
     
-    public ListarOrientacoesCadastradasDTO(String matriculaAluno, String tituloTema, String semestre) {
-    	this.matriculaAluno = matriculaAluno;
-    	this.tituloTema = tituloTema;
-    	this.semestre = semestre;
-    }
+    public ListarOrientacoesCadastradasDTO(Long id, String matriculaAluno, String tituloTema, String semestre) {
+		super();
+		this.id = id;
+		this.matriculaAluno = matriculaAluno;
+		this.tituloTema = tituloTema;
+		this.semestre = semestre;
+	}
 
 	public String getMatriculaAluno() {
 		return matriculaAluno;
@@ -35,6 +40,14 @@ public class ListarOrientacoesCadastradasDTO {
 
 	public void setSemestre(String semestre) {
 		this.semestre = semestre;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 

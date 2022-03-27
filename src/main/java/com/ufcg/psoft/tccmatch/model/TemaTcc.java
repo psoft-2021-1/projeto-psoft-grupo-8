@@ -11,7 +11,7 @@ public class TemaTcc {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String usernameCriador; // TODO TALVEZ COLOCAR USUARIO
+	private String usernameCriador; // Não pode botar usuário.
 	
 	private String titulo;
 	

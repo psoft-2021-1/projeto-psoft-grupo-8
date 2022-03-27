@@ -171,14 +171,15 @@ public class ProfessorController {
 		}
 		Professor professor = professorOp.get();
 		List<Orientacao> listaOrientacoesProfessor = orientacaoService.findAllOrientacaoByProfessor(professor);
-		
+
 		List<ListarOrientacoesCadastradasDTO> listaRetorno = new ArrayList<>();
-		
-		for (Orientacao orientacao: listaOrientacoesProfessor) {
-			ListarOrientacoesCadastradasDTO orientacaoDTO = new ListarOrientacoesCadastradasDTO(orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre());
+
+		for (Orientacao orientacao : listaOrientacoesProfessor) {
+			ListarOrientacoesCadastradasDTO orientacaoDTO = new ListarOrientacoesCadastradasDTO(orientacao.getId(),
+					orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre());
 			listaRetorno.add(orientacaoDTO);
 		}
-		
+
 		return new ResponseEntity<List<ListarOrientacoesCadastradasDTO>>(listaRetorno, HttpStatus.OK);
 	}
 

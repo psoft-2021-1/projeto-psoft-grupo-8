@@ -9,6 +9,8 @@ public class ReturnMessage {
 	
 	static final String DECISAO_SOLICITACAO = "A decisão %s da solicitação %s foi registrada com sucesso";
 	
+	static final String CADASTRO_PROBLEMA = "O usuário do tipo %s com nome %s cadastrou um problema com sucesso na Orientação de id %s";
+	
 	public static ResponseEntity<CustomReturnMessage> solicitacaoEnviada() {
 		return new ResponseEntity<CustomReturnMessage>(new CustomReturnMessage(String.format(ReturnMessage.SOLICITACAO_ENVIADA)),
 				HttpStatus.OK);
@@ -16,6 +18,11 @@ public class ReturnMessage {
 	
 	public static ResponseEntity<CustomReturnMessage> decisaoSolicitacao(boolean decisao, long id) {
 		return new ResponseEntity<CustomReturnMessage>(new CustomReturnMessage(String.format(ReturnMessage.DECISAO_SOLICITACAO, decisao, id)),
+				HttpStatus.OK);
+	}
+	
+	public static ResponseEntity<CustomReturnMessage> cadastroProblema(String tipoUsuario, String nome, Long id) {
+		return new ResponseEntity<CustomReturnMessage>(new CustomReturnMessage(String.format(ReturnMessage.CADASTRO_PROBLEMA, tipoUsuario, nome, id)),
 				HttpStatus.OK);
 	}
 

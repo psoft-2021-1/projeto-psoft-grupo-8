@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrientacaoServiceImpl implements OrientacaoService {
@@ -32,4 +33,15 @@ public class OrientacaoServiceImpl implements OrientacaoService {
     public List<Orientacao> findAllOrientacaoByProfessor(Professor professor) {
     	return orientacaoRepository.findAllByProfessor(professor);
     }
+    
+    @Override
+    public List<Orientacao> findAllOrientacaoByAluno(Aluno aluno) {
+    	return orientacaoRepository.findAllByAluno(aluno);
+    }
+    
+    @Override
+	public Optional<Orientacao> getOrientacaoById(Long id) {
+    	return orientacaoRepository.findById(id);
+    }
+
 }
