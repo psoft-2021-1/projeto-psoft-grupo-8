@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ufcg.psoft.tccmatch.DTO.OrientacaoCadastradaDTO;
+import com.ufcg.psoft.tccmatch.DTO.OrientacaoComAreaDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Orientacao;
 import com.ufcg.psoft.tccmatch.model.Professor;
@@ -30,4 +31,6 @@ public interface OrientacaoService {
 	public List<OrientacaoCadastradaDTO> listarOrientacoesEmCursoDTO(List<Orientacao> orientacoesEmCurso);
 
 	public List<OrientacaoCadastradaDTO> listarOrientacoesFinalizadasDTO(List<Orientacao> orientacoesFinalizadas);
+	
+	public List<OrientacaoComAreaDTO> gerarOrientacoesComAreaDTO(List<Orientacao> orientacao);
 }

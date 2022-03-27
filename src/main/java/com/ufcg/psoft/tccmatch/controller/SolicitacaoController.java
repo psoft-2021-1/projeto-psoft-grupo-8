@@ -64,8 +64,6 @@ public class SolicitacaoController {
 		solicitacaoService.save(solicitacao);
 		
 		notificacaoService.notificaProfessorSolicitacaoAluno(temaTcc, aluno);
-		
-		// TODO Verificar se aluno está em uma orientação
 
 		return ReturnMessage.solicitacaoEnviada();
 	}
@@ -144,6 +142,7 @@ public class SolicitacaoController {
 			}
 			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao);
 		}
+		solicitacaoService.removerSolicitacao(solicitacao);
 
 		return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
 	}

@@ -43,5 +43,18 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 	public List<Solicitacao> getSolicitacoesRecebidas(Usuario usuarioDestinatario) {
 		return solicitacaoRepository.findAllByUsuarioDestinatario(usuarioDestinatario);
 	}
+
+	@Override
+	public void removerSolicitacao(Solicitacao solicitacao) {
+		solicitacaoRepository.delete(solicitacao);
+	}
+
+	@Override
+	public void deleteAllByTemaTcc(TemaTcc temaTcc) {
+		List<Solicitacao> solicitacoes = solicitacaoRepository.findAllByTemaTcc(temaTcc);
+		for (Solicitacao solicitacao: solicitacoes) {
+			this.removerSolicitacao(solicitacao);
+		}
+	}
 	
 }

@@ -5,6 +5,9 @@ insert into usuario (ID, EMAIL, USERNAME, SENHA, NOME, TIPO_USUARIO)
 values(1002, 'joao@tcc.com', '11020030006', 'senhadojoao', 'João Gabriel', 'ALUNO');
 
 insert into usuario (ID, EMAIL, USERNAME, SENHA, NOME, TIPO_USUARIO)
+values(1003, 'jose@tcc.com', '11020036506', 'senhanova', 'José', 'ALUNO');
+
+insert into usuario (ID, EMAIL, USERNAME, SENHA, NOME, TIPO_USUARIO)
 values(1005, 'everton@tcc.com', '1230000000', 'senhadoeverton', 'Everton', 'PROFESSOR');
 
 insert into coordenador (ID, CPF)
@@ -12,6 +15,9 @@ values(1001, 10020030006);
 
 insert into aluno (ID, PERIODO_CONCLUSAO)
 values(1002, 2023);
+
+insert into aluno (ID, PERIODO_CONCLUSAO)
+values(1003, 2023);
 
 insert into professor (ID, QUOTA)
 values(1005, 5);

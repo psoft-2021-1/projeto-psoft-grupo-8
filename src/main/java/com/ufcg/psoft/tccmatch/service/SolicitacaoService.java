@@ -18,4 +18,8 @@ public interface SolicitacaoService {
 	public Optional<Solicitacao> getById(Long id);
 	
 	public List<Solicitacao> getSolicitacoesRecebidas(Usuario usuarioDestinatario);
+
+	public void removerSolicitacao(Solicitacao solicitacao);
+
+	public void deleteAllByTemaTcc(TemaTcc temaTcc);
 }
