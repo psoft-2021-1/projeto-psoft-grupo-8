@@ -1,19 +1,16 @@
 package com.ufcg.psoft.tccmatch.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaGeralDTO;
 import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaIndividualDTO;
-import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Orientacao;
 import com.ufcg.psoft.tccmatch.model.ProblemaOrientacao;
 import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.repository.ProblemaOrientacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProblemaOrientacaoServiceImpl implements ProblemaOrientacaoService{

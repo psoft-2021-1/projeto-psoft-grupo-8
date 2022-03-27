@@ -1,10 +1,8 @@
 package com.ufcg.psoft.tccmatch.repository;
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.ufcg.psoft.tccmatch.model.Aluno;
+
+import java.util.Optional;
 
 public interface AlunoRepository extends BaseRepository<Aluno> {
 	

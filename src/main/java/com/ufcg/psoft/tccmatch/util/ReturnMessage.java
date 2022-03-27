@@ -1,11 +1,10 @@
 package com.ufcg.psoft.tccmatch.util;
 
-import java.util.List;
-
+import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaIndividualDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.ufcg.psoft.tccmatch.DTO.RelatorioProblemaIndividualDTO;
+import java.util.List;
 
 public class ReturnMessage {
 	

@@ -1,15 +1,12 @@
 package com.ufcg.psoft.tccmatch.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import com.ufcg.psoft.tccmatch.model.*;
+import com.ufcg.psoft.tccmatch.repository.NotificacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufcg.psoft.tccmatch.repository.NotificacaoRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NotificacaoServiceImpl implements NotificacaoService {

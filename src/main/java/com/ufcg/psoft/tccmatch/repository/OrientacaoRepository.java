@@ -16,4 +16,6 @@ public interface OrientacaoRepository extends JpaRepository<Orientacao, Long>  {
 
     public List<Orientacao> findAllBySemestre(String semestre);
 
+	public List<Orientacao> findAllByFinalizadaAndSemestre(boolean finalizada, String semestre);
+
 }

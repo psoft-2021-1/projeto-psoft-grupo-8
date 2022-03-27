@@ -1,18 +1,16 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
+import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
+import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
+import com.ufcg.psoft.tccmatch.model.Professor;
+import com.ufcg.psoft.tccmatch.repository.BaseRepository;
+import com.ufcg.psoft.tccmatch.repository.ProfessorRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
-import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
-import org.springframework.stereotype.Service;
-
-import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
-import com.ufcg.psoft.tccmatch.model.Professor;
-import com.ufcg.psoft.tccmatch.model.Usuario;
-import com.ufcg.psoft.tccmatch.repository.ProfessorRepository;
-import com.ufcg.psoft.tccmatch.repository.BaseRepository;
 
 @Service("PROFESSOR")
 public class ProfessorServiceImpl implements ProfessorService {

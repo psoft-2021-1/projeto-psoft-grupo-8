@@ -6,16 +6,30 @@ public class OrientacaoCadastradaDTO {
 	
 	private String matriculaAluno;
 
+	private String cpfProfessor;
+
     private String tituloTema;
 
     private String semestre;
-    
-    public OrientacaoCadastradaDTO(Long id, String matriculaAluno, String tituloTema, String semestre) {
+
+	private boolean isFinalizada;
+
+    public OrientacaoCadastradaDTO(Long id, String matriculaAluno, String cpfProfessor, String tituloTema, String semestre, boolean isFinalizada) {
 		super();
 		this.id = id;
 		this.matriculaAluno = matriculaAluno;
+		this.cpfProfessor = cpfProfessor;
 		this.tituloTema = tituloTema;
 		this.semestre = semestre;
+		this.isFinalizada = isFinalizada;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getMatriculaAluno() {
@@ -30,6 +44,14 @@ public class OrientacaoCadastradaDTO {
 		return tituloTema;
 	}
 
+	public String getCpfProfessor() {
+		return cpfProfessor;
+	}
+
+	public void setCpfProfessor(String cpfProfessor) {
+		this.cpfProfessor = cpfProfessor;
+	}
+
 	public void setTituloTema(String tituloTema) {
 		this.tituloTema = tituloTema;
 	}
@@ -42,14 +64,11 @@ public class OrientacaoCadastradaDTO {
 		this.semestre = semestre;
 	}
 
-	public Long getId() {
-		return id;
+	public boolean isFinalizada() {
+		return isFinalizada;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setFinalizada(boolean finalizada) {
+		isFinalizada = finalizada;
 	}
-
-
-    
 }

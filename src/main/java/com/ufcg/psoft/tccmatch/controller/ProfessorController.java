@@ -1,24 +1,5 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import com.ufcg.psoft.tccmatch.model.Aluno;
-import com.ufcg.psoft.tccmatch.util.ErroAluno;
-import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
 import com.ufcg.psoft.tccmatch.DTO.OrientacaoCadastradaDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
@@ -26,14 +7,19 @@ import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Orientacao;
 import com.ufcg.psoft.tccmatch.model.Professor;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.service.AlunoService;
-import com.ufcg.psoft.tccmatch.service.AreaDeEstudoService;
-import com.ufcg.psoft.tccmatch.service.NotificacaoService;
-import com.ufcg.psoft.tccmatch.service.OrientacaoService;
-import com.ufcg.psoft.tccmatch.service.ProfessorService;
-import com.ufcg.psoft.tccmatch.service.TemaTccService;
+import com.ufcg.psoft.tccmatch.service.*;
+import com.ufcg.psoft.tccmatch.util.ErroAreaDeEstudo;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
 import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -175,7 +161,7 @@ public class ProfessorController {
 
 		for (Orientacao orientacao : listaOrientacoesProfessor) {
 			OrientacaoCadastradaDTO orientacaoDTO = new OrientacaoCadastradaDTO(orientacao.getId(),
-					orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre());
+					orientacao.getAluno().getUsername(), orientacao.getAluno().getUsername(), orientacao.getTemaTcc().getTitulo(), orientacao.getSemestre(), orientacao.isFinalizada());
 			listaRetorno.add(orientacaoDTO);
 		}
 

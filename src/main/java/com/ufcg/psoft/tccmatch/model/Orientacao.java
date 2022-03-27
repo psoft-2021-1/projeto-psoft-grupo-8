@@ -20,6 +20,8 @@ public class Orientacao {
 
     private String semestre;
 
+    private boolean finalizada;
+
     public Orientacao() { }
 
     public Orientacao(Aluno aluno, TemaTcc temaTcc, Professor professor, String semestre) {
@@ -27,6 +29,7 @@ public class Orientacao {
         this.temaTcc = temaTcc;
         this.professor = professor;
         this.semestre = semestre;
+        this.finalizada = false;
     }
 
     public Long getId() {
@@ -69,4 +72,11 @@ public class Orientacao {
         this.semestre = semestre;
     }
 
+    public boolean isFinalizada() {
+        return finalizada;
+    }
+
+    public void setFinalizada(boolean finalizada) {
+        this.finalizada = finalizada;
+    }
 }

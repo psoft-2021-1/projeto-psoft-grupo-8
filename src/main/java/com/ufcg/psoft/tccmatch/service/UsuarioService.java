@@ -1,9 +1,9 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.model.Usuario;
+
 import java.util.List;
 import java.util.Optional;
-
-import com.ufcg.psoft.tccmatch.model.Usuario;
 
 public interface UsuarioService<T extends Usuario> {
 	

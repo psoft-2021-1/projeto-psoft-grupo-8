@@ -1,8 +1,8 @@
 package com.ufcg.psoft.tccmatch.repository;
 
-import java.util.Optional;
-
 import com.ufcg.psoft.tccmatch.model.Coordenador;
+
+import java.util.Optional;
 
 public interface CoordenadorRepository extends BaseRepository<Coordenador> {
 	

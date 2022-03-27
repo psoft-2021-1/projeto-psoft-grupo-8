@@ -1,8 +1,8 @@
 package com.ufcg.psoft.tccmatch.service;
 
-import java.util.List;
-
 import com.ufcg.psoft.tccmatch.model.*;
+
+import java.util.List;
 
 public interface NotificacaoService {
 	

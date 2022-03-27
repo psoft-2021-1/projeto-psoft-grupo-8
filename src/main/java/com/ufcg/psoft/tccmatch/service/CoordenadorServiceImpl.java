@@ -3,11 +3,10 @@ package com.ufcg.psoft.tccmatch.service;
 import com.ufcg.psoft.tccmatch.model.Coordenador;
 import com.ufcg.psoft.tccmatch.repository.BaseRepository;
 import com.ufcg.psoft.tccmatch.repository.CoordenadorRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 @Service("COORDENADOR")
 public class CoordenadorServiceImpl implements CoordenadorService {
