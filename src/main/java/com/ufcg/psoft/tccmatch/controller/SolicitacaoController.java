@@ -1,40 +1,16 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import com.ufcg.psoft.tccmatch.model.*;
+import com.ufcg.psoft.tccmatch.service.*;
+import com.ufcg.psoft.tccmatch.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.ufcg.psoft.tccmatch.model.Aluno;
-import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
-import com.ufcg.psoft.tccmatch.model.Professor;
-import com.ufcg.psoft.tccmatch.model.Solicitacao;
-import com.ufcg.psoft.tccmatch.model.TemaInteresse;
-import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.model.Usuario;
-import com.ufcg.psoft.tccmatch.service.AlunoService;
-import com.ufcg.psoft.tccmatch.service.NotificacaoService;
-import com.ufcg.psoft.tccmatch.service.ProfessorService;
-import com.ufcg.psoft.tccmatch.service.SolicitacaoService;
-import com.ufcg.psoft.tccmatch.service.TemaInteresseService;
-import com.ufcg.psoft.tccmatch.service.TemaTccService;
-import com.ufcg.psoft.tccmatch.service.UsuarioService;
-import com.ufcg.psoft.tccmatch.util.ErroAluno;
-import com.ufcg.psoft.tccmatch.util.ErroLogin;
-import com.ufcg.psoft.tccmatch.util.ErroProfessor;
-import com.ufcg.psoft.tccmatch.util.ErroSolicitacao;
-import com.ufcg.psoft.tccmatch.util.ErroTemaInteresse;
-import com.ufcg.psoft.tccmatch.util.ErroTemaTcc;
-import com.ufcg.psoft.tccmatch.util.ReturnMessage;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -158,59 +134,22 @@ public class SolicitacaoController {
     	Solicitacao solicitacao = solicitacaoService.atualizarSolicitacao(decisao, justificativa, solicitacaoOp.get());
     	solicitacaoService.save(solicitacao);
     
-		if (decisao && usuario.isProfessor()) {
-			Professor professor = professorService.getById(usuario.getId()).get();
-			
-			if (!professor.isDisponivel()) {
-				return ErroProfessor.erroProfessorQuotaInsuficiente(id);
-			} else {
-				professorService.configurarQuota(professor, professor.getQuota() - 1);
-				professorService.save(professor);
+		if (decisao) {
+			if (usuario.isProfessor()) {
+				Professor professor = professorService.getById(usuario.getId()).get();
+
+				if (!professor.isDisponivel()) {
+					return ErroProfessor.erroProfessorQuotaInsuficiente(id);
+				} else {
+					professorService.configurarQuota(professor, professor.getQuota() - 1);
+					professorService.save(professor);
+				}
 			}
+			notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao);
 		}
-		
-		notificacaoService.notificaCoordenadorSolicitacaoAceita(solicitacao);
 
 		return ReturnMessage.decisaoSolicitacao(decisao, idSolicitacao);
 	}
-	
-//	@RequestMapping(value = "/decisaoInteresse/{tokenAluno}/{idTemaInteresse}", method = RequestMethod.PUT)
-//	public ResponseEntity<?> decisaoInteresse(@PathVariable("tokenAluno") long idAluno, 
-//										      @PathVariable("idTemaInteresse") long idTemaInteresse,  @RequestBody boolean decisao) {
-//		
-//		Optional<Aluno> alunoOp = alunoService.getById(idAluno);
-//    	
-//    	if (alunoOp.isEmpty()) {
-//    		return ErroAluno.erroAlunoNaoEncontrado(idAluno);
-//    	}
-//		
-//    	Optional<TemaInteresse> temaInteresseOp = temaInteresseService.getById(idTemaInteresse);
-//    	
-//    	if (temaInteresseOp.isEmpty()) {
-//    		return ErroTemaInteresse.erroTemaInteresseNaoEncontrado(idTemaInteresse);
-//    	}
-//
-//		Aluno aluno = alunoOp.get();
-//    	TemaInteresse temaInteresse = temaInteresseOp.get();
-//    	
-//    	
-//		Professor professor = temaInteresse.getProfessorInteressado();
-//		
-//		if (decisao && professor.getQuota() < 1) {
-//			return ErroProfessor.erroProfessorQuotaInsuficiente(professor.getId());
-//		}
-//    	
-//    	temaInteresse.setAprovado(decisao);
-//    	temaInteresseService.save(temaInteresse);
-//    	
-//    	if (decisao) {
-//    		professor.setQuota(professor.getQuota() - 1);
-//    		professorService.save(professor);
-//			notificacaoService.notificaCoordenadorConfirmacaoInteresse(temaInteresse);
-//		}
-//
-//		return ReturnMessage.decisaoSolicitacao(decisao, idTemaInteresse);
-//	}
 	
 	@RequestMapping(value = "/solicitacao/{token}/{tipoUsuario}", method = RequestMethod.GET)
 	public ResponseEntity<?> listarSolicitacoes(@PathVariable("token") long id, @PathVariable("tipoUsuario") String tipoUsuario) {

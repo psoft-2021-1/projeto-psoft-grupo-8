@@ -96,25 +96,31 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	@Override
 	public void notificaCoordenadorSolicitacaoAceita(Solicitacao solicitacao) {
 		Coordenador coordenador = coordenadorService.findAll().get(0);
+		String contentNotificacao;
 
-		String contentNotificacao = "O professor " + solicitacao.getUsuarioDestinatario().getNome() + " aceitou uma solicitação do aluno " +
-				solicitacao.getUsuarioRemetente().getNome() + " para o tema " + solicitacao.getTemaTcc();
+		if (solicitacao.getUsuarioDestinatario().isProfessor()) {
+			contentNotificacao = "O professor " + solicitacao.getUsuarioDestinatario().getNome() + " aceitou uma solicitação do aluno " +
+					solicitacao.getUsuarioRemetente().getNome() + " para o tema " + solicitacao.getTemaTcc();
+		} else {
+			contentNotificacao = "O aluno " + solicitacao.getUsuarioDestinatario().getNome() + " confirmou o interesse do professor " +
+					solicitacao.getUsuarioRemetente().getNome() + " sobre o tema " + solicitacao.getTemaTcc();
+		}
 		Notificacao notificacao = new Notificacao(contentNotificacao, solicitacao.getUsuarioDestinatario().getEmail());
 		this.save(notificacao);
 		coordenador.addNotificacao(notificacao);
 		coordenadorService.save(coordenador);
 	}
-
-	@Override
-	public void notificaCoordenadorConfirmacaoInteresse(TemaInteresse temaInteresse) {
-		Coordenador coordenador = coordenadorService.findAll().get(0);
-
-		String contentNotificacao = "O aluno " + temaInteresse.getAluno().getNome() + " confirmou o interesse do professor " +
-				temaInteresse.getProfessorInteressado().getNome() + " sobre o tema " + temaInteresse.getTemaTcc();
-		Notificacao notificacao = new Notificacao(contentNotificacao, temaInteresse.getAluno().getEmail());
-		this.save(notificacao);
-		coordenador.addNotificacao(notificacao);
-		coordenadorService.save(coordenador);
-	}
+//
+//	@Override
+//	public void notificaCoordenadorConfirmacaoInteresse(TemaInteresse temaInteresse) {
+//		Coordenador coordenador = coordenadorService.findAll().get(0);
+//
+//		String contentNotificacao = "O aluno " + temaInteresse.getAluno().getNome() + " confirmou o interesse do professor " +
+//				temaInteresse.getProfessorInteressado().getNome() + " sobre o tema " + temaInteresse.getTemaTcc();
+//		Notificacao notificacao = new Notificacao(contentNotificacao, temaInteresse.getAluno().getEmail());
+//		this.save(notificacao);
+//		coordenador.addNotificacao(notificacao);
+//		coordenadorService.save(coordenador);
+//	}
 
 }

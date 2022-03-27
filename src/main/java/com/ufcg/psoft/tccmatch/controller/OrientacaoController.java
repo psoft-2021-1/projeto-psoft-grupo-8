@@ -83,8 +83,8 @@ public class OrientacaoController {
 		}
 		TemaTcc temaTcc = temaTccOp.get();
 
-		if (!temaTcc.getUsernameCriador().equals(professor.getUsername())
-				&& !temaTcc.getUsernameCriador().equals(aluno.getUsername())) {
+		if (!temaTcc.getUsuarioCriadorId().equals(professor.getId())
+				&& !temaTcc.getUsuarioCriadorId().equals(aluno.getId())) {
 			return ErroTemaTcc.erroTemaCriadorAusente(orientacaoDTO.getTituloTema());
 		}
 

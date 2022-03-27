@@ -18,6 +18,4 @@ public interface NotificacaoService {
 
 	public void notificaCoordenadorSolicitacaoAceita(Solicitacao solicitacao);
 
-	public void notificaCoordenadorConfirmacaoInteresse(TemaInteresse temaInteresse);
-
 }

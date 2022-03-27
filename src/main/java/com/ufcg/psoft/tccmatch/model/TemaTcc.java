@@ -11,6 +11,7 @@ public class TemaTcc {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@ManyToOne
 	private Usuario usuarioCriador;
 	
 	private String titulo;
@@ -23,10 +24,8 @@ public class TemaTcc {
 	private List<AreaDeEstudo> areasDeEstudoRelacionadas;
 	
 	private TemaTcc() {}
-	
-	/*
-	 * Construtor para aluno
-	 */
+
+//	Construtor para tema do aluno
 	public TemaTcc(Usuario usuarioCriador, String titulo, String descricao, String status, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
 		this.usuarioCriador = usuarioCriador;
 		this.titulo = titulo;
@@ -35,9 +34,7 @@ public class TemaTcc {
 		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 
-	/*
-	 * Construtor para professor
-	 */
+//	Construtor para tema do professor
 	public TemaTcc(Usuario usuarioCriador, String titulo, String descricao, List<AreaDeEstudo> areasDeEstudoRelacionadas) {
 		this.usuarioCriador = usuarioCriador;
 		this.titulo = titulo;
