@@ -136,20 +136,6 @@ public class CoordenadorApiController {
 		return new ResponseEntity<ProfessorCadastradoDTO>(professorCadastradoDTO, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/professores", method = RequestMethod.GET)
-    public ResponseEntity<?> listarProfessores() {
-		List<Professor> listaProfessores = professorService.findAll();
-		List<ProfessorCadastradoDTO> professores = new ArrayList<ProfessorCadastradoDTO>();
-
-		for (Professor professor : listaProfessores) {
-			ProfessorCadastradoDTO professorCadastradoDTO = new ProfessorCadastradoDTO(professor.getNome(),
-					professor.getUsername(), professor.getEmail(), professor.getQuota(), professor.getLaboratorios());
-			professores.add(professorCadastradoDTO);
-		}
-
-		return new ResponseEntity<List<ProfessorCadastradoDTO>>(professores, HttpStatus.OK);
-    }
-    
     @RequestMapping(value = "/professor/{tokenCoordenador}", method = RequestMethod.PUT)
     public ResponseEntity<?> atualizarProfessor(@RequestBody ProfessorDTO professorDTO, UriComponentsBuilder ucBuilder,
 			@PathVariable("tokenCoordenador") long idCoordenador) {
