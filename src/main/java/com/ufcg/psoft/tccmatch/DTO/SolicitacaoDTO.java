@@ -1,26 +1,32 @@
 package com.ufcg.psoft.tccmatch.DTO;
 
 public class SolicitacaoDTO {
+	
+	private Long id;
 
-    private UsuarioCadastradoDTO usuarioCriador;
+    private UsuarioCadastradoDTO usuarioCriadorTema;
+    
+    private UsuarioCadastradoDTO usuarioRemetente;
 
     private boolean decisao;
 
     private String justificativa;
 
-    public SolicitacaoDTO(UsuarioCadastradoDTO usuarioCriador, boolean decisao, String justificativa) {
+    public SolicitacaoDTO(Long id, UsuarioCadastradoDTO usuarioCriadorTema, UsuarioCadastradoDTO usuarioRemetente, boolean decisao, String justificativa) {
         super();
-        this.usuarioCriador = usuarioCriador;
+        this.id = id;
+        this.usuarioCriadorTema = usuarioCriadorTema;
+        this.usuarioRemetente = usuarioRemetente;
         this.decisao = decisao;
         this.justificativa = justificativa;
     }
 
-    public UsuarioCadastradoDTO getUsuarioCriador() {
-        return usuarioCriador;
+    public UsuarioCadastradoDTO getUsuarioCriadorTema() {
+        return usuarioCriadorTema;
     }
 
-    public void setUsuarioCriador(UsuarioCadastradoDTO usuarioCriador) {
-        this.usuarioCriador = usuarioCriador;
+    public void setUsuarioCriadorTema(UsuarioCadastradoDTO usuarioCriador) {
+        this.usuarioCriadorTema = usuarioCriador;
     }
 
     public boolean isDecisao() {
@@ -39,4 +45,20 @@ public class SolicitacaoDTO {
         this.justificativa = justificativa;
     }
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public UsuarioCadastradoDTO getUsuarioRemetente() {
+		return usuarioRemetente;
+	}
+
+	public void setUsuarioRemetente(UsuarioCadastradoDTO usuarioRemetente) {
+		this.usuarioRemetente = usuarioRemetente;
+	}
+	
 }

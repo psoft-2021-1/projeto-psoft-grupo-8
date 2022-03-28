@@ -62,7 +62,9 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 		List<SolicitacaoDTO> solicitacoesDTO = new ArrayList<>();
 
 		for (Solicitacao solicitacao : solicitacoes) {
-			SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO(usuarioCadastradoDTO, solicitacao.isAprovado(), solicitacao.getJustificativa());
+			UsuarioCadastradoDTO usuarioRemetenteDTO = new UsuarioCadastradoDTO(solicitacao.getUsuarioRemetente().getNome(), solicitacao.getUsuarioRemetente().getUsername(),
+					solicitacao.getUsuarioRemetente().getEmail(), solicitacao.getUsuarioRemetente().getTipoUsuario());
+			SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO(solicitacao.getId(), usuarioCadastradoDTO, usuarioRemetenteDTO, solicitacao.isAprovado(), solicitacao.getJustificativa());
 			solicitacoesDTO.add(solicitacaoDTO);
 		}
 		return solicitacoesDTO;

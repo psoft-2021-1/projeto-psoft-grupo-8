@@ -26,7 +26,7 @@ insert into area_de_estudo (ID, NOME)
 values(1001, 'DESENVOLVIMENTO DE SOFTWARE');
 
 insert into area_de_estudo (ID, NOME)
-values(1002, 'STRING');
+values(1002, 'IA');
 
 insert into area_de_estudo (ID, NOME)
 values(1003, 'BANCO DE DADOS');
@@ -38,10 +38,10 @@ insert into professor_areas_de_estudo(PROFESSOR_ID, AREAS_DE_ESTUDO_ID)
 values(1005, 1002);
 
 insert into tema_tcc(ID, DESCRICAO, STATUS, TITULO, USUARIO_CRIADOR_ID)
-values(10, '', '', 'STRING', 1002);
+values(10, '', '', 'SQL', 1002);
 
 insert into tema_tcc(ID, DESCRICAO, STATUS, TITULO, USUARIO_CRIADOR_ID)
-values(11, '', '', 'STRING2', 1005);
+values(11, '', '', 'PADROES DE PROJ', 1005);
 
 insert into tema_tcc_areas_de_estudo_relacionadas(TEMA_TCC_ID, AREAS_DE_ESTUDO_RELACIONADAS_ID)
 values(10, 1002);

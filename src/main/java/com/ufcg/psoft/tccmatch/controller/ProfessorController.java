@@ -98,8 +98,10 @@ public class ProfessorController {
 		temaTccService.save(temaTcc);
 
 		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc);
+		
+		TemaTccCadastradoDTO temaTccCadastradoDTO = temaTccService.criarTemaTccCadastradoDTO(temaTcc);
 
-		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
+		return new ResponseEntity<TemaTccCadastradoDTO>(temaTccCadastradoDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)
@@ -133,8 +135,9 @@ public class ProfessorController {
 		}
 
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessor(professorOp.get().getId());
+		List<TemaTccCadastradoDTO> listaTemasTccDTO = temaTccService.getTemasTccDTO(listaTemasTcc);
 
-		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+		return new ResponseEntity<List<TemaTccCadastradoDTO>>(listaTemasTccDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/aluno/temasTccAlunos/{tokenProfessor}", method = RequestMethod.GET)
@@ -147,8 +150,9 @@ public class ProfessorController {
 		}
 
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccAlunos();
+		List<TemaTccCadastradoDTO> listaTemasTccDTO = temaTccService.getTemasTccDTO(listaTemasTcc);
 
-		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+		return new ResponseEntity<List<TemaTccCadastradoDTO>>(listaTemasTccDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/listarOrientacacoesTccCadastradas/{tokenProfessor}", method = RequestMethod.GET)
