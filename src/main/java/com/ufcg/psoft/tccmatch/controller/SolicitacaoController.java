@@ -33,6 +33,9 @@ public class SolicitacaoController {
 	
 	@Autowired
 	SolicitacaoService solicitacaoService;
+
+	@Autowired
+	OrientacaoService orientacaoService;
 	
 	@Autowired
 	private Map<String, UsuarioService> services;
@@ -93,12 +96,16 @@ public class SolicitacaoController {
 		}
 		
 		Aluno aluno = alunoOp.get();
+
+		Optional<Orientacao> orientacaoOp = orientacaoService.findOrientacaoByAluno(aluno);
+
+		if (orientacaoOp.isPresent()) {
+			return ErroOrientacao.alunoJaTemOrientacao(aluno.getNome());
+		}
+
 		Solicitacao solicitacao = solicitacaoService.criarSolicitacao(professor, aluno, temaTcc);
 		solicitacaoService.save(solicitacao);
-				
 		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor);
-		
-		// TODO Verificar se aluno está em uma orientação
 
 		return ReturnMessage.solicitacaoEnviada();
 	}

@@ -106,7 +106,7 @@ public class OrientacaoController {
 	@RequestMapping(value = "/problemaOrientacao/{token}/{tipoUsuario}", method = RequestMethod.POST)
 	public ResponseEntity<?> cadastrarProblemaOrientacao(@PathVariable("token") Long id,
 			@PathVariable("tipoUsuario") String tipoUsuario, @RequestBody ProblemaOrientacaoDTO problemaOrientacaoDTO,
-			UriComponentsBuilder ucBuilder) { // TODO Verificar se a orientação passada é daquele aluno.
+			UriComponentsBuilder ucBuilder) {
 
 		UsuarioService usuarioService = services.get(tipoUsuario.toUpperCase());
 

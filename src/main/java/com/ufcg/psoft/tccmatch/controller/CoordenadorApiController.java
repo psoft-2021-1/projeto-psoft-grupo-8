@@ -13,6 +13,7 @@ import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroCoordenador;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
+import com.ufcg.psoft.tccmatch.util.ReturnMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,8 +107,8 @@ public class CoordenadorApiController {
 		}
 		
 		alunoService.removerAluno(alunoOp.get());
-    	
-        return new ResponseEntity<Aluno>(HttpStatus.OK);
+
+		return ReturnMessage.removeAluno();
     }
     
     @RequestMapping(value = "/professor/{tokenCoordenador}", method = RequestMethod.POST)
@@ -193,7 +194,7 @@ public class CoordenadorApiController {
 		}
 		
 		professorService.removerProfessor(professorOp.get());
-    	
-        return new ResponseEntity<Professor>(HttpStatus.OK);
+
+		return ReturnMessage.removeProfessor();
     }
 }
