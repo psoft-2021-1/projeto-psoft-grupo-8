@@ -1,6 +1,7 @@
 package com.ufcg.psoft.tccmatch.service;
 
 import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccCadastradoDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Professor;
@@ -36,4 +37,7 @@ public interface TemaTccService {
     
     public boolean verificaCriadorTema(TemaTcc temaTcc, Usuario usuario1, Usuario usuario2);
 
+	public TemaTccCadastradoDTO criarTemaTccCadastradoDTO(TemaTcc temaTcc);
+
+	public List<TemaTccCadastradoDTO> getTemasTccDTO(List<TemaTcc> listaTemasTcc);
 }

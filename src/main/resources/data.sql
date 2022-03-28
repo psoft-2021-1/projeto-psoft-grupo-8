@@ -48,3 +48,9 @@ values(10, 1002);
 
 insert into tema_tcc_areas_de_estudo_relacionadas(TEMA_TCC_ID, AREAS_DE_ESTUDO_RELACIONADAS_ID)
 values(11, 1002);
+
+insert into orientacao(ID, FINALIZADA, SEMESTRE, ALUNO_ID, PROFESSOR_ID, TEMA_TCC_ID)
+values(1, FALSE, '20.1', 1002, 1005, 10);
+
+insert into orientacao(ID, FINALIZADA, SEMESTRE, ALUNO_ID, PROFESSOR_ID, TEMA_TCC_ID)
+values(2, FALSE, '20.2', 1003, 1005, 11);

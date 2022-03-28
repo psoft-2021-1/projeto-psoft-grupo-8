@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
+import com.ufcg.psoft.tccmatch.DTO.SolicitacaoDTO;
 import com.ufcg.psoft.tccmatch.model.*;
 import com.ufcg.psoft.tccmatch.service.*;
 import com.ufcg.psoft.tccmatch.util.*;
@@ -163,8 +164,8 @@ public class SolicitacaoController {
     	}
     	
     	Usuario usuario = usuarioOp.get();
-    	List<Solicitacao> solicitacoes = solicitacaoService.getSolicitacoesRecebidas(usuario);
+    	List<SolicitacaoDTO> solicitacoes = solicitacaoService.getSolicitacoesRecebidasDTO(usuario);
     	
-    	return new ResponseEntity<List<Solicitacao>>(solicitacoes, HttpStatus.OK);
+    	return new ResponseEntity<List<SolicitacaoDTO>>(solicitacoes, HttpStatus.OK);
 	}
 }

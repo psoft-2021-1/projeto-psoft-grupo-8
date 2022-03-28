@@ -1,8 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
-import com.ufcg.psoft.tccmatch.DTO.ProfessorDisponivelDTO;
-import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
+import com.ufcg.psoft.tccmatch.DTO.*;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
@@ -35,9 +33,6 @@ public class AlunoController {
 
 	@Autowired
 	ProfessorService professorService;
-	
-	@Autowired
-	NotificacaoService notificacaoService;
 
 	@RequestMapping(value = "/aluno/areaDeEstudo/{tokenAluno}", method = RequestMethod.POST)
 	public ResponseEntity<?> selecionarAreasDeEstudo(@RequestBody AreasSelecionadasDTO areasSelecionadasDTO,
@@ -48,7 +43,6 @@ public class AlunoController {
 		if (alunoOp.isEmpty()) {
 			return ErroAluno.erroAlunoNaoEncontrado(idAluno);
 		}
-		
 		String areaDeEstudoNaoCadastrada = areaDeEstudoService.verificaAreasDeEstudo(areasSelecionadasDTO.getAreasDeEstudo());
 		
 		if (!areaDeEstudoNaoCadastrada.isEmpty()) {
@@ -57,11 +51,14 @@ public class AlunoController {
 		
 		Aluno aluno = alunoOp.get();
 		List<AreaDeEstudo> areasDeEstudo = areaDeEstudoService.getAreasByNome(areasSelecionadasDTO.getAreasDeEstudo());
-
 		aluno.setAreasDeEstudo(areasDeEstudo);
 		alunoService.save(aluno);
 
-		return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
+		AlunoComAreasSelecionadasDTO alunoCadastrado = new AlunoComAreasSelecionadasDTO(aluno.getNome(),
+				aluno.getUsername(), aluno.getEmail(), areasSelecionadasDTO);
+
+		return new ResponseEntity<AlunoComAreasSelecionadasDTO>(alunoCadastrado, HttpStatus.OK);
+
 	}
 
 	@RequestMapping(value = "/aluno/temaTCC/{tokenAluno}", method = RequestMethod.POST)
@@ -89,8 +86,9 @@ public class AlunoController {
 		
 		TemaTcc temaTcc = temaTccService.criarTemaTccAluno(temaTccDTO, aluno);
 		temaTccService.save(temaTcc);
+		TemaTccCadastradoDTO temaTccCadastradoDTO = temaTccService.criarTemaTccCadastradoDTO(temaTcc);
 
-		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
+		return new ResponseEntity<TemaTccCadastradoDTO>(temaTccCadastradoDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/aluno/professoresDisponiveis/{tokenAluno}", method = RequestMethod.GET)
@@ -119,8 +117,9 @@ public class AlunoController {
 		}
 
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessores();
+		List<TemaTccCadastradoDTO> listaTemasTccDTO = temaTccService.getTemasTccDTO(listaTemasTcc);
 
-		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+		return new ResponseEntity<List<TemaTccCadastradoDTO>>(listaTemasTccDTO, HttpStatus.OK);
 	}
 
 }

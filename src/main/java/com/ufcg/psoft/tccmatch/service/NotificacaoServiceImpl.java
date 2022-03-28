@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.DTO.NotificacaoDTO;
 import com.ufcg.psoft.tccmatch.model.*;
 import com.ufcg.psoft.tccmatch.repository.NotificacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,17 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	}
 
 	@Override
-	public List<String> listaNotificacoesUsuario(Usuario usuario) {
+	public List<NotificacaoDTO> listaNotificacoesUsuario(Usuario usuario) {
 		List<Notificacao> listaNotificacoes = usuario.getNotificacoes();
-		List<String> listaRetorno = new ArrayList<String>();
+		List<NotificacaoDTO> listaRetorno = new ArrayList<NotificacaoDTO>();
 
 		for (Notificacao notificacao : listaNotificacoes) {
-			listaRetorno.add(notificacao.toString());
+			NotificacaoDTO notificacaoDTO = new NotificacaoDTO(notificacao.getEmailRemetente(), notificacao.getContent());
+			listaRetorno.add(notificacaoDTO);
 		}
-
 		return listaRetorno;
 	}
+
 
 	@Override
 	public void notificaAlunoNovoTemaTcc(TemaTcc temaTcc) {

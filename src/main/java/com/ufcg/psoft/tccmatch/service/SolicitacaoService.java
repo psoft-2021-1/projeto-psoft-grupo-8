@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.DTO.SolicitacaoDTO;
 import com.ufcg.psoft.tccmatch.model.Solicitacao;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.model.Usuario;
@@ -16,10 +17,10 @@ public interface SolicitacaoService {
 	public Solicitacao atualizarSolicitacao(boolean decisao, String justificativa, Solicitacao solicitacao);
 	
 	public Optional<Solicitacao> getById(Long id);
-	
-	public List<Solicitacao> getSolicitacoesRecebidas(Usuario usuarioDestinatario);
 
 	public void removerSolicitacao(Solicitacao solicitacao);
 
 	public void deleteAllByTemaTcc(TemaTcc temaTcc);
+
+    List<SolicitacaoDTO> getSolicitacoesRecebidasDTO(Usuario usuario);
 }

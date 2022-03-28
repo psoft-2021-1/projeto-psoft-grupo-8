@@ -1,5 +1,7 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.DTO.SolicitacaoDTO;
+import com.ufcg.psoft.tccmatch.DTO.UsuarioCadastradoDTO;
 import com.ufcg.psoft.tccmatch.model.Solicitacao;
 import com.ufcg.psoft.tccmatch.model.TemaTcc;
 import com.ufcg.psoft.tccmatch.model.Usuario;
@@ -7,6 +9,7 @@ import com.ufcg.psoft.tccmatch.repository.SolicitacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +32,7 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 	
 	@Override
 	public Solicitacao atualizarSolicitacao(boolean decisao, String justificativa, Solicitacao solicitacao) {
-		solicitacao.setAprovado(decisao);
+		solicitacao.setDecisao(decisao);
     	solicitacao.setJustificativa(justificativa);
     	return solicitacao;
 	}
@@ -37,11 +40,6 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 	@Override
 	public Optional<Solicitacao> getById(Long id) {
 		return solicitacaoRepository.findById(id);
-	}
-	
-	@Override
-	public List<Solicitacao> getSolicitacoesRecebidas(Usuario usuarioDestinatario) {
-		return solicitacaoRepository.findAllByUsuarioDestinatario(usuarioDestinatario);
 	}
 
 	@Override
@@ -56,5 +54,18 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 			this.removerSolicitacao(solicitacao);
 		}
 	}
-	
+
+	@Override
+	public List<SolicitacaoDTO> getSolicitacoesRecebidasDTO(Usuario usuario) {
+		UsuarioCadastradoDTO usuarioCadastradoDTO = new UsuarioCadastradoDTO(usuario.getNome(), usuario.getUsername(), usuario.getEmail(), usuario.getTipoUsuario());
+		List<Solicitacao> solicitacoes = solicitacaoRepository.findAllByUsuarioDestinatario(usuario);
+		List<SolicitacaoDTO> solicitacoesDTO = new ArrayList<>();
+
+		for (Solicitacao solicitacao : solicitacoes) {
+			SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO(usuarioCadastradoDTO, solicitacao.isAprovado(), solicitacao.getJustificativa());
+			solicitacoesDTO.add(solicitacaoDTO);
+		}
+		return solicitacoesDTO;
+	}
+
 }

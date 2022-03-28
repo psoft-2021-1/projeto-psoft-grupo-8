@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.service;
 
+import com.ufcg.psoft.tccmatch.DTO.NotificacaoDTO;
 import com.ufcg.psoft.tccmatch.model.*;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 public interface NotificacaoService {
 	
 	public void save(Notificacao notificacao);
-	
-	public List<String> listaNotificacoesUsuario(Usuario usuario);
+
+	public List<NotificacaoDTO> listaNotificacoesUsuario(Usuario usuario);
 	
 	public void notificaAlunoNovoTemaTcc(TemaTcc temaTcc);
 	
