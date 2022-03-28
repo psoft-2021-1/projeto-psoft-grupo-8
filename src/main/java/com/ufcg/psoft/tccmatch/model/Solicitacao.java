@@ -18,7 +18,7 @@ public class Solicitacao {
 	@ManyToOne
 	private TemaTcc temaTcc;
 	
-	private boolean aprovado;
+	private boolean decisao;
 	
 	private String justificativa;
 
@@ -28,6 +28,7 @@ public class Solicitacao {
 		this.usuarioRemetente = usuarioRemetente;
 		this.usuarioDestinatario = usuarioDestinatario;
 		this.temaTcc = temaTcc;
+		this.decisao = false;
 	}
 	
 	public Long getId() {
@@ -47,11 +48,11 @@ public class Solicitacao {
 	}
 
 	public boolean isAprovado() {
-		return aprovado;
+		return decisao;
 	}
 
-	public void setAprovado(boolean aprovado) {
-		this.aprovado = aprovado;
+	public void setDecisao(boolean decisao) {
+		this.decisao = decisao;
 	}
 	
 	public String getJustificativa() {

@@ -1,8 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
-import com.ufcg.psoft.tccmatch.DTO.AreasSelecionadasDTO;
-import com.ufcg.psoft.tccmatch.DTO.OrientacaoCadastradaDTO;
-import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
+import com.ufcg.psoft.tccmatch.DTO.*;
 import com.ufcg.psoft.tccmatch.model.AreaDeEstudo;
 import com.ufcg.psoft.tccmatch.model.Orientacao;
 import com.ufcg.psoft.tccmatch.model.Professor;
@@ -67,7 +65,10 @@ public class ProfessorController {
 		professor.setAreasDeEstudo(areasDeEstudo);
 		professorService.save(professor);
 
-		return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+		ProfessorDisponivelDTO professorDisponivelDTO = new ProfessorDisponivelDTO(professor.getEmail(),
+				professor.getNome(), professor.getAreasDeEstudo());
+
+		return new ResponseEntity<ProfessorDisponivelDTO>(professorDisponivelDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/temaTCC/{tokenProfessor}", method = RequestMethod.POST)
@@ -97,8 +98,10 @@ public class ProfessorController {
 		temaTccService.save(temaTcc);
 
 		notificacaoService.notificaAlunoNovoTemaTcc(temaTcc);
+		
+		TemaTccCadastradoDTO temaTccCadastradoDTO = temaTccService.criarTemaTccCadastradoDTO(temaTcc);
 
-		return new ResponseEntity<TemaTcc>(temaTcc, HttpStatus.OK);
+		return new ResponseEntity<TemaTccCadastradoDTO>(temaTccCadastradoDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/quota/{tokenProfessor}", method = RequestMethod.POST)
@@ -116,7 +119,10 @@ public class ProfessorController {
 		professor.setQuota(quota);
 		professorService.save(professor);
 
-		return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+		ProfessorCadastradoDTO professorCadastradoDTO = new ProfessorCadastradoDTO(professor.getNome(),
+				professor.getUsername(), professor.getEmail(), professor.getQuota(), professor.getLaboratorios());
+
+		return new ResponseEntity<ProfessorCadastradoDTO>(professorCadastradoDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/temasTccCadastrei/{tokenProfessor}", method = RequestMethod.GET)
@@ -129,8 +135,9 @@ public class ProfessorController {
 		}
 
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccProfessor(professorOp.get().getId());
+		List<TemaTccCadastradoDTO> listaTemasTccDTO = temaTccService.getTemasTccDTO(listaTemasTcc);
 
-		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+		return new ResponseEntity<List<TemaTccCadastradoDTO>>(listaTemasTccDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/aluno/temasTccAlunos/{tokenProfessor}", method = RequestMethod.GET)
@@ -143,8 +150,9 @@ public class ProfessorController {
 		}
 
 		List<TemaTcc> listaTemasTcc = temaTccService.getTemasTccAlunos();
+		List<TemaTccCadastradoDTO> listaTemasTccDTO = temaTccService.getTemasTccDTO(listaTemasTcc);
 
-		return new ResponseEntity<List<TemaTcc>>(listaTemasTcc, HttpStatus.OK);
+		return new ResponseEntity<List<TemaTccCadastradoDTO>>(listaTemasTccDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/professor/listarOrientacacoesTccCadastradas/{tokenProfessor}", method = RequestMethod.GET)

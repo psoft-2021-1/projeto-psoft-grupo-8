@@ -39,7 +39,7 @@ public class TemaTcc {
 		this.usuarioCriador = usuarioCriador;
 		this.titulo = titulo;
 		this.descricao = descricao;
-		this.status = null;
+		this.status = "";
 		this.areasDeEstudoRelacionadas = areasDeEstudoRelacionadas;
 	}
 	

@@ -1,6 +1,7 @@
 package com.ufcg.psoft.tccmatch.controller;
 
 import com.ufcg.psoft.tccmatch.DTO.LoginDTO;
+import com.ufcg.psoft.tccmatch.DTO.UsarioLoginDTO;
 import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.service.UsuarioService;
 import com.ufcg.psoft.tccmatch.util.ErroLogin;
@@ -40,9 +41,11 @@ public class LoginApiController {
     	
     	if (!usuario.getSenha().equals(loginDTO.getSenha())) {
     		return ErroLogin.erroUsernameSenhaIncorretos();
-    	} 
-    	
-        return new ResponseEntity<Long>(usuario.getId(), HttpStatus.OK);
+    	}
+		UsarioLoginDTO usarioLoginDTO = new UsarioLoginDTO(usuario.getNome(), usuario.getUsername(), usuario.getEmail(),
+				usuario.getTipoUsuario(), usuario.getId());
+
+        return new ResponseEntity<UsarioLoginDTO>(usarioLoginDTO, HttpStatus.OK);
     }
 
 }

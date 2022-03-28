@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
+import com.ufcg.psoft.tccmatch.DTO.SolicitacaoDTO;
 import com.ufcg.psoft.tccmatch.model.*;
 import com.ufcg.psoft.tccmatch.service.*;
 import com.ufcg.psoft.tccmatch.util.*;
@@ -32,6 +33,9 @@ public class SolicitacaoController {
 	
 	@Autowired
 	SolicitacaoService solicitacaoService;
+
+	@Autowired
+	OrientacaoService orientacaoService;
 	
 	@Autowired
 	private Map<String, UsuarioService> services;
@@ -92,12 +96,16 @@ public class SolicitacaoController {
 		}
 		
 		Aluno aluno = alunoOp.get();
+
+		Optional<Orientacao> orientacaoOp = orientacaoService.findOrientacaoByAluno(aluno);
+
+		if (orientacaoOp.isPresent()) {
+			return ErroOrientacao.alunoJaTemOrientacao(aluno.getNome());
+		}
+
 		Solicitacao solicitacao = solicitacaoService.criarSolicitacao(professor, aluno, temaTcc);
 		solicitacaoService.save(solicitacao);
-				
 		notificacaoService.notificaAlunoInteresseProfessorTema(temaTcc, professor);
-		
-		// TODO Verificar se aluno está em uma orientação
 
 		return ReturnMessage.solicitacaoEnviada();
 	}
@@ -163,8 +171,8 @@ public class SolicitacaoController {
     	}
     	
     	Usuario usuario = usuarioOp.get();
-    	List<Solicitacao> solicitacoes = solicitacaoService.getSolicitacoesRecebidas(usuario);
+    	List<SolicitacaoDTO> solicitacoes = solicitacaoService.getSolicitacoesRecebidasDTO(usuario);
     	
-    	return new ResponseEntity<List<Solicitacao>>(solicitacoes, HttpStatus.OK);
+    	return new ResponseEntity<List<SolicitacaoDTO>>(solicitacoes, HttpStatus.OK);
 	}
 }

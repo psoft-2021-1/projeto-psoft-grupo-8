@@ -1,6 +1,8 @@
 package com.ufcg.psoft.tccmatch.controller;
 
+import com.ufcg.psoft.tccmatch.DTO.AlunoCadastradoDTO;
 import com.ufcg.psoft.tccmatch.DTO.AlunoDTO;
+import com.ufcg.psoft.tccmatch.DTO.ProfessorCadastradoDTO;
 import com.ufcg.psoft.tccmatch.DTO.ProfessorDTO;
 import com.ufcg.psoft.tccmatch.model.Aluno;
 import com.ufcg.psoft.tccmatch.model.Coordenador;
@@ -11,12 +13,14 @@ import com.ufcg.psoft.tccmatch.service.ProfessorService;
 import com.ufcg.psoft.tccmatch.util.ErroAluno;
 import com.ufcg.psoft.tccmatch.util.ErroCoordenador;
 import com.ufcg.psoft.tccmatch.util.ErroProfessor;
+import com.ufcg.psoft.tccmatch.util.ReturnMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +56,11 @@ public class CoordenadorApiController {
     	
     	Aluno aluno = alunoService.criarAluno(alunoDTO);
     	alunoService.save(aluno);
-    	
-        return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
+
+		AlunoCadastradoDTO alunoCadastradoDTO = new AlunoCadastradoDTO(aluno.getNome(), aluno.getUsername(),
+				aluno.getPeriodoConclusao(), aluno.getEmail());
+
+		return new ResponseEntity<AlunoCadastradoDTO>(alunoCadastradoDTO, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/aluno/{tokenCoordenador}", method = RequestMethod.PUT)
@@ -76,8 +83,11 @@ public class CoordenadorApiController {
     	
     	alunoService.atualizarAluno(alunoDTO, aluno);
     	alunoService.save(aluno);
-    	
-        return new ResponseEntity<Aluno>(aluno, HttpStatus.OK);
+
+		AlunoCadastradoDTO alunoCadastradoDTO = new AlunoCadastradoDTO(aluno.getNome(), aluno.getUsername(),
+				aluno.getPeriodoConclusao(), aluno.getEmail());
+
+		return new ResponseEntity<AlunoCadastradoDTO>(alunoCadastradoDTO, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/aluno/{tokenCoordenador}/{matricula}", method = RequestMethod.DELETE)
@@ -97,8 +107,8 @@ public class CoordenadorApiController {
 		}
 		
 		alunoService.removerAluno(alunoOp.get());
-    	
-        return new ResponseEntity<Aluno>(HttpStatus.OK);
+
+		return ReturnMessage.removeAluno();
     }
     
     @RequestMapping(value = "/professor/{tokenCoordenador}", method = RequestMethod.POST)
@@ -119,20 +129,25 @@ public class CoordenadorApiController {
     	
     	Professor professor = professorService.criarProfessor(professorDTO);
     	professorService.save(professor);
-    	
-        return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+
+		ProfessorCadastradoDTO professorCadastradoDTO = new ProfessorCadastradoDTO(professor.getNome(),
+				professor.getUsername(), professor.getEmail(), professor.getQuota(), professor.getLaboratorios());
+
+		return new ResponseEntity<ProfessorCadastradoDTO>(professorCadastradoDTO, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/professores", method = RequestMethod.GET)
     public ResponseEntity<?> listarProfessores() {
-    	List<Professor> listaProfessores = professorService.findAll();
-    	String professores = "";
-    	
-    	for (Professor professor: listaProfessores) {
-    		professores += professor.getNome() + "\n";
-    	}
-    	  	
-        return new ResponseEntity<String>(professores, HttpStatus.OK);
+		List<Professor> listaProfessores = professorService.findAll();
+		List<ProfessorCadastradoDTO> professores = new ArrayList<ProfessorCadastradoDTO>();
+
+		for (Professor professor : listaProfessores) {
+			ProfessorCadastradoDTO professorCadastradoDTO = new ProfessorCadastradoDTO(professor.getNome(),
+					professor.getUsername(), professor.getEmail(), professor.getQuota(), professor.getLaboratorios());
+			professores.add(professorCadastradoDTO);
+		}
+
+		return new ResponseEntity<List<ProfessorCadastradoDTO>>(professores, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/professor/{tokenCoordenador}", method = RequestMethod.PUT)
@@ -155,8 +170,11 @@ public class CoordenadorApiController {
     	
     	professorService.atualizarProfessor(professorDTO, professor);
     	professorService.save(professor);
-    	
-        return new ResponseEntity<Professor>(professor, HttpStatus.OK);
+
+		ProfessorCadastradoDTO professorCadastradoDTO = new ProfessorCadastradoDTO(professor.getNome(),
+				professor.getUsername(), professor.getEmail(), professor.getQuota(), professor.getLaboratorios());
+
+		return new ResponseEntity<ProfessorCadastradoDTO>(professorCadastradoDTO, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/professor/{tokenCoordenador}/{cpf}", method = RequestMethod.DELETE)
@@ -176,7 +194,7 @@ public class CoordenadorApiController {
 		}
 		
 		professorService.removerProfessor(professorOp.get());
-    	
-        return new ResponseEntity<Professor>(HttpStatus.OK);
+
+		return ReturnMessage.removeProfessor();
     }
 }

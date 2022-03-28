@@ -1,5 +1,6 @@
 package com.ufcg.psoft.tccmatch.controller;
 
+import com.ufcg.psoft.tccmatch.DTO.NotificacaoDTO;
 import com.ufcg.psoft.tccmatch.model.Usuario;
 import com.ufcg.psoft.tccmatch.service.NotificacaoService;
 import com.ufcg.psoft.tccmatch.service.UsuarioService;
@@ -40,12 +41,10 @@ public class NotificacaoController {
     	}
     	
     	Usuario usuario = usuarioOp.get();
-    	
-    	List<String> notificacoes = notificacaoService.listaNotificacoesUsuario(usuario);
-
+		List<NotificacaoDTO> notificacoes = notificacaoService.listaNotificacoesUsuario(usuario);
 		usuarioService.save(usuario);
 
-		return new ResponseEntity<List<String>>(notificacoes, HttpStatus.OK);
+		return new ResponseEntity<List<NotificacaoDTO>>(notificacoes, HttpStatus.OK);
 	}
 
 }

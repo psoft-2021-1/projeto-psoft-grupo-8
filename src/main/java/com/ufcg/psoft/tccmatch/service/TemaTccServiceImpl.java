@@ -1,11 +1,10 @@
 package com.ufcg.psoft.tccmatch.service;
 
 import com.ufcg.psoft.tccmatch.DTO.TemaTccAlunoDTO;
+import com.ufcg.psoft.tccmatch.DTO.TemaTccCadastradoDTO;
 import com.ufcg.psoft.tccmatch.DTO.TemaTccProfessorDTO;
-import com.ufcg.psoft.tccmatch.model.Aluno;
-import com.ufcg.psoft.tccmatch.model.Professor;
-import com.ufcg.psoft.tccmatch.model.TemaTcc;
-import com.ufcg.psoft.tccmatch.model.Usuario;
+import com.ufcg.psoft.tccmatch.DTO.UsuarioCadastradoDTO;
+import com.ufcg.psoft.tccmatch.model.*;
 import com.ufcg.psoft.tccmatch.repository.TemaTccRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,6 +125,30 @@ public class TemaTccServiceImpl implements TemaTccService {
 	@Override
 	public boolean verificaCriadorTema(TemaTcc temaTcc, Usuario usuario1, Usuario usuario2) {
 		return temaTcc.getUsuarioCriador() == usuario1 || temaTcc.getUsuarioCriador() == usuario2;
+	}
+
+	@Override
+	public TemaTccCadastradoDTO criarTemaTccCadastradoDTO(TemaTcc temaTcc) {
+		List<String> areasDeEstudosRelacionadas = new ArrayList<>();
+		Usuario usuario = temaTcc.getUsuarioCriador();
+		UsuarioCadastradoDTO usuarioCadastradoDTO = new UsuarioCadastradoDTO(usuario.getNome(), usuario.getUsername(),
+				usuario.getEmail(), usuario.getTipoUsuario());
+
+		for (AreaDeEstudo area : temaTcc.getAreasDeEstudoRelacionadas()) {
+			areasDeEstudosRelacionadas.add(area.getNome());
+		}
+
+		return new TemaTccCadastradoDTO(temaTcc.getTitulo(), temaTcc.getDescricao(), areasDeEstudosRelacionadas, temaTcc.getStatus(), usuarioCadastradoDTO);
+	}
+
+	@Override
+	public List<TemaTccCadastradoDTO> getTemasTccDTO(List<TemaTcc> listaTemasTcc) {
+		List<TemaTccCadastradoDTO> listaTemasDTO = new ArrayList<>();
+
+		for (TemaTcc temaTcc : listaTemasTcc) {
+			listaTemasDTO.add(this.criarTemaTccCadastradoDTO(temaTcc));
+		}
+		return listaTemasDTO;
 	}
 
 }
