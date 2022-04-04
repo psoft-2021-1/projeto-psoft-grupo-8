@@ -13,7 +13,7 @@ Código base gerado via [start.sprint.io](https://start.spring.io/#!type=maven-p
 - Spring Data JPA
 - H2 Database
 
-## Membros do grupo:
+## Membros do grupo
 * Caio Galvão ([caio-galvao](https://github.com/caio-galvao))
 * João Gabriel Abrantes ([joaoabrantesuchoa](https://github.com/joaoabrantesuchoa))
 * José Rufino ([joseaorufino](https://github.com/joseaorufino))
